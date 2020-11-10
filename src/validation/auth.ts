@@ -1,4 +1,4 @@
-import { NextFunction, Response, Request } from "express";
+import { NextFunction, Response } from "express";
 import IResp from '../types/response'
 import xRequest from '../types/request'
 import jwt from 'jsonwebtoken'
