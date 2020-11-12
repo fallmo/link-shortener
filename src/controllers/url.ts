@@ -86,6 +86,7 @@ export const delUrlControl = async (req: xRequest, res: Response) => {
         const urlToDelete = await Url.findById(link_id);
         if(!urlToDelete) throw {client: true, message: "Link does not exist"};
 
+        // Except if user is admin..
         if(urlToDelete.user_id !== _id) throw { client: true, message: "Permission denied"};
 
         await urlToDelete.remove()
