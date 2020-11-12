@@ -117,7 +117,7 @@ export const delUrlControl = async (req: xRequest, res: Response) => {
         const user = await User.findById(_id, 'admin')
         if(!user) throw {client: true, message: "Invalid auth token"};
 
-        const {_id: link_id} = req.body;
+        const link_id = req.params._id;
         if(!link_id) throw {client: true, message: "Link ID required"}
 
         const urlToDelete = await Url.findById(link_id);
