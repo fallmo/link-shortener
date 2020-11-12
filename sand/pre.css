@@ -40,7 +40,7 @@ a {
   color: #007bff;
 }
 .c-secondary {
-  color: #f4a95e;
+  color: #ff7a75;
 }
 
 .c-tertiary {
@@ -60,7 +60,7 @@ a {
   background-color: #007bff !important;
 }
 .b-secondary {
-  background-color: #f4a95e !important;
+  background-color: #ff7a75 !important;
 }
 .b-tertiary {
   background-color: #0056b2 !important;
@@ -76,7 +76,7 @@ a {
   border-color: #007bff !important;
 }
 .bd-secondary {
-  border-color: #f4a95e !important;
+  border-color: #ff7a75 !important;
 }
 .bd-tertiary {
   border-color: #0056b2 !important;

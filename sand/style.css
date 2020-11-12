@@ -53,10 +53,15 @@ a.hoverfx:hover {
   font-weight: bold;
 }
 
+.screen {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
 .main {
   display: flex;
-  justify-content: space-between;
-  padding: 100px 90px;
+  justify-content: space-evenly;
+  flex: 1;
   align-items: center;
 }
 
@@ -80,9 +85,13 @@ a.hoverfx:hover {
   margin: 0 10px;
 }
 
-.main .left .placeholder {
+/* .main .left .placeholder {
   height: 350px;
   width: 350px;
+} */
+
+.main .left img {
+  width: 400px;
 }
 
 .action {
