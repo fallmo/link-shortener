@@ -1,0 +1,12 @@
+<% layout('./layout', {title: "500 Error"}) %>
+<div class="right">
+    <h1 class="c-secondary">Server Error</h1>
+    <p class="c-tertiary">Something went wrong on our side.</p>
+    <div class="btn-row">
+    <a href="#" class="btn c-gray bd-gray2">Login</a>
+    <a href="#" class="btn b-primary c-white">Sign Up</a>
+    </div>
+</div>
+<div class="left">
+    <img src="500.svg" />
+</div>

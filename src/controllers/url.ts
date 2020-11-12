@@ -1,4 +1,4 @@
-import {Response} from 'express'
+import {Response, Request} from 'express'
 import Url from '../models/Url';
 import User from '../models/User';
 import xRequest from "../types/request";
@@ -76,10 +76,47 @@ export const addUrlControl = async (req: xRequest, res: Response) => {
     }
 }
 
+export const addGuestControl = async (req: Request, res: Response) => {
+    try{
+        const {original_url} = req.body;
+        const {error} = urlValid(req.body)
+        if(error) throw {client: true, message: error};
+
+        const {error: err, ref_id} = await generateRef();
+        if(err) throw new Error(err);
+
+        const newUrl = new Url({
+            original_url,
+            ref_id,
+        })
+        await newUrl.save();
+
+        const response: IResp = {
+            success: true,
+            data: newUrl
+        }
+
+        return res.status(201).json(response);
+    
+    }catch(err){
+        const status = err.client ? 400 : 500;
+        const message = err.client ? err.message: "Something went wrong";
+
+        const response: IResp = {
+            success: false,
+            message
+        }
+        return res.status(status).json(response);
+    }
+}
+
 
 export const delUrlControl = async (req: xRequest, res: Response) => {
     try{
         const {_id} = req.user;
+        const user = await User.findById(_id, 'admin')
+        if(!user) throw {client: true, message: "Invalid auth token"};
+
         const {_id: link_id} = req.body;
         if(!link_id) throw {client: true, message: "Link ID required"}
 
@@ -87,7 +124,7 @@ export const delUrlControl = async (req: xRequest, res: Response) => {
         if(!urlToDelete) throw {client: true, message: "Link does not exist"};
 
         // Except if user is admin..
-        if(urlToDelete.user_id !== _id) throw { client: true, message: "Permission denied"};
+        if(urlToDelete.user_id !== _id && !user.admin) throw { client: true, message: "Permission denied"};
 
         await urlToDelete.remove()
 

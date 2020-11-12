@@ -13,24 +13,12 @@
         <div class="logo c-primary">momo.me</div>
       </div>
       <div class="right">
-        <a href="#" class="c-gray hoverfx" data-text="Login">Login</a>
-        <a href="#" class="c-tertiary hoverfx" data-text="Sign Up">Sign Up</a>
-        <a href="#" class="btn b-secondary c-white">Shorten Now</a>
+        <a class="btn b-primary c-white" id="skip-btn">Skip ads in </a>
       </div>
     </nav>
     <div class="screen">
       <section class="main">
-        <div class="left">
-          <img src="./link3.svg" />
-        </div>
-        <div class="right">
-          <h1 class="c-secondary">URL Shortener</h1>
-          <p class="c-tertiary">Shorten, Manage, and Share URLs</p>
-          <div class="btn-row">
-            <a href="#" class="btn c-gray bd-gray2">Login</a>
-            <a href="#" class="btn b-primary c-white">Sign Up</a>
-          </div>
-        </div>
+        <h4>Addsssssssss</h4>
       </section>
       <section class="action b-primary">
         <h2 class="c-white">Shorten Now</h2>
@@ -44,7 +32,7 @@
         </div>
         <p class="c-gray2">
           Shortened links are only active for 30 minutes.
-          <a href="#" class="c-gray hoverfx" data-text="Login">Login</a> for
+          <a href="" class="c-gray hoverfx" data-text="Login">Login</a> for
           timeless experience.
         </p>
       </section>
@@ -58,5 +46,39 @@
       </div>
       <div>Copyright &copy; 2020 momo.me</div>
     </footer>
+    <script>
+      class Countdown {
+        constructor(seconds, link) {
+          this.btn = document.querySelector("#skip-btn");
+          this.seconds = seconds;
+          this.link = link;
+        }
+        updateBtn(val) {
+          this.btn.innerHTML = val;
+        }
+        finish() {
+          this.updateBtn("Skip Now");
+          this.btn.href = this.link;
+        }
+        decrement() {
+          if (this.seconds > 0) {
+            this.updateBtn(`Skip ads in ${this.seconds}s`);
+            setTimeout(() => {
+              this.seconds--;
+              this.decrement();
+            }, 1000);
+          } else {
+            this.finish();
+          }
+        }
+        init() {
+          this.decrement();
+        }
+      }
+
+      const countdown = new Countdown(5, "google");
+
+      countdown.init();
+    </script>
   </body>
 </html>

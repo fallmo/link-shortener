@@ -1,0 +1,2 @@
+<% layout('./layout', {title: "Redirecting", ads: {seconds: 5, link:it.url}}) %>
+    <h4>Addsssssssss</h4>

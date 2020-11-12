@@ -1,0 +1,12 @@
+<% layout('./layout', {title: "momo.me"}) %>
+<div class="left">
+    <img src="hero.svg" />
+</div>
+<div class="right">
+    <h1 class="c-secondary">URL Shortener</h1>
+    <p class="c-tertiary">Shorten, Manage, and Share URLs</p>
+    <div class="btn-row">
+    <a href="#" class="btn c-gray bd-gray2">Login</a>
+    <a href="#" class="btn b-primary c-white">Sign Up</a>
+    </div>
+</div>

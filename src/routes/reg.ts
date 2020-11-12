@@ -1,8 +1,9 @@
 import {Router} from 'express'
-import {redirectTo} from '../controllers/reg'
+import {redirectControl, indexControl} from '../controllers/reg'
 const router = Router();
 
-router.get('/:ref_id', redirectTo)
+router.get('/:ref_id', redirectControl)
+router.get('/', indexControl)
 
 
 
