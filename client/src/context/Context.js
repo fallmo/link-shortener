@@ -21,8 +21,18 @@ export const Provider = ({ children }) => {
       return dispatch({ type: "USER_OUT" });
     }
   };
+
+  const setUser = ({ token, ...rest }) => {
+    localStorage.setItem("@token", token);
+    return dispatch({ type: "USER_IN", payload: rest });
+  };
+
+  const unsetUser = () => {
+    localStorage.removeItem("@token");
+    return dispatch({ type: "USER_OUT" });
+  };
   return (
-    <Context.Provider value={{ ...state, initAuth }}>
+    <Context.Provider value={{ ...state, initAuth, setUser, unsetUser }}>
       {children}
     </Context.Provider>
   );

@@ -16,3 +16,20 @@ export const checkAuth = async () => {
     return { error: true };
   }
 };
+
+export const attemptLogin = async fields => {
+  try {
+    const response = await fetch(`${API}/auth/login`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(fields),
+    });
+    const data = await response.json();
+    if (!data.success) return { error: data.message };
+    else return { data: data.data };
+  } catch (err) {
+    return { error: "Failed to make request." };
+  }
+};

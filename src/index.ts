@@ -4,6 +4,7 @@ import {connectDB} from './config/db'
 import authRoutes from './routes/auth';
 import urlRoutes from './routes/url';
 import regRoutes from './routes/reg';
+import cors from 'cors'
 import dotenv from 'dotenv'
 import * as eta from 'eta'
 
@@ -15,11 +16,14 @@ connectDB()
 const app: Application = express();
 const PORT = process.env.PORT || 3030;
 
-app.use(express.json());
-app.engine("eta", eta.renderFile)
+app.engine("eta", eta.renderFile);
 app.set('view engine', 'eta');
 app.set("views", path.join(__dirname, 'views'))
+
+app.use(cors());
+app.use(express.json());
 app.use(express.static(path.join(__dirname, 'static')))
+
 app.use('/', regRoutes);
 app.use('/api/v1/auth', authRoutes);
 app.use('/api/v1/urls', urlRoutes)

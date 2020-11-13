@@ -56,6 +56,10 @@ a {
   color: #fff;
 }
 
+.c-red {
+  color: #d90800;
+}
+
 .b-primary {
   background-color: #007bff !important;
 }
@@ -70,6 +74,9 @@ a {
 }
 .b-gray2 {
   background-color: #dddddd !important;
+}
+.b-red {
+  background-color: #d90800 !important;
 }
 
 .bd-primary {
@@ -86,4 +93,8 @@ a {
 }
 .bd-gray2 {
   border-color: #dddddd !important;
+}
+
+.bd-red {
+  border-color: #d90800 !important;
 }
