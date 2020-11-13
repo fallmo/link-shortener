@@ -33,3 +33,22 @@ export const attemptLogin = async fields => {
     return { error: "Failed to make request." };
   }
 };
+
+export const attemptSignup = async fields => {
+  try {
+    if (fields.password !== fields.password2)
+      return { error: "Passwords do not match" };
+    const response = await fetch(`${API}/auth/register`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(fields),
+    });
+    const data = await response.json();
+    if (!data.success) return { error: data.message };
+    else return { success: data.data };
+  } catch (err) {
+    return { error: "Failed to make request." };
+  }
+};

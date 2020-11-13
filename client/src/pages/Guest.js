@@ -2,11 +2,11 @@ import React, { useContext, useState } from "react";
 import Card from "../components/Card";
 import Dots from "../components/Dots";
 import Input from "../components/Input";
-import { attemptLogin } from "../context/actions/auth";
+import { attemptLogin, attemptSignup } from "../context/actions/auth";
 import { Context } from "../context/Context";
 
 export default function Guest() {
-  const [newU, setNew] = useState(false);
+  const [newU, setNew] = useState(true);
   const comp = newU ? (
     <Register leave={() => setNew(false)} />
   ) : (
@@ -50,9 +50,11 @@ function Login({ leave }) {
     else if (data) return setUser(data);
   };
   return (
-    <div>
+    <div className="fx-fromleft">
       <Card title="Login">
-        {error && <p className="small text-center c-red uppercase">{error}</p>}
+        {error && (
+          <p className="small text-center c-red uppercase mb-2">{error}</p>
+        )}
         <form onSubmit={handleSubmit}>
           <div className="form-group">
             <label>Email:</label>
@@ -91,6 +93,7 @@ function Login({ leave }) {
           data-text="Sign Up"
           onClick={leave}
           disabled={loading}
+          // ignoring disabled
         >
           Sign Up
         </a>{" "}
@@ -99,10 +102,110 @@ function Login({ leave }) {
     </div>
   );
 }
-function Register() {
+function Register({ leave }) {
+  const [fields, setFields] = useState({
+    name: "",
+    email: "",
+    password: "",
+    password2: "",
+  });
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
+  const [confirm, setConfirm] = useState("");
+
+  const handleSubmit = async e => {
+    e.preventDefault();
+    setError("");
+    setLoading(true);
+    const { error, success } = await attemptSignup(fields);
+    setLoading(false);
+    if (error) return setError(error);
+    else if (success) return setConfirm(success);
+  };
+
   return (
-    <div>
-      <h1>Register</h1>
+    <div className="fx-fromright">
+      <Card title="Register">
+        {error && (
+          <p className="small text-center c-red uppercase mb-2">{error}</p>
+        )}
+        <form onSubmit={handleSubmit} className={confirm ? "hidden" : ""}>
+          <div className="form-group">
+            <label>Name:</label>
+            <Input
+              type="text"
+              placeholder="John Doe"
+              disabled={loading}
+              value={fields.name}
+              onChange={e => setFields({ ...fields, name: e.target.value })}
+              required
+            />
+          </div>
+          <div className="form-group">
+            <label>Email:</label>
+            <Input
+              type="email"
+              placeholder="example@domain.ext"
+              value={fields.email}
+              disabled={loading}
+              onChange={e => setFields({ ...fields, email: e.target.value })}
+              required
+            />
+          </div>
+          <div className="form-group">
+            <label>Password:</label>
+            <Input
+              type="password"
+              placeholder="*******"
+              disabled={loading}
+              value={fields.password}
+              onChange={e => setFields({ ...fields, password: e.target.value })}
+              required
+            />
+          </div>
+          <div className="form-group">
+            <label>Confirm Password:</label>
+            <Input
+              type="password"
+              placeholder="*******"
+              disabled={loading}
+              value={fields.password2}
+              onChange={e =>
+                setFields({ ...fields, password2: e.target.value })
+              }
+              required
+            />
+          </div>
+          <div className="submit-div">
+            <button className="btn b-primary c-white" disabled={loading}>
+              {loading ? "Submitting" : "Submit"}
+              {loading && <Dots />}
+            </button>
+          </div>
+        </form>
+        <div className={confirm ? "" : "hidden"}>
+          <p>Email verification sent to:</p>
+          <p className="verifyp c-tertiary">{confirm}</p>
+          <a
+            href={confirm.split("@")[1]}
+            class="btn b-secondary c-white text-center"
+          >
+            Verify Now
+          </a>
+        </div>
+      </Card>
+      <p className="text-center small mt-2">
+        {confirm ? "Already verified?" : "Already signed up?"}{" "}
+        <a
+          className="hoverfx c-tertiary"
+          data-text="Login"
+          onClick={leave}
+          disabled={loading}
+        >
+          Login
+        </a>{" "}
+        {confirm ? "now." : "instead."}
+      </p>
     </div>
   );
 }

@@ -13,6 +13,10 @@
 .mt-2 {
   margin-top: 5px;
 }
+
+.mb-2 {
+  margin-bottom: 5px;
+}
 .uppercase {
   font-variant: all-small-caps;
 }
@@ -51,6 +55,7 @@
   cursor: pointer;
 }
 
+/* a disabled don't work */
 a:disabled,
 button:disabled {
   pointer-events: none;
@@ -232,4 +237,9 @@ p.small {
 
 .modal-footer {
   padding: 3px;
+}
+
+.verifyp {
+  margin: 20px;
+  font-weight: 400;
 }
