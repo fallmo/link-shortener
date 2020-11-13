@@ -188,7 +188,7 @@ function Register({ leave }) {
           <p className="verifyp c-tertiary">{confirm}</p>
           <a
             href={confirm.split("@")[1]}
-            class="btn b-secondary c-white text-center"
+            className="btn b-secondary c-white text-center"
           >
             Verify Now
           </a>

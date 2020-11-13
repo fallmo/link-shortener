@@ -5,6 +5,7 @@ import { Context } from "./context/Context";
 import Loading from "./pages/Loading";
 import Home from "./pages/Home";
 import Guest from "./pages/Guest";
+import Footer from "./components/Footer";
 
 function App() {
   const { auth, initAuth } = useContext(Context);
@@ -17,6 +18,7 @@ function App() {
     <div className="App">
       <Navbar />
       {page}
+      <Footer />
     </div>
   );
 }

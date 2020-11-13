@@ -34,7 +34,7 @@
             class="input"
             placeholder="https://longassurl.com/jibberish…"
           />
-          <button class="c-white b-secondary">Shrink</button>
+          <button class="c-white b-secondary btn">Shrink</button>
         </div>
         <p class="c-gray2">
           Guest shortened links are only active for 30 minutes, and contain ads.

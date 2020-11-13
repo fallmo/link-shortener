@@ -45,7 +45,12 @@ export default function Navbar() {
           )}
         </div>
       </nav>
-      <Modal title="confirm" prompt="Are You Sure?" isOpen={askLogout}>
+      <Modal
+        title="confirm"
+        prompt="Are You Sure?"
+        isOpen={askLogout}
+        close={() => setAskLogout(false)}
+      >
         <div className="btn-row">
           <button
             className="btn b-primary c-white"

@@ -14,11 +14,22 @@
   margin-top: 5px;
 }
 
+.m-auto {
+  margin: auto;
+}
+
 .mb-2 {
   margin-bottom: 5px;
 }
 .uppercase {
   font-variant: all-small-caps;
+}
+
+.fake-space {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 250px;
 }
 
 .navbar {
@@ -114,6 +125,14 @@ footer a {
   display: flex;
   flex-direction: column;
 }
+.home {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 50px;
+  row-gap: 50px;
+}
+
 .guest .main {
   flex: 1;
   display: flex;
@@ -203,15 +222,24 @@ p.small {
 }
 
 .modal-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  top: 0;
+}
+
+.modal-overlay {
   background-color: rgba(0, 0, 0, 0.1);
   position: fixed;
   left: 0;
   right: 0;
   bottom: 0;
   top: 0;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  z-index: -1;
 }
 
 .modal {
@@ -242,4 +270,91 @@ p.small {
 .verifyp {
   margin: 20px;
   font-weight: 400;
+}
+
+footer {
+  display: flex;
+  justify-content: space-between;
+  padding: 20px 80px;
+  box-shadow: inset 0px 3px 6px rgba(0, 0, 0, 0.15);
+}
+
+footer a {
+  margin-right: 25px;
+}
+
+.shorten-container {
+}
+.input-container {
+  height: 50px;
+  width: 640px;
+  background: #fff;
+  display: flex;
+  border-radius: 5px;
+}
+
+.input-container input {
+  flex: 1;
+  border-radius: 5px 0px 0px 5px;
+  font-size: 17px;
+  padding-left: 10px;
+  box-shadow: inset 0 0 5px rgba(0, 0, 0, 30%);
+}
+
+.input-container input:focus {
+  box-shadow: inset 0 0 7px rgba(0, 0, 0, 35%);
+}
+
+.input-container input::placeholder {
+  color: #c7c7c7;
+}
+
+.input-container button {
+  font-variant-caps: all-small-caps;
+  width: 120px;
+  font-size: 20px;
+  border-radius: 0px 5px 5px 0px;
+  line-height: 0px;
+}
+
+.placeholder-q {
+  letter-spacing: 4px;
+  margin-left: 5px;
+  -webkit-text-security: disc;
+}
+
+.shorten-container .output {
+  font-size: 25px;
+}
+
+.shorten-container td.label {
+  text-align: right;
+}
+
+.shorten-container td.purpose {
+  padding-left: 50px;
+}
+
+table.link-card {
+  width: 100%;
+  text-align: center;
+  border-collapse: collapse;
+}
+
+.link-card td,
+.link-card th {
+  border-right: 1px solid #ddd;
+  border-left: 1px solid #ddd;
+}
+
+.link-card th {
+  border-bottom: 1px solid #ddd;
+}
+.link-card th:nth-last-child(1),
+.link-card td:nth-last-child(1) {
+  border-right: none;
+}
+.link-card th:nth-child(1),
+.link-card td:nth-child(1) {
+  border-left: none;
 }

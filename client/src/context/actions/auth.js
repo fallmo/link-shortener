@@ -1,5 +1,7 @@
+import { resolve } from "path";
 import { API } from "./constants";
 export const checkAuth = async () => {
+  await sleep(1000);
   try {
     const token = localStorage.getItem("@token");
     if (!token) return {};
@@ -18,6 +20,8 @@ export const checkAuth = async () => {
 };
 
 export const attemptLogin = async fields => {
+  await sleep(1000);
+
   try {
     const response = await fetch(`${API}/auth/login`, {
       method: "POST",
@@ -35,6 +39,7 @@ export const attemptLogin = async fields => {
 };
 
 export const attemptSignup = async fields => {
+  await sleep(1000);
   try {
     if (fields.password !== fields.password2)
       return { error: "Passwords do not match" };
@@ -51,4 +56,8 @@ export const attemptSignup = async fields => {
   } catch (err) {
     return { error: "Failed to make request." };
   }
+};
+
+const sleep = async ms => {
+  return await new Promise(resolve => setTimeout(() => resolve(), ms));
 };
