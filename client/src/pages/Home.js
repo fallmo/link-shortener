@@ -3,6 +3,7 @@ import Card from "../components/Card";
 import { deleteLink, getLinks } from "../context/actions/links";
 import Dots from "../components/Dots";
 import Modal from "../components/Modal";
+import LetterAnim from "../components/LetterAnim";
 
 export default function Home() {
   return (
@@ -24,11 +25,8 @@ function ShrinkCard() {
             </td>
             <td className="purpose">
               <div className="input-container">
-                <input
-                  type="text"
-                  placeholder="https://longassurl.com/jibberish…"
-                />
-                <button className="b-secondary c-white btn">Shorten</button>
+                <input type="text" placeholder="Enter link" />
+                <button className="b-primary c-white btn">Shorten</button>
               </div>
             </td>
           </tr>
@@ -37,9 +35,9 @@ function ShrinkCard() {
               <h2 className="uppercase c-gray">Output: </h2>
             </td>
             <td className="purpose">
-              <p className="c-primary output">
-                momo.me / <span className="placeholder-q c-gray2">????</span>
-              </p>
+              <div className="c-primary output">
+                momo.me / <LetterAnim />
+              </div>
             </td>
           </tr>
         </tbody>
