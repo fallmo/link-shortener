@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from "react";
 import Card from "../components/Card";
-import { getLinks } from "../context/actions/links";
+import { deleteLink, getLinks } from "../context/actions/links";
 import Dots from "../components/Dots";
+import Modal from "../components/Modal";
 
 export default function Home() {
   return (
@@ -50,6 +51,7 @@ function ShrinkCard() {
 function ListCard() {
   const [links, setLinks] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [askDelete, setAskDelete] = useState("");
   const [error, setError] = useState("");
   useEffect(() => {
     getLinks()
@@ -59,11 +61,19 @@ function ListCard() {
         setLinks(data);
       })
       .catch(({ error }) => {
-        console.log(error);
         setError(error);
         setLoading(false);
       });
   }, []);
+
+  const tryDelete = async () => {
+    const backup = [...links];
+    setLinks(links.filter(link => link._id !== askDelete));
+    setAskDelete("");
+    const { error, data } = await deleteLink(askDelete);
+    if (error || !data) return setLinks(backup);
+    return;
+  };
 
   if (loading) {
     return (
@@ -101,48 +111,73 @@ function ListCard() {
     );
   } else {
     return (
-      <Card title="Manage Links">
-        <table className="link-card">
-          <thead>
-            <tr>
-              <th>Short URL</th>
-              <th>Long URL</th>
-              <th>Link Clicks</th>
-              <th>Date</th>
-              <th></th>
-            </tr>
-          </thead>
-          <tbody>
-            {links.map(item => (
-              <tr key={item._id}>
-                <td>
-                  <a
-                    href="#"
-                    className="hoverfx c-primary"
-                    data-text={item.ref_id}
-                  >
-                    {item.ref_id}
-                  </a>
-                </td>
-                <td>
-                  <a
-                    href="#"
-                    className="hoverfx c-secondary"
-                    data-text={item.original_url}
-                  >
-                    {item.original_url}
-                  </a>
-                </td>
-                <td>{Math.ceil(Math.random() * 5)}</td>
-                <td>{new Date(item.date).toLocaleDateString()}</td>
-                <td>
-                  <button className="btn b-red c-white mt-2">Del</button>
-                </td>
+      <>
+        <Card title="Manage Links">
+          <table className="link-card">
+            <thead>
+              <tr>
+                <th>Short URL</th>
+                <th>Long URL</th>
+                <th>Link Clicks</th>
+                <th>Date</th>
+                <th></th>
               </tr>
-            ))}
-          </tbody>
-        </table>
-      </Card>
+            </thead>
+            <tbody>
+              {links.map(item => (
+                <tr key={item._id}>
+                  <td>
+                    <a
+                      href="#"
+                      className="hoverfx c-primary"
+                      data-text={item.ref_id}
+                    >
+                      {item.ref_id}
+                    </a>
+                  </td>
+                  <td>
+                    <a
+                      href="#"
+                      className="hoverfx c-secondary"
+                      data-text={item.original_url}
+                    >
+                      {item.original_url}
+                    </a>
+                  </td>
+                  <td>{item.clicks || "0"}</td>
+                  <td>{new Date(item.date).toLocaleDateString()}</td>
+                  <td>
+                    <button
+                      className="btn b-red c-white mt-2"
+                      onClick={() => setAskDelete(item._id)}
+                    >
+                      Del
+                    </button>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </Card>
+        <Modal
+          title="Confirm Delete"
+          prompt="Are You Sure?"
+          isOpen={askDelete}
+          close={() => setAskDelete("")}
+        >
+          <div className="btn-row">
+            <button
+              className="btn b-primary c-white"
+              onClick={() => setAskDelete("")}
+            >
+              Cancel
+            </button>
+            <button className="btn b-red c-white" onClick={tryDelete}>
+              Delete
+            </button>
+          </div>
+        </Modal>
+      </>
     );
   }
 }

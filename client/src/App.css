@@ -340,6 +340,10 @@ table.link-card {
   text-align: center;
   border-collapse: collapse;
 }
+.link-card td {
+  max-width: 125px;
+  overflow-wrap: anywhere;
+}
 
 .link-card td,
 .link-card th {

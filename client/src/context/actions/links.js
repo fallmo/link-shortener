@@ -36,3 +36,19 @@ export const getLinks = async () => {
     return { error: "Failed to make request" };
   }
 };
+
+export const deleteLink = async _id => {
+  try {
+    const response = await fetch(`${API}/urls/${_id}`, {
+      method: "DELETE",
+      headers: {
+        "token": localStorage.getItem("@token"),
+      },
+    });
+    const data = await response.json();
+    if (!data.success) return { error: data.message };
+    return { data: data.data };
+  } catch (err) {
+    return { error: "Failed to make request" };
+  }
+};
