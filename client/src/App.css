@@ -283,8 +283,8 @@ footer a {
   margin-right: 25px;
 }
 
-.shorten-container {
-}
+/* .shorten-container {
+} */
 .input-container {
   height: 50px;
   width: 640px;
@@ -340,9 +340,15 @@ table.link-card {
   text-align: center;
   border-collapse: collapse;
 }
+
 .link-card td {
-  max-width: 125px;
-  overflow-wrap: anywhere;
+  max-width: 200px;
+  overflow: hidden;
+}
+
+.link-card td a {
+  white-space: nowrap;
+  text-overflow: ellipsis;
 }
 
 .link-card td,
