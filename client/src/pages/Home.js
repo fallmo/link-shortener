@@ -1,56 +1,15 @@
 import React, { useEffect, useState } from "react";
 import Card from "../components/Card";
-import { deleteLink, getLinks } from "../context/actions/links";
+import { deleteLink, getLinks, shrinkLink } from "../context/actions/links";
 import Dots from "../components/Dots";
 import Modal from "../components/Modal";
 import LetterAnim from "../components/LetterAnim";
 
 export default function Home() {
-  return (
-    <div className="screen home">
-      <ShrinkCard />
-      <ListCard />
-    </div>
-  );
-}
-
-function ShrinkCard() {
-  return (
-    <Card title="Shorten Link">
-      <table className="shorten-container">
-        <tbody>
-          <tr>
-            <td className="label">
-              <h2 className="uppercase c-gray">Input: </h2>
-            </td>
-            <td className="purpose">
-              <div className="input-container">
-                <input type="text" placeholder="Enter link" />
-                <button className="b-primary c-white btn">Shorten</button>
-              </div>
-            </td>
-          </tr>
-          <tr>
-            <td className="label">
-              <h2 className="uppercase c-gray">Output: </h2>
-            </td>
-            <td className="purpose">
-              <div className="c-primary output">
-                momo.me / <LetterAnim />
-              </div>
-            </td>
-          </tr>
-        </tbody>
-      </table>
-    </Card>
-  );
-}
-
-function ListCard() {
   const [links, setLinks] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [askDelete, setAskDelete] = useState("");
   const [error, setError] = useState("");
+
   useEffect(() => {
     getLinks()
       .then(({ data, error }) => {
@@ -63,6 +22,119 @@ function ListCard() {
         setLoading(false);
       });
   }, []);
+  return (
+    <div className="screen home b-primary">
+      <ShrinkCard links={links} setLinks={setLinks} />
+      <ListCard
+        links={links}
+        setLinks={setLinks}
+        error={error}
+        loading={loading}
+      />
+    </div>
+  );
+}
+
+function ShrinkCard({ setLinks, links }) {
+  const [input, setInput] = useState("");
+  const [output, setOutput] = useState("");
+  const [state, setState] = useState("ready");
+  const [error, setError] = useState("");
+
+  const handleSubmit = async () => {
+    setError("");
+    setState("loading");
+    const { error, data } = await shrinkLink(input);
+    if (error) {
+      setState("Failed");
+      return setError(error);
+    }
+    setOutput(data.ref_id);
+    setInput(data.original_url);
+    setState("success");
+    return setLinks([data, ...links]);
+  };
+
+  const resetInput = () => {
+    setInput("");
+    setOutput("");
+    return setState("ready");
+  };
+  const stateClass =
+    state === "loading"
+      ? "c-secondary"
+      : state === "success"
+      ? "c-green"
+      : "c-secondary";
+  return (
+    <Card title="Shorten Link">
+      <div className="text-center c-red">{error}</div>
+      <div className="container-shorten-container">
+        <table className="shorten-container">
+          <tbody>
+            <tr>
+              <td className="label">
+                <h2 className="uppercase c-gray">State: </h2>
+              </td>
+              <td className="purpose">
+                <div className={`state uppercase ${stateClass}`}>{state}</div>
+              </td>
+            </tr>
+            <tr>
+              <td className="label">
+                <h2 className="uppercase c-gray">Input: </h2>
+              </td>
+              <td className="purpose">
+                {state === "success" ? (
+                  <div className="link-input c-primary">{input}</div>
+                ) : (
+                  <div className="input-container">
+                    <input
+                      type="text"
+                      placeholder="Enter link"
+                      value={input}
+                      disabled={state === "loading"}
+                      onChange={e => setInput(e.target.value)}
+                    />
+                    <button
+                      className="b-primary c-white btn"
+                      onClick={handleSubmit}
+                      disabled={state === "loading"}
+                    >
+                      {state === "loading" ? <Dots /> : "Shorten"}
+                    </button>
+                  </div>
+                )}
+              </td>
+            </tr>
+            <tr>
+              <td className="label">
+                <h2 className="uppercase c-gray">Output: </h2>
+              </td>
+              <td className="purpose">
+                <div className="c-primary output">
+                  momo.me /{" "}
+                  <LetterAnim result={output} isLoading={state === "loading"} />
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+        <div className={state === "success" ? "" : "hidden"}>
+          <button
+            className="btn b-secondary c-white shrink"
+            onClick={resetInput}
+          >
+            Erase
+          </button>
+        </div>
+      </div>
+    </Card>
+  );
+}
+
+function ListCard({ links, setLinks, loading, error }) {
+  const [askDelete, setAskDelete] = useState("");
 
   const tryDelete = async () => {
     const backup = [...links];
@@ -126,19 +198,14 @@ function ListCard() {
                 <tr key={item._id}>
                   <td>
                     <a
-                      href="#"
+                      href={`https://momo.me/${item.ref_id}`}
                       className="hoverfx c-primary"
-                      data-text={item.ref_id}
                     >
                       {item.ref_id}
                     </a>
                   </td>
                   <td>
-                    <a
-                      href="#"
-                      className="hoverfx c-secondary"
-                      data-text={item.original_url}
-                    >
+                    <a href={item.original_url} className="hoverfx c-secondary">
                       {item.original_url}
                     </a>
                   </td>
@@ -146,7 +213,7 @@ function ListCard() {
                   <td>{new Date(item.date).toLocaleDateString()}</td>
                   <td>
                     <button
-                      className="btn b-red c-white mt-2"
+                      className="btn b-red c-white mt-2 shrink"
                       onClick={() => setAskDelete(item._id)}
                     >
                       Del
@@ -159,21 +226,22 @@ function ListCard() {
         </Card>
         <Modal
           title="Confirm Delete"
-          prompt="Are You Sure?"
+          actions={[
+            {
+              title: "Cancel",
+              colors: "b-gray2 bd-gray",
+              handler: () => setAskDelete(""),
+            },
+            {
+              title: "Delete",
+              colors: "b-red c-white shrink",
+              handler: tryDelete,
+            },
+          ]}
           isOpen={askDelete}
           close={() => setAskDelete("")}
         >
-          <div className="btn-row">
-            <button
-              className="btn b-primary c-white"
-              onClick={() => setAskDelete("")}
-            >
-              Cancel
-            </button>
-            <button className="btn b-red c-white" onClick={tryDelete}>
-              Delete
-            </button>
-          </div>
+          <p>Are you sure?</p>
         </Modal>
       </>
     );

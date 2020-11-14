@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useRef } from "react";
 
-export default function LetterAnim({ result, isLoading = true }) {
+export default function LetterAnim({ result, isLoading }) {
   const [places, setPlaces] = useState(["", "", "", "", ""]);
   const animRef = useRef();
   let content = places.map((place, i) => (
@@ -18,6 +18,14 @@ export default function LetterAnim({ result, isLoading = true }) {
       );
     });
   }
+
+  if (result) {
+    content = result.split().map((place, i) => (
+      <div key={i} className="c-secondary fade-val">
+        {place}
+      </div>
+    ));
+  }
   useEffect(() => {
     if (isLoading) startLoadAnim();
     else stopLoadAnim();
@@ -25,7 +33,7 @@ export default function LetterAnim({ result, isLoading = true }) {
 
   const startLoadAnim = () => {
     setPlaces(randomChars(5));
-    return (animRef.current = setTimeout(startLoadAnim, 10000));
+    return (animRef.current = setTimeout(startLoadAnim, 1000));
   };
   const stopLoadAnim = () => {
     return clearTimeout(animRef.current);

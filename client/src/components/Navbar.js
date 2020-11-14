@@ -5,6 +5,7 @@ import Modal from "./Modal";
 
 export default function Navbar() {
   const [askLogout, setAskLogout] = useState(false);
+  const [userModal, setUserModal] = useState(false);
   const {
     unsetUser,
     auth: { isLoading, user },
@@ -29,14 +30,14 @@ export default function Navbar() {
           {!isLoading && user && (
             <>
               <a
-                href="#"
+                onClick={() => setUserModal(true)}
                 className="c-primary hoverfx"
                 data-text={`Hello ${user.name}`}
               >
                 Hello {user.name}
               </a>
               <a
-                className="btn b-red c-white"
+                className="btn b-red c-white shrink"
                 onClick={() => setAskLogout(true)}
               >
                 Logout
@@ -47,20 +48,39 @@ export default function Navbar() {
       </nav>
       <Modal
         title="confirm"
-        prompt="Are You Sure?"
+        actions={[
+          {
+            title: "Cancel",
+            colors: "b-gray2 bd-gray",
+            handler: () => setAskLogout(false),
+          },
+          { title: "Logout", colors: "b-red c-white", handler: logoutUser },
+        ]}
         isOpen={askLogout}
         close={() => setAskLogout(false)}
       >
-        <div className="btn-row">
-          <button
-            className="btn b-primary c-white"
-            onClick={() => setAskLogout(false)}
-          >
-            Cancel
-          </button>
-          <button className="btn b-red c-white" onClick={logoutUser}>
-            Logout
-          </button>
+        <p>Are you sure?</p>
+      </Modal>
+      <Modal title="user" isOpen={userModal} close={() => setUserModal(false)}>
+        <div className="user-table">
+          <table>
+            <tbody>
+              <tr>
+                <td className="c-gray uppercase">Name:</td>
+                <td className="c-primary purpose">{user && user.name}</td>
+              </tr>
+              <tr>
+                <td className="c-gray uppercase">Email:</td>
+                <td className="c-primary purpose">{user && user.email}</td>
+              </tr>
+              <tr>
+                <td className="c-gray uppercase">Role:</td>
+                <td className="c-primary purpose">
+                  {user && user.admin ? "Admin" : "User"}
+                </td>
+              </tr>
+            </tbody>
+          </table>
         </div>
       </Modal>
     </>
