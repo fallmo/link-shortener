@@ -5,6 +5,7 @@ import Dots from "../components/Dots";
 import Modal from "../components/Modal";
 import LetterAnim from "../components/LetterAnim";
 import { ReactComponent as Trash } from "../assets/trash.svg";
+import { ReactComponent as Copy } from "../assets/copy.svg";
 
 export default function Home() {
   const [links, setLinks] = useState([]);
@@ -121,7 +122,10 @@ function ShrinkCard({ setLinks, links }) {
           </tr>
         </tbody>
       </table>
-      <div className={state === "success" ? "" : "hidden"}>
+      <div className={state === "success" ? "btn-row" : "hidden"}>
+        <button className="btn b-secondary shrink icon">
+          <Copy width="20" height="20" />
+        </button>
         <button className="btn b-tertiary c-white shrink" onClick={resetInput}>
           New
         </button>

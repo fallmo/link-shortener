@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <link rel="stylesheet" href="css.css" />
+    <style>
+      .shorten-container {
+        box-shadow: inset 0px 3px 6px rgba(0, 0, 0, 0.2);
+        height: 200px;
+        padding: 5px 10px;
+        display: grid;
+        grid-template-rows: 1fr 1fr 1fr;
+        align-items: center;
+      }
+      .row {
+        display: none;
+      }
+      div.shorten-container.ready .row.ready {
+        display: grid;
+      }
+      div.shorten-container.load .row.load {
+        display: grid;
+      }
+      div.shorten-container.success .row.success {
+        display: grid;
+      }
+      div.shorten-container.failed .row.failed {
+        display: grid;
+      }
+
+      .shorten-container h2 {
+        font-size: 30px;
+      }
+      .m-auto {
+        margin: auto;
+      }
+
+      .action-btns {
+        position: absolute;
+        top: 10px;
+        right: 10px;
+      }
+
+      .hidden {
+        display: none !important;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="shorten-container ready b-primary">
+      <div class="row ready">
+        <h2 class="text-center c-white">Shorten Now</h2>
+      </div>
+      <div class="row load success failed">
+        <p class="uppercase state output text-center c-white">feedback</p>
+      </div>
+      <div class="row ready failed load">
+        <form>
+          <div class="input-container m-auto">
+            <input type="text" placeholder="Enter link" value="" required />
+            <button class="b-secondary c-white btn">Shorten</button>
+          </div>
+        </form>
+      </div>
+      <div class="row success">
+        <p class="c-white output success-input text-center">outputHttp</p>
+      </div>
+      <div class="row success load">
+        <div class="text-center output c-white">
+          momo.me /
+          <div class="letter-anim load-anim hidden">
+            <div class="circle b-gray2"></div>
+            <div class="circle b-gray2"></div>
+            <div class="circle b-gray2"></div>
+            <div class="circle b-gray2"></div>
+            <div class="circle b-gray2"></div>
+          </div>
+          <div class="letter-anim success-output hidden c-green">asds</div>
+        </div>
+      </div>
+      <div class="row failed">
+        <p class="fail-msg c-gray2 text-center"></p>
+      </div>
+      <div class="row ready">
+        <p class="text-center c-gray2">
+          By proceeding you are agreeing with our
+          <a href="#" class="c-white hoverfx" data-text="Terms of Usage"
+            >Terms of Usage</a
+          >.
+        </p>
+      </div>
+      <div class="row success">
+        <div class="btn-row action-btns">
+          <button class="btn b-secondary c-white shrink copy-btn">Copy</button>
+          <button class="btn b-tertiary c-white shrink fresh-btn">New</button>
+        </div>
+      </div>
+    </div>
+    <script>
+      const container = document.querySelector("div.shorten-container");
+      const form = document.querySelector("form");
+      const formInput = document.querySelector("form input");
+      const formBtn = document.querySelector("form button");
+      const state = document.querySelector("p.state");
+      const successInput = document.querySelector("p.success-input");
+      const successOutput = document.querySelector("div.success-output");
+      const failOutput = document.querySelector("p.fail-msg");
+      const loadAnim = document.querySelector("div.letter-anim.load-anim");
+      const copyBtn = document.querySelector("button.copy-btn");
+      const freshBtn = document.querySelector("button.fresh-btn");
+      const apiUrl = "http://localhost:3030/api/v1/urls/guest";
+
+      async function startLoad() {
+        disable(true);
+        state.className = "uppercase state output c-white text-center";
+        state.innerText = "Working...";
+        loadAnim.classList.remove("hidden");
+        container.className = "shorten-container load b-primary";
+
+        const { error, data } = await shortenLink();
+
+        if (error) return startFailed(error);
+        else if (data) return startSuccess(data);
+      }
+
+      function startSuccess(data) {
+        state.className = "uppercase state output c-green text-center";
+        state.innerText = "Success";
+        loadAnim.classList.add("hidden");
+        successInput.innerText = data.original_url;
+        successOutput.innerText = data.ref_id;
+        successOutput.classList.remove("hidden");
+        container.className = "shorten-container success b-primary";
+      }
+
+      function startFailed(error) {
+        disable(false);
+        state.className = "uppercase state output c-secondary text-center";
+        state.innerText = "Failed";
+        failOutput.innerText = `ERROR: ${error}`;
+        loadAnim.classList.add("hidden");
+        container.className = "shorten-container failed b-primary";
+      }
+
+      function startFresh() {
+        disable(false);
+        formInput.value = "";
+        successOutput.classList.add("hidden");
+        container.className = "shorten-container ready b-primary";
+      }
+
+      async function shortenLink() {
+        let original_url = formInput.value;
+        if (
+          !original_url.includes("http://") &&
+          !original_url.includes("https://") &&
+          original_url.includes(".")
+        ) {
+          original_url = "http://" + original_url;
+        }
+        try {
+          const response = await fetch(apiUrl, {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({ original_url }),
+          });
+
+          const data = await response.json();
+
+          if (!data.success) return { error: data.message };
+          return { data: data.data };
+        } catch (err) {
+          return { error: "Failed to make request" };
+        }
+      }
+
+      function disable(bool) {
+        formInput.disabled = bool;
+        formBtn.disabled = bool;
+      }
+
+      function copyOuput() {}
+
+      form.addEventListener("submit", e => {
+        e.preventDefault();
+        startLoad();
+      });
+
+      freshBtn.addEventListener("click", startFresh);
+      copyBtn.addEventListener("click", copyOuput);
+    </script>
+  </body>
+</html>

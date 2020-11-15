@@ -26,22 +26,55 @@
       <section class="main">
         <%~ it.body %>
       </section>
-      <section class="action b-primary">
-        <h2 class="c-white">Shorten Now</h2>
-        <div class="input-container">
-          <input
-            type="text"
-            class="input"
-            placeholder="https://longassurl.com/jibberish…"
-          />
-          <button class="c-white b-secondary btn">Shrink</button>
+      <div class="shorten-container ready b-primary">
+      <div class="row ready">
+        <h2 class="text-center c-white">Shorten Now</h2>
+      </div>
+      <div class="row load success failed">
+        <p class="uppercase state output text-center c-white">feedback</p>
+      </div>
+      <div class="row ready failed load">
+        <form>
+          <div class="input-container m-auto">
+            <input type="text" placeholder="Enter link" value="" required />
+            <button class="b-secondary c-white btn">Shorten</button>
+          </div>
+        </form>
+      </div>
+      <div class="row success">
+        <p class="c-white output success-input text-center">outputHttp</p>
+      </div>
+      <div class="row success load">
+        <div class="text-center output c-white">
+          momo.me /
+          <div class="letter-anim load-anim hidden">
+            <div class="circle b-gray2"></div>
+            <div class="circle b-gray2"></div>
+            <div class="circle b-gray2"></div>
+            <div class="circle b-gray2"></div>
+            <div class="circle b-gray2"></div>
+          </div>
+          <div class="letter-anim success-output hidden c-green">asds</div>
         </div>
-        <p class="c-gray2">
-          Guest shortened links are only active for 30 minutes, and contain ads.
-          <a href="#" class="c-gray hoverfx" data-text="Login">Login</a> for
-          timeless and ad-free experience.
+      </div>
+      <div class="row failed">
+        <p class="fail-msg c-gray2 text-center"></p>
+      </div>
+      <div class="row ready">
+        <p class="text-center c-gray2">
+          By proceeding you are agreeing with our
+          <a href="#" class="c-white hoverfx" data-text="Terms of Usage"
+            >Terms of Usage</a
+          >.
         </p>
-      </section>
+      </div>
+      <div class="row success">
+        <div class="btn-row action-btns">
+          <button class="btn b-secondary c-white shrink copy-btn">Copy</button>
+          <button class="btn b-tertiary c-white shrink fresh-btn">New</button>
+        </div>
+      </div>
+    </div>
     </div>
     <footer class="b-tertiary c-white">
       <div>
@@ -58,6 +91,8 @@
       let countdown = new Countdown(<%= it.ads.seconds %>, "<%= it.ads.link %>");
       countdown.init();
     </script>
+    <% }else{ %>
+    <script src="guestShrink.js"></script>
     <% } %>
   </body>
 </html>

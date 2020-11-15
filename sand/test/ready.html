@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Shrink Comp</title>
+    <link rel="stylesheet" href="style.css" />
+    <style>
+      section {
+        box-shadow: inset 0px 3px 6px rgba(0, 0, 0, 0.2);
+        padding: 10px 5px;
+      }
+      h2 {
+        font-size: 30px;
+      }
+      .input-container {
+        margin: auto;
+      }
+      table tr {
+        display: none;
+      }
+
+      table.ready .ready {
+        display: table-row;
+      }
+
+      table.load .load {
+        display: table-row;
+      }
+      table.success .success {
+        display: table-row;
+      }
+      table.failed .failed {
+        display: table-row;
+      }
+    </style>
+  </head>
+  <body>
+    <section class="b-primary">
+      <table class="shorten-container ready">
+        <tbody>
+          <tr class="ready">
+            <td class="text-center">
+              <h2 class="c-white">Shorten Now</h2>
+            </td>
+          </tr>
+          <tr class="load">
+            <td class="text-center">
+              <p class="c-white uppercase output">Working...</p>
+            </td>
+          </tr>
+          <tr class="failed">
+            <td class="text-center">
+              <p class="c-secondary uppercase output">Failed</p>
+            </td>
+          </tr>
+          <tr class="success">
+            <td class="text-center">
+              <p class="c-green uppercase output">Success</p>
+            </td>
+          </tr>
+          <tr class="ready load failed">
+            <td class="purpose">
+              <form>
+                <div class="input-container">
+                  <input
+                    type="text"
+                    placeholder="Enter link"
+                    value=""
+                    required
+                  /><button class="b-secondary c-white btn">Shorten</button>
+                </div>
+              </form>
+            </td>
+          </tr>
+          <tr class="success">
+            <td class="text-center">
+              <p class="c-white output success-output"></p>
+            </td>
+          </tr>
+          <tr class="load">
+            <td class="purpose">
+              <div class="c-white output text-center">
+                momo.me /
+                <div class="letter-anim">
+                  <div class="circle b-gray2"></div>
+                  <div class="circle b-gray2"></div>
+                  <div class="circle b-gray2"></div>
+                  <div class="circle b-gray2"></div>
+                  <div class="circle b-gray2"></div>
+                </div>
+              </div>
+            </td>
+          </tr>
+          <tr class="success">
+            <td class="purpose">
+              <div class="c-white output text-center">
+                momo.me /
+                <div class="letter-anim"></div>
+              </div>
+            </td>
+          </tr>
+          <tr class="ready">
+            <td>
+              <p class="text-center c-gray2">
+                By proceeding you are agreeing with our
+                <a href="#" class="c-white">Terms of Usage</a>.
+              </p>
+            </td>
+          </tr>
+          <tr class="failed">
+            <td>
+              <p class="text-center error c-secondary"></p>
+            </td>
+          </tr>
+          <tr class="success">
+            <td>
+              <div class="btn-row">
+                <button class="btn b-secondary c-white">Copy</button>
+                <button class="btn b-tertiary c-white">New</button>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+    <script>
+      const table = document.querySelector("table");
+      const form = document.querySelector("form");
+      const formInput = document.querySelector("form input");
+      const formButton = document.querySelector("form button");
+      const outputSuccess = document.querySelector(
+        "tr.success div.letter-anim"
+      );
+      const inputSuccess = document.querySelector(
+        "tr.success p.success-output"
+      );
+      const outputError = document.querySelector("tr.failed p.error");
+
+      function handleSubmit(e) {
+        e.preventDefault();
+        startLoad();
+      }
+
+      function startLoad() {
+        table.className = "shorten-container load";
+        disabled(true);
+        setTimeout(setSuccess, 3000);
+        // setTimeout(setFailed, 3000);
+      }
+
+      function setSuccess() {
+        inputSuccess.innerText = formInput.value;
+        outputSuccess.innerHTML = dummyResponse
+          .split()
+          .map(letter => `<span class="c-green">${letter}</span>`)
+          .join("");
+        table.className = "shorten-container success";
+      }
+      function setFailed() {
+        disabled(false);
+        outputError.innerText = "Failed to make request";
+        table.className = "shorten-container failed";
+      }
+
+      function disabled(bool) {
+        formInput.disabled = bool;
+        formButton.disabled = bool;
+      }
+      form.addEventListener("submit", handleSubmit);
+
+      const dummyResponse = "AxDjad";
+    </script>
+  </body>
+</html>

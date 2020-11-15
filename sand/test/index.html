@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Shrink Comp</title>
+    <link rel="stylesheet" href="style.css" />
+    <style>
+      section {
+        box-shadow: inset 0px 3px 6px rgba(0, 0, 0, 0.2);
+        height: 200px;
+        padding: 5px 10px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+      h2 {
+        font-size: 30px;
+      }
+      .input-container {
+        margin: auto;
+      }
+      tr.short {
+        line-height: 25px;
+        margin-top: 5px;
+      }
+      table tr {
+        display: none;
+      }
+
+      table.ready .ready {
+        display: table-row;
+      }
+
+      table.load .load {
+        display: table-row;
+      }
+      table.success .success {
+        display: table-row;
+      }
+      table.failed .failed {
+        display: table-row;
+      }
+
+      td.action-btns {
+        position: absolute;
+        top: 10px;
+        right: 10px;
+      }
+    </style>
+  </head>
+  <body>
+    <section class="b-primary">
+      <table class="shorten-container ready">
+        <tbody>
+          <tr class="ready">
+            <td class="text-center">
+              <h2 class="c-white">Shorten Now</h2>
+            </td>
+          </tr>
+          <tr class="load success failed">
+            <td class="text-center">
+              <p class="uppercase state output"></p>
+            </td>
+          </tr>
+          <tr class="ready failed load">
+            <td>
+              <form>
+                <div class="input-container">
+                  <input
+                    type="text"
+                    placeholder="Enter link"
+                    value=""
+                    required
+                  />
+                  <button class="b-secondary c-white btn">Shorten</button>
+                </div>
+              </form>
+            </td>
+          </tr>
+          <tr class="success">
+            <td class="text-center">
+              <p class="c-white output success-input"></p>
+            </td>
+          </tr>
+          <tr class="load success short">
+            <td>
+              <div class="text-center output c-white">
+                momo.me /
+                <div class="letter-anim load-anim hidden">
+                  <div class="circle b-gray2"></div>
+                  <div class="circle b-gray2"></div>
+                  <div class="circle b-gray2"></div>
+                  <div class="circle b-gray2"></div>
+                  <div class="circle b-gray2"></div>
+                </div>
+                <div class="letter-anim success-output hidden c-green"></div>
+              </div>
+            </td>
+          </tr>
+          <tr class="failed short">
+            <td class="text-center">
+              <p class="fail-msg c-gray2"></p>
+            </td>
+          </tr>
+          <tr class="ready short">
+            <td>
+              <p class="text-center c-gray2">
+                By proceeding you are agreeing with our
+                <a href="#" class="c-white hoverfx" data-text="Terms of Usage"
+                  >Terms of Usage</a
+                >.
+              </p>
+            </td>
+          </tr>
+          <tr class="success">
+            <td class="action-btns">
+              <div class="btn-row">
+                <button class="btn b-secondary c-white shrink copy-btn">
+                  Copy
+                </button>
+                <button class="btn b-tertiary c-white shrink fresh-btn">
+                  New
+                </button>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+    <script>
+      const table = document.querySelector("table.shorten-container");
+      const form = document.querySelector("form");
+      const formInput = document.querySelector("form input");
+      const formBtn = document.querySelector("form button");
+      const state = document.querySelector("p.state");
+      const successInput = document.querySelector("p.success-input");
+      const successOutput = document.querySelector("div.success-output");
+      const failOutput = document.querySelector("p.fail-msg");
+      const loadAnim = document.querySelector("div.letter-anim.load-anim");
+      const copyBtn = document.querySelector("button.copy-btn");
+      const freshBtn = document.querySelector("button.fresh-btn");
+
+      function startLoad() {
+        disable(true);
+        state.className = "uppercase state output c-white";
+        state.innerText = "Working...";
+        loadAnim.classList.remove("hidden");
+        table.className = "shorten-container load";
+
+        setTimeout(startSuccess, 1000);
+      }
+
+      function startSuccess() {
+        state.className = "uppercase state output c-green";
+        state.innerText = "Success";
+        loadAnim.classList.add("hidden");
+        successInput.innerText = formInput.value;
+        successOutput.innerText = "XuwGr3";
+        successOutput.classList.remove("hidden");
+        table.className = "shorten-container success";
+      }
+
+      function startFailed() {
+        disable(false);
+        state.className = "uppercase state output c-secondary";
+        state.innerText = "Failed";
+        failOutput.innerText = "ERROR: Failed to make request";
+        loadAnim.classList.add("hidden");
+        table.className = "shorten-container failed";
+      }
+
+      function startFresh() {
+        disable(false);
+        formInput.value = "";
+        successOutput.classList.add("hidden");
+        table.className = "shorten-container ready";
+      }
+
+      function disable(bool) {
+        formInput.disabled = bool;
+        formBtn.disabled = bool;
+      }
+
+      function copyOuput() {}
+
+      form.addEventListener("submit", e => {
+        e.preventDefault();
+        startLoad();
+      });
+
+      freshBtn.addEventListener("click", startFresh);
+      copyBtn.addEventListener("click", copyOuput);
+    </script>
+  </body>
+</html>
