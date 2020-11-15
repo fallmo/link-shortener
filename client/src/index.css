@@ -81,6 +81,9 @@ a {
 .b-red {
   background-color: #d90800 !important;
 }
+.b-white {
+  background-color: #fff !important;
+}
 
 .bd-primary {
   border-color: #007bff !important;

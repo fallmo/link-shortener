@@ -70,65 +70,61 @@ function ShrinkCard({ setLinks, links }) {
   return (
     <Card title="Shorten Link">
       <div className="text-center c-red">{error}</div>
-      <div className="container-shorten-container">
-        <table className="shorten-container">
-          <tbody>
-            <tr>
-              <td className="label">
-                <h2 className="uppercase c-gray">State: </h2>
-              </td>
-              <td className="purpose">
-                <div className={`state uppercase ${stateClass}`}>{state}</div>
-              </td>
-            </tr>
-            <tr>
-              <td className="label">
-                <h2 className="uppercase c-gray">Input: </h2>
-              </td>
-              <td className="purpose">
-                {state === "success" ? (
-                  <div className="link-input c-primary">{input}</div>
-                ) : (
-                  <div className="input-container">
-                    <input
-                      type="text"
-                      placeholder="Enter link"
-                      value={input}
-                      disabled={state === "loading"}
-                      onChange={e => setInput(e.target.value)}
-                    />
-                    <button
-                      className="b-primary c-white btn"
-                      onClick={handleSubmit}
-                      disabled={state === "loading"}
-                    >
-                      {state === "loading" ? <Dots /> : "Shorten"}
-                    </button>
-                  </div>
-                )}
-              </td>
-            </tr>
-            <tr>
-              <td className="label">
-                <h2 className="uppercase c-gray">Output: </h2>
-              </td>
-              <td className="purpose">
-                <div className="c-primary output">
-                  momo.me /{" "}
-                  <LetterAnim result={output} isLoading={state === "loading"} />
+
+      <table className="shorten-container">
+        <tbody>
+          <tr>
+            <td className="label luxury">
+              <h2 className="uppercase c-gray">State: </h2>
+            </td>
+            <td className="purpose">
+              <div className={`state uppercase ${stateClass}`}>{state}</div>
+            </td>
+          </tr>
+          <tr>
+            <td className="label luxury">
+              <h2 className="uppercase c-gray">Input: </h2>
+            </td>
+            <td className="purpose">
+              {state === "success" ? (
+                <div className="link-input c-primary">{input}</div>
+              ) : (
+                <div className="input-container">
+                  <input
+                    type="text"
+                    placeholder="Enter link"
+                    value={input}
+                    disabled={state === "loading"}
+                    onChange={e => setInput(e.target.value)}
+                  />
+                  <button
+                    className="b-primary c-white btn"
+                    onClick={handleSubmit}
+                    disabled={state === "loading"}
+                  >
+                    {state === "loading" ? <Dots /> : "Shorten"}
+                  </button>
                 </div>
-              </td>
-            </tr>
-          </tbody>
-        </table>
-        <div className={state === "success" ? "" : "hidden"}>
-          <button
-            className="btn b-tertiary c-white shrink"
-            onClick={resetInput}
-          >
-            New
-          </button>
-        </div>
+              )}
+            </td>
+          </tr>
+          <tr>
+            <td className="label luxury">
+              <h2 className="uppercase c-gray">Output: </h2>
+            </td>
+            <td className="purpose">
+              <div className="c-primary output">
+                momo.me /{" "}
+                <LetterAnim result={output} isLoading={state === "loading"} />
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      <div className={state === "success" ? "" : "hidden"}>
+        <button className="btn b-tertiary c-white shrink" onClick={resetInput}>
+          New
+        </button>
       </div>
     </Card>
   );
@@ -189,8 +185,8 @@ function ListCard({ links, setLinks, loading, error }) {
               <tr>
                 <th>Short URL</th>
                 <th>Long URL</th>
-                <th>Clicks</th>
-                <th>Date</th>
+                <th className="luxury">Clicks</th>
+                <th className="luxury">Date</th>
                 <th></th>
               </tr>
             </thead>
@@ -201,18 +197,25 @@ function ListCard({ links, setLinks, loading, error }) {
                     <a
                       href={`https://momo.me/${item.ref_id}`}
                       className="hoverfx c-primary"
+                      target="_blank"
                     >
                       {item.ref_id}
                     </a>
                   </td>
                   <td>
-                    <a href={item.original_url} className="hoverfx c-secondary">
+                    <a
+                      href={item.original_url}
+                      className="hoverfx c-secondary"
+                      target="_blank"
+                    >
                       {item.original_url.split("//")[1]}
                     </a>
                   </td>
-                  <td>{item.clicks || "0"}</td>
-                  <td>{new Date(item.date).toLocaleDateString()}</td>
-                  <td>
+                  <td className="luxury">{item.clicks || "0"}</td>
+                  <td className="luxury">
+                    {new Date(item.date).toLocaleDateString()}
+                  </td>
+                  <td className="b-white">
                     <button
                       className="btn b-red c-white mt-2 shrink icon"
                       onClick={() => setAskDelete(item._id)}

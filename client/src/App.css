@@ -1,5 +1,9 @@
+body {
+  background-color: #0056b2;
+}
+
 .App {
-  min-width: 500px;
+  min-width: 360px;
 }
 
 .hidden {
@@ -55,6 +59,7 @@
 }
 .navbar .right a {
   margin-left: 35px;
+  text-align: right;
 }
 
 .logo {
@@ -347,10 +352,6 @@ div.circle {
   margin-right: 7px;
 }
 
-.container-shorten-container {
-  display: flex;
-  justify-content: space-between;
-}
 table {
   width: 100%;
 }
@@ -437,7 +438,7 @@ table.link-card {
   padding: 10px;
 }
 
-@media (max-width: 700px) {
+@media (max-width: 800px) {
   .navbar {
     padding: 0 20px;
   }
@@ -453,6 +454,16 @@ table.link-card {
   }
 
   .link-card td a {
-    max-width: 100px;
+    max-width: 120px;
+  }
+}
+
+@media (max-width: 600px) {
+  .shorten-container td.purpose {
+    padding-left: 10px;
+  }
+
+  .luxury {
+    display: none;
   }
 }
