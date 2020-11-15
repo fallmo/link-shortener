@@ -122,10 +122,10 @@ function ShrinkCard({ setLinks, links }) {
         </table>
         <div className={state === "success" ? "" : "hidden"}>
           <button
-            className="btn b-secondary c-white shrink"
+            className="btn b-tertiary c-white shrink"
             onClick={resetInput}
           >
-            Erase
+            New
           </button>
         </div>
       </div>

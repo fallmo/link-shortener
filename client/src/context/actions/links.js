@@ -33,6 +33,9 @@ export const deleteLink = async _id => {
 
 export const shrinkLink = async original_url => {
   await sleep(5000);
+  if (!original_url.includes("http://") && !original_url.includes("https://")) {
+    original_url = "http://" + original_url;
+  }
   try {
     const response = await fetch(`${API}/urls`, {
       method: "POST",

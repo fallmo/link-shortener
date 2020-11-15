@@ -32,9 +32,9 @@ export default function Navbar() {
               <a
                 onClick={() => setUserModal(true)}
                 className="c-primary hoverfx"
-                data-text={`Hello ${user.name}`}
+                data-text={`Hello ${user.name.split(" ")[0]}`}
               >
-                Hello {user.name}
+                Hello {user.name.split(" ")[0]}
               </a>
               <a
                 className="btn b-red c-white shrink"

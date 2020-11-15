@@ -1,3 +1,7 @@
+.App {
+  min-width: 900px;
+}
+
 .hidden {
   display: none;
 }
