@@ -1,5 +1,5 @@
 .App {
-  min-width: 900px;
+  min-width: 500px;
 }
 
 .hidden {
@@ -294,7 +294,8 @@ footer a {
 
 .input-container {
   height: 50px;
-  width: 640px;
+  max-width: 640px;
+  /* width: 100%; */
   background: #fff;
   display: flex;
   border-radius: 5px;
@@ -350,6 +351,9 @@ div.circle {
   display: flex;
   justify-content: space-between;
 }
+table {
+  width: 100%;
+}
 
 .shorten-container tr {
   line-height: 50px;
@@ -370,18 +374,19 @@ div.circle {
 }
 
 table.link-card {
-  width: 100%;
   text-align: center;
   border-collapse: collapse;
 }
 
+.link-card tbody tr:hover {
+  background-color: #f0f0f0;
+}
 .link-card td {
-  max-width: 175px;
   overflow: hidden;
 }
 
 .link-card td a {
-  width: 180px;
+  max-width: 180px;
   display: inline-block;
   white-space: nowrap;
   text-overflow: ellipsis;
@@ -399,6 +404,7 @@ table.link-card {
 
 .link-card th {
   font-weight: 400;
+  padding-bottom: 10px;
 }
 .link-card th:nth-last-child(1),
 .link-card td:nth-last-child(1) {
@@ -419,14 +425,34 @@ table.link-card {
   padding: 10px 20px;
 }
 
-.user-table table {
-  width: 100%;
-}
-
 .user-table tr {
   line-height: 30px;
 }
 
 .user-table td.purpose {
   padding-left: 20px;
+}
+
+.btn.icon {
+  padding: 10px;
+}
+
+@media (max-width: 700px) {
+  .navbar {
+    padding: 0 20px;
+  }
+  .navbar .right a {
+    margin-left: 10px;
+  }
+
+  .home {
+    padding: 50px 15px;
+  }
+  footer {
+    padding: 20px 15px;
+  }
+
+  .link-card td a {
+    max-width: 100px;
+  }
 }

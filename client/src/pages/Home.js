@@ -4,6 +4,7 @@ import { deleteLink, getLinks, shrinkLink } from "../context/actions/links";
 import Dots from "../components/Dots";
 import Modal from "../components/Modal";
 import LetterAnim from "../components/LetterAnim";
+import { ReactComponent as Trash } from "../assets/trash.svg";
 
 export default function Home() {
   const [links, setLinks] = useState([]);
@@ -188,7 +189,7 @@ function ListCard({ links, setLinks, loading, error }) {
               <tr>
                 <th>Short URL</th>
                 <th>Long URL</th>
-                <th>Link Clicks</th>
+                <th>Clicks</th>
                 <th>Date</th>
                 <th></th>
               </tr>
@@ -206,17 +207,17 @@ function ListCard({ links, setLinks, loading, error }) {
                   </td>
                   <td>
                     <a href={item.original_url} className="hoverfx c-secondary">
-                      {item.original_url}
+                      {item.original_url.split("//")[1]}
                     </a>
                   </td>
                   <td>{item.clicks || "0"}</td>
                   <td>{new Date(item.date).toLocaleDateString()}</td>
                   <td>
                     <button
-                      className="btn b-red c-white mt-2 shrink"
+                      className="btn b-red c-white mt-2 shrink icon"
                       onClick={() => setAskDelete(item._id)}
                     >
-                      Del
+                      <Trash width="20" height="20" />
                     </button>
                   </td>
                 </tr>
