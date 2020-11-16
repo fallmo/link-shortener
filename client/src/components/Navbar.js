@@ -1,6 +1,7 @@
 import React, { useContext, useState } from "react";
 import { Context } from "../context/Context";
 import Dots from "./Dots";
+import { attemptLogout } from "../context/actions/auth";
 import Modal from "./Modal";
 
 export default function Navbar() {
@@ -11,10 +12,12 @@ export default function Navbar() {
     auth: { isLoading, user },
   } = useContext(Context);
 
-  const logoutUser = () => {
+  const logoutUser = async () => {
     setAskLogout(false);
     unsetUser();
+    await attemptLogout();
   };
+
   return (
     <>
       <nav className="navbar">

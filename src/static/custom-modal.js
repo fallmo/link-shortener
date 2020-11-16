@@ -8,8 +8,8 @@ modalTemplate.innerHTML = `
         <div class="modal-overlay"></div>
         <div class="modal bd-gray2">
             <div class="modal-header uppercase c-gray"></div>
-            <div className="modal-body">
-                <slot/>
+            <div class="modal-body">
+            <slot/>
             </div>
         </div>
     </div>

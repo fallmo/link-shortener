@@ -2,6 +2,7 @@ import {Request, Response} from 'express'
 import Url from '../models/Url';
 
 
+
 export const redirectControl = async (req: Request, res: Response) => {
     try{
         const {ref_id} = req.params;
@@ -17,5 +18,6 @@ export const redirectControl = async (req: Request, res: Response) => {
 }
 
 export const indexControl = (req: Request, res: Response) => {
+    if(req.cookies['apauth'] === "true") return res.redirect('http://localhost:3000');
     return res.render('index');
 }

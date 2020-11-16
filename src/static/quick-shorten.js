@@ -26,7 +26,7 @@ shortenTemplate.innerHTML = `
         <div class="text-center output c-white">
         momo.me /
         <div class="letter-anim load-anim hidden">
-            <div class="circle b-gray2"></div>
+            <div class="circle b-gray2" data-delay="1000ms"></div>
             <div class="circle b-gray2"></div>
             <div class="circle b-gray2"></div>
             <div class="circle b-gray2"></div>
@@ -76,7 +76,7 @@ class QuickShorten extends HTMLElement {
   async startLoad() {
     this.disable(true);
     this.state.className = "uppercase state output c-white text-center";
-    this.state.innerText = "Working...";
+    this.state.innerHTML = "Working<loading-dots auto='true'/>";
     this.loadAnim.classList.remove("hidden");
     this.container.className = "shorten-container load b-primary";
 

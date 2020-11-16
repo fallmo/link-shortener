@@ -68,6 +68,6 @@ export const isAuthed = async (req: xRequest, res: Response, next: NextFunction)
             success: false,
             message
         }
-        return res.status(status).json(response); 
+        return res.status(status).clearCookie("apauth").json(response); 
     }
 }

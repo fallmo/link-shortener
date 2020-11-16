@@ -5,6 +5,7 @@ import authRoutes from './routes/auth';
 import urlRoutes from './routes/url';
 import regRoutes from './routes/reg';
 import cors from 'cors'
+import cookieParser from 'cookie-parser'
 import dotenv from 'dotenv'
 import * as eta from 'eta'
 
@@ -17,10 +18,11 @@ const app: Application = express();
 const PORT = process.env.PORT || 3030;
 
 app.engine("eta", eta.renderFile);
-app.set('view engine', 'eta');
+app.set('view engine', 'eta');  
 app.set("views", path.join(__dirname, 'views'))
 
-app.use(cors());
+app.use(cors({credentials: true, origin: "http://localhost:3000"})); 
+app.use(cookieParser());
 app.use(express.json());
 app.use(express.static(path.join(__dirname, 'static')))
 

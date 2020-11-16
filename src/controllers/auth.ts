@@ -21,7 +21,7 @@ export const loginControl = async (req: Request, res:Response) => {
         const token = jwt.sign({_id: userExists._id}, process.env.TOKEN_SECRET!)
 
         const response: IResp = {success: true, data: {token, name: userExists.name, email: userExists.email}}
-        return res.status(200).header("token", token).json(response);
+        return res.status(200).cookie("apauth", true, {httpOnly: true}).json(response);
 
     }catch(err){
         const status = err.client ? 400 : 500;
@@ -87,4 +87,8 @@ export const userControl = async (req: xRequest, res: Response) => {
         return res.status(status).json(response); 
     }
 
+}
+
+export const logoutUser = (req: Request, res: Response) => {
+    return res.status(200).cookie("apauth", false, {httpOnly: true}).end();
 }

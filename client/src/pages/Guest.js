@@ -13,7 +13,7 @@ export default function Guest() {
     <Login leave={() => setNew(true)} />
   );
   return (
-    <div className="screen guest">
+    <div className="screen guest b-white">
       <div className="main">{comp}</div>
       <div className="btns bd-gray2 b-gray2">
         <button

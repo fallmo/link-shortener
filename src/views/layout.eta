@@ -39,10 +39,49 @@
       </div>
       <div>Copyright &copy; 2020 momo.me</div>
     </footer>
-    <custom-modal title="Terms of Usage" data-label="terms"></custom-modal>
-    <custom-modal title="Privacy" data-label="privacy"></custom-modal>
+    <custom-modal title="Terms of Usage" data-label="terms">
+      <div class="terms">
+        <p class="direct c-tertiary">
+        To use this app, you must abide by the following terms:
+        </p>
+
+        <div class="list c-primary">
+        <p class="list-item">Pooaosdapsdpapdoa aodasod asdjasdhasnd</p>
+        <p class="list-item">
+            lorem ipsum rdl asdh sjasdas ireun asjdsgdb assallas sdksks
+            allasd. asdjadssasdaj askdhc a.
+        </p>
+        <p class="list-item">
+            Asdhadh Lpkasd ausasdja ajsdjasd llasdiajs alsasdus. adjasdjsd
+            skdaskdsdsdsa sdsa.
+        </p>
+        </div>
+      </div>
+    </custom-modal>
+    <custom-modal title="Privacy" data-label="privacy">
+      <div class="policy">
+        <div class="group">
+        <h4 class="c-tertiary">Lorem</h4>
+        <p class="c-primary">
+            Lorem ipsum dolor sit amet consectetur adipisicing elit. Mollitia
+            quisquam adipisci soluta modi itaque recusandae sapiente quibusdam
+            consequuntur exercitationem est.
+        </p>
+        </div>
+        <div class="group">
+        <h4 class="c-tertiary">Ipsum</h4>
+        <p class="c-primary">
+            Lorem ipsum dolor sit amet consectetur adipisicing elit. Mollitia
+            quisquam adipisci soluta modi itaque recusandae sapiente quibusdam
+            consequuntur exercitationem est.
+        </p>
+        </div>
+    </div>
+</custom-modal>
+
     <script src="quick-shorten.js"></script>
     <script src="custom-modal.js"></script>
+    <script src="loading-dots.js"></script>
     <script src="regular.js"></script>
     <% if(it.ads){ %>
     <script src="Countdown.js"></script>

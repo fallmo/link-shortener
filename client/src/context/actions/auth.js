@@ -1,5 +1,5 @@
-import { resolve } from "path";
 import { API } from "./constants";
+
 export const checkAuth = async () => {
   await sleep(1000);
   try {
@@ -15,16 +15,17 @@ export const checkAuth = async () => {
     if (!data.success) throw new Error(data.message);
     return { user: data.data };
   } catch (err) {
+    localStorage.removeItem("@token");
     return { error: true };
   }
 };
 
 export const attemptLogin = async fields => {
   await sleep(1000);
-
   try {
     const response = await fetch(`${API}/auth/login`, {
       method: "POST",
+      credentials: "include",
       headers: {
         "Content-Type": "application/json",
       },
@@ -56,6 +57,14 @@ export const attemptSignup = async fields => {
   } catch (err) {
     return { error: "Failed to make request." };
   }
+};
+
+export const attemptLogout = async () => {
+  await sleep(1000);
+  await fetch(`${API}/auth/logout`, {
+    credentials: "include",
+  });
+  return;
 };
 
 const sleep = async ms => {

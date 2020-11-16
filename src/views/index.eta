@@ -4,7 +4,7 @@
 </div>
 <div class="right">
     <h1 class="c-secondary">URL Shortener</h1>
-    <p class="c-tertiary">Shorten. Share. and Manage URLs</p>
+    <p class="c-tertiary">Shorten. Share. and Manage URLs.</p>
     <div class="limiter">
         <div class="btn-row">
             <a href="#" class="btn c-gray bd-gray2 shrink">Login</a>
