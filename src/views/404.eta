@@ -2,14 +2,16 @@
 <div class="right">
     <h1 class="c-secondary">Page not found</h1>
     <p class="c-tertiary">
-    Requested url does not exist.
+    Requested URL does not exist.
     <a href="#" class="c-secondary hoverfx" data-text="Create it"
         >Create it</a
     >.
     </p>
-    <div class="btn-row">
-    <a href="#" class="btn c-gray bd-gray2">Login</a>
-    <a href="#" class="btn b-primary c-white">Sign Up</a>
+    <div class="limiter">
+        <div class="btn-row">
+            <a href="#" class="btn c-gray bd-gray2">Login</a>
+            <a href="#" class="btn b-primary c-white">Sign Up</a>
+        </div>
     </div>
 </div>
 <div class="left">

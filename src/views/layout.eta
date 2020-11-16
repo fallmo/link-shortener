@@ -7,92 +7,50 @@
     <link rel="stylesheet" href="pre.css" />
     <link rel="stylesheet" href="style.css" />
   </head>
-  <body>
+  <body class="b-tertiary">
     <nav class="navbar">
       <div class="left">
-        <div class="logo c-primary">momo.me</div>
+        <div class="logo">
+        <a href="/" class="c-primary">momo.me</a>
+        </div>
       </div>
       <div class="right">
       <% if(it.ads){ %>
         <a class="btn b-primary c-white" id="skip-btn">Skip ads in </a>
         <% } else { %>
         <a href="#" class="c-gray hoverfx" data-text="Login">Login</a>
-        <a href="#" class="c-tertiary hoverfx" data-text="Sign Up">Sign Up</a>
-        <a href="#" class="btn b-secondary c-white">Shorten Now</a>
+        <a href="#" class="c-tertiary hoverfx luxury" data-text="Sign Up">Sign Up</a>
+        <a class="btn b-secondary c-white luxury shrink go-to-shorten">Shorten Now</a>
         <% } %>
       </div>
     </nav>
-    <div class="screen">
+    <div class="screen b-white">
       <section class="main">
         <%~ it.body %>
       </section>
-      <div class="shorten-container ready b-primary">
-      <div class="row ready">
-        <h2 class="text-center c-white">Shorten Now</h2>
-      </div>
-      <div class="row load success failed">
-        <p class="uppercase state output text-center c-white">feedback</p>
-      </div>
-      <div class="row ready failed load">
-        <form>
-          <div class="input-container m-auto">
-            <input type="text" placeholder="Enter link" value="" required />
-            <button class="b-secondary c-white btn">Shorten</button>
-          </div>
-        </form>
-      </div>
-      <div class="row success">
-        <p class="c-white output success-input text-center">outputHttp</p>
-      </div>
-      <div class="row success load">
-        <div class="text-center output c-white">
-          momo.me /
-          <div class="letter-anim load-anim hidden">
-            <div class="circle b-gray2"></div>
-            <div class="circle b-gray2"></div>
-            <div class="circle b-gray2"></div>
-            <div class="circle b-gray2"></div>
-            <div class="circle b-gray2"></div>
-          </div>
-          <div class="letter-anim success-output hidden c-green">asds</div>
-        </div>
-      </div>
-      <div class="row failed">
-        <p class="fail-msg c-gray2 text-center"></p>
-      </div>
-      <div class="row ready">
-        <p class="text-center c-gray2">
-          By proceeding you are agreeing with our
-          <a href="#" class="c-white hoverfx" data-text="Terms of Usage"
-            >Terms of Usage</a
-          >.
-        </p>
-      </div>
-      <div class="row success">
-        <div class="btn-row action-btns">
-          <button class="btn b-secondary c-white shrink copy-btn">Copy</button>
-          <button class="btn b-tertiary c-white shrink fresh-btn">New</button>
-        </div>
-      </div>
-    </div>
+      <quick-shorten/>
     </div>
     <footer class="b-tertiary c-white">
       <div>
-        <a href="#" class="hoverfx" data-text="Terms of Usage">Terms of Usage</a
-        ><a href="#" class="hoverfx" data-text="Privacy Policy"
+        <a class="hoverfx" data-text="Terms of Usage" data-target="terms">Terms of Usage</a
+        ><a class="hoverfx" data-text="Privacy Policy" data-target="privacy"
           >Privacy Policy</a
         >
       </div>
       <div>Copyright &copy; 2020 momo.me</div>
     </footer>
+    <custom-modal title="Terms of Usage" data-label="terms"></custom-modal>
+    <custom-modal title="Privacy" data-label="privacy"></custom-modal>
+    <script src="quick-shorten.js"></script>
+    <script src="custom-modal.js"></script>
+    <script src="regular.js"></script>
     <% if(it.ads){ %>
     <script src="Countdown.js"></script>
     <script>
       let countdown = new Countdown(<%= it.ads.seconds %>, "<%= it.ads.link %>");
       countdown.init();
     </script>
-    <% }else{ %>
-    <script src="guestShrink.js"></script>
     <% } %>
+  
   </body>
 </html>

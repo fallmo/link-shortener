@@ -73,6 +73,7 @@ body {
   border: 1px solid transparent;
   box-shadow: 0 1px 2px 0 #00000030;
   cursor: pointer;
+  text-align: center;
 }
 
 /* a disabled don't work */
@@ -265,6 +266,7 @@ p.small {
   border-radius: 5px;
   display: flex;
   flex-direction: column;
+  margin: 20px;
 }
 
 .modal-header {
@@ -436,6 +438,39 @@ table.link-card {
 
 .btn.icon {
   padding: 10px;
+}
+
+.terms,
+.policy {
+  padding: 5px 10px;
+}
+.policy .group {
+  margin-bottom: 15px;
+  line-height: 20px;
+}
+
+.terms .direct {
+  margin-bottom: 15px;
+  font-size: 17px;
+}
+.list {
+  counter-reset: listCount;
+}
+.list-item {
+  counter-increment: listCount;
+}
+
+.list-item::before {
+  content: counter(listCount) ".";
+  font-size: 13px;
+  margin: 0 10px;
+  color: #adadad;
+}
+
+.terms .list-item {
+  margin-bottom: 15px;
+  display: flex;
+  align-items: center;
 }
 
 @media (max-width: 800px) {

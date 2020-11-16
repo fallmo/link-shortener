@@ -25,6 +25,7 @@
   border: 1px solid transparent;
   box-shadow: 0 1px 2px 0 #00000030;
   text-align: center;
+  cursor: pointer;
 }
 
 .btn.shrink:active {
@@ -36,6 +37,7 @@
 
 a.hoverfx {
   display: inline-grid;
+  cursor: pointer;
 }
 a.hoverfx::after {
   content: attr(data-text);
@@ -60,13 +62,13 @@ a.hoverfx:hover {
   margin-left: 35px;
 }
 
-.logo {
+.logo a {
   font-size: 25px;
   font-weight: bold;
 }
 
 .screen {
-  height: 100vh;
+  min-height: 100vh;
   display: flex;
   flex-direction: column;
 }
@@ -75,11 +77,13 @@ a.hoverfx:hover {
   justify-content: space-evenly;
   flex: 1;
   align-items: center;
+  padding: 10px;
+  padding-top: 60px;
 }
 
 .main .right h1 {
   font-size: 50px;
-  font-variant: all-small-caps;
+  font-variant: small-caps;
   text-align: center;
   font-weight: 400;
 }
@@ -89,6 +93,10 @@ a.hoverfx:hover {
   margin-bottom: 10px;
 }
 
+.limiter {
+  max-width: 200px;
+  margin: auto;
+}
 .btn-row {
   display: flex;
   column-gap: 3px;
@@ -129,16 +137,16 @@ footer a {
   display: none;
 }
 div.shorten-container.ready .row.ready {
-  display: grid;
+  display: block;
 }
 div.shorten-container.load .row.load {
-  display: grid;
+  display: block;
 }
 div.shorten-container.success .row.success {
-  display: grid;
+  display: block;
 }
 div.shorten-container.failed .row.failed {
-  display: grid;
+  display: block;
 }
 
 .shorten-container h2 {
@@ -206,4 +214,88 @@ div.circle {
 
 .input-container button:active {
   box-shadow: inset 0 0 5px 0 #00000030;
+}
+
+.modal-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  top: 0;
+}
+
+.modal-overlay {
+  background-color: rgba(0, 0, 0, 0.1);
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  top: 0;
+  z-index: -1;
+}
+
+.modal {
+  background-color: #fff;
+  min-width: 275px;
+  min-height: 150px;
+  border: solid 1px;
+  box-shadow: 0 3px 5px rgba(0, 0, 0, 0.1);
+  border-radius: 5px;
+  display: flex;
+  flex-direction: column;
+  margin: 20px;
+}
+
+.modal-header {
+  padding: 5px;
+}
+.modal-body {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.modal-footer {
+  padding: 3px;
+}
+
+@media (max-width: 800px) {
+  .navbar {
+    padding: 0 20px;
+  }
+  .navbar .right a {
+    margin-left: 15px;
+  }
+  footer {
+    padding: 20px 15px;
+  }
+
+  .main {
+    flex-direction: column-reverse;
+    row-gap: 20px;
+  }
+  .main .left img {
+    width: 350px;
+  }
+}
+
+@media (max-width: 600px) {
+  .luxury {
+    display: none !important;
+  }
+
+  .main .right h1 {
+    font-size: 40px;
+  }
+
+  .main .right p {
+    font-size: 20px;
+  }
+  .main .left img {
+    width: 325px;
+  }
 }
