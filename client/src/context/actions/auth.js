@@ -15,8 +15,12 @@ export const checkAuth = async () => {
     if (!data.success) throw new Error(data.message);
     return { user: data.data };
   } catch (err) {
-    localStorage.removeItem("@token");
-    return { error: true };
+    if (err.message === "Token Expired" && (await refreshToken())) {
+      return await checkAuth();
+    } else {
+      localStorage.removeItem("@token");
+      return { error: true };
+    }
   }
 };
 
@@ -65,6 +69,26 @@ export const attemptLogout = async () => {
     credentials: "include",
   });
   return;
+};
+
+export const refreshToken = async () => {
+  try {
+    const refreshToken = localStorage.getItem("@refreshToken");
+    if (!refreshToken) throw { message: "No refresh token" };
+    const response = await fetch(`${API}/auth/refresh`, {
+      credentials: "include",
+      headers: {
+        "refresh": refreshToken,
+      },
+    });
+    const data = await response.json();
+    if (!data.success) throw { message: data.message };
+    localStorage.setItem("@token", data.data.token);
+    return true;
+  } catch (err) {
+    localStorage.removeItem("@refreshToken");
+    return false;
+  }
 };
 
 const sleep = async ms => {

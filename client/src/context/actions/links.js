@@ -1,3 +1,4 @@
+import { refreshToken } from "./auth";
 import { API } from "./constants";
 
 export const getLinks = async () => {
@@ -24,7 +25,13 @@ export const deleteLink = async _id => {
       },
     });
     const data = await response.json();
-    if (!data.success) return { error: data.message };
+    if (!data.success) {
+      if (data.message === "Token Expired" && (await refreshToken())) {
+        return await deleteLink(_id);
+      } else {
+        return { error: data.message };
+      }
+    }
     return { data: data.data };
   } catch (err) {
     return { error: "Failed to make request" };
@@ -50,7 +57,13 @@ export const shrinkLink = async original_url => {
       body: JSON.stringify({ original_url }),
     });
     const data = await response.json();
-    if (!data.success) return { error: data.message };
+    if (!data.success) {
+      if (data.message === "Token Expired" && (await refreshToken())) {
+        return await shrinkLink(original_url);
+      } else {
+        return { error: data.message };
+      }
+    }
     return { data: data.data };
   } catch (err) {
     return { error: "Failed to make request" };

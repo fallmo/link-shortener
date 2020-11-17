@@ -16,7 +16,7 @@
       </div>
       <div class="right">
       <% if(it.ads){ %>
-        <a class="btn b-primary c-white" id="skip-btn">Skip ads in </a>
+        <a class="btn b-primary c-white shrink" id="skip-btn">Skip ads in </a>
         <% } else { %>
         <a href="#" class="c-gray hoverfx" data-text="Login">Login</a>
         <a href="#" class="c-tertiary hoverfx luxury" data-text="Sign Up">Sign Up</a>
@@ -90,6 +90,5 @@
       countdown.init();
     </script>
     <% } %>
-  
   </body>
 </html>

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useRef, useEffect, useState } from "react";
 import Card from "../components/Card";
 import { deleteLink, getLinks, shrinkLink } from "../context/actions/links";
 import Dots from "../components/Dots";
@@ -6,11 +6,23 @@ import Modal from "../components/Modal";
 import LetterAnim from "../components/LetterAnim";
 import { ReactComponent as Trash } from "../assets/trash.svg";
 import { ReactComponent as Copy } from "../assets/copy.svg";
+import Flash from "../components/Flash";
 
 export default function Home() {
   const [links, setLinks] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
+  const flashRef = useRef();
+
+  function showFlash(conf) {
+    if (!flashRef.current) return;
+    flashRef.current.show(conf);
+  }
+
+  function dismissFlash() {
+    if (!flashRef.current) return;
+    flashRef.current.dismiss();
+  }
 
   useEffect(() => {
     getLinks()
@@ -25,19 +37,27 @@ export default function Home() {
       });
   }, []);
   return (
-    <div className="screen home b-primary">
-      <ShrinkCard links={links} setLinks={setLinks} />
-      <ListCard
-        links={links}
-        setLinks={setLinks}
-        error={error}
-        loading={loading}
-      />
-    </div>
+    <>
+      <div className="screen home b-primary">
+        <ShrinkCard
+          links={links}
+          setLinks={setLinks}
+          flash={{ showFlash, dismissFlash }}
+        />
+        <ListCard
+          links={links}
+          flash={{ showFlash, dismissFlash }}
+          setLinks={setLinks}
+          error={error}
+          loading={loading}
+        />
+      </div>
+      <Flash ref={flashRef} />
+    </>
   );
 }
 
-function ShrinkCard({ setLinks, links }) {
+function ShrinkCard({ setLinks, links, flash }) {
   const [input, setInput] = useState("");
   const [output, setOutput] = useState("");
   const [state, setState] = useState("ready");
@@ -49,11 +69,13 @@ function ShrinkCard({ setLinks, links }) {
     const { error, data } = await shrinkLink(input);
     if (error) {
       setState("Failed");
+      flash.showFlash({ color: "secondary", text: "Link Shortening Failed" });
       return setError(error);
     }
     setOutput(data.ref_id);
     setInput(data.original_url);
     setState("success");
+    flash.showFlash({ color: "green", text: "Link Shortened Successfully" });
     return setLinks([data, ...links]);
   };
 
@@ -71,7 +93,6 @@ function ShrinkCard({ setLinks, links }) {
   return (
     <Card title="Shorten Link">
       <div className="text-center c-red">{error}</div>
-
       <table className="shorten-container">
         <tbody>
           <tr>
@@ -134,7 +155,7 @@ function ShrinkCard({ setLinks, links }) {
   );
 }
 
-function ListCard({ links, setLinks, loading, error }) {
+function ListCard({ links, setLinks, loading, error, flash }) {
   const [askDelete, setAskDelete] = useState("");
 
   const tryDelete = async () => {
@@ -142,7 +163,11 @@ function ListCard({ links, setLinks, loading, error }) {
     setLinks(links.filter(link => link._id !== askDelete));
     setAskDelete("");
     const { error, data } = await deleteLink(askDelete);
-    if (error || !data) return setLinks(backup);
+    if (error || !data) {
+      flash.showFlash({ color: "secondary", text: "Link Deletion Failed" });
+      return setLinks(backup);
+    }
+    flash.showFlash({ color: "green", text: "Link Deletion Successful" });
     return;
   };
 

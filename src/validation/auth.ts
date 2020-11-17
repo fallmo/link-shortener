@@ -58,6 +58,10 @@ export const isAuthed = async (req: xRequest, res: Response, next: NextFunction)
             req.user = verified;
             next();
         }catch(err){
+            if(err.name === "TokenExpiredError"){
+               const response = {success: false, message: "Token Expired"};
+               return res.status(409).json(response)
+            }
             throw {client: true};
         }
         

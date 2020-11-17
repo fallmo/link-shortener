@@ -9,11 +9,9 @@ import {generateRef} from '../utils'
 
 export const getUrlControl = async (req: xRequest, res: Response) => {
     try{
-        const {_id} = req.user;
-        const user = await User.findById(_id, 'admin')
-        if(!user) throw {client: true};
+        const user = req.user;
 
-        const filter = user.admin ? {}: {user_id: _id}
+        const filter = user.admin ? {}: {user_id: user._id}
         const urls = await Url.find(filter)
 
         const response: IResp = {
@@ -36,15 +34,13 @@ export const getUrlControl = async (req: xRequest, res: Response) => {
 }
 export const addUrlControl = async (req: xRequest, res: Response) => {
     try{
-        const {_id} = req.user;
-        const user = await User.findById(_id, 'admin')
-        if(!user) throw {client: true, message: "Invalid auth token"};
+        const user = req.user;
 
         const {original_url} = req.body;
         const {error} = urlValid(req.body)
         if(error) throw {client: true, message: error};
 
-        const duplicate = await Url.exists({user_id: _id, original_url })
+        const duplicate = await Url.exists({user_id: user._id, original_url })
         if(duplicate) throw {client: true, message: "Url already shortened"};
 
         const {error: err, ref_id} = await generateRef();
@@ -113,9 +109,7 @@ export const addGuestControl = async (req: Request, res: Response) => {
 
 export const delUrlControl = async (req: xRequest, res: Response) => {
     try{
-        const {_id} = req.user;
-        const user = await User.findById(_id, 'admin')
-        if(!user) throw {client: true, message: "Invalid auth token"};
+        const user = req.user;
 
         const link_id = req.params._id;
         if(!link_id) throw {client: true, message: "Link ID required"}
@@ -124,7 +118,7 @@ export const delUrlControl = async (req: xRequest, res: Response) => {
         if(!urlToDelete) throw {client: true, message: "Link does not exist"};
 
         // Except if user is admin..
-        if(urlToDelete.user_id !== _id && !user.admin) throw { client: true, message: "Permission denied"};
+        if(urlToDelete.user_id !== user._id && !user.admin) throw { client: true, message: "Permission denied"};
 
         await urlToDelete.remove()
 

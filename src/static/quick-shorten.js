@@ -26,7 +26,7 @@ shortenTemplate.innerHTML = `
         <div class="text-center output c-white">
         momo.me /
         <div class="letter-anim load-anim hidden">
-            <div class="circle b-gray2" data-delay="1000ms"></div>
+            <div class="circle b-gray2"></div>
             <div class="circle b-gray2"></div>
             <div class="circle b-gray2"></div>
             <div class="circle b-gray2"></div>

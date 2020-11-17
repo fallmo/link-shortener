@@ -17,18 +17,23 @@ export const Provider = ({ children }) => {
     if (user) {
       return dispatch({ type: "USER_IN", payload: user });
     } else {
-      if (error) localStorage.removeItem("@token");
+      if (error) {
+        localStorage.removeItem("@token");
+        localStorage.removeItem("@refreshToken");
+      }
       return dispatch({ type: "USER_OUT" });
     }
   };
 
-  const setUser = ({ token, ...rest }) => {
+  const setUser = ({ token, refreshToken, ...rest }) => {
     localStorage.setItem("@token", token);
+    localStorage.setItem("@refreshToken", refreshToken);
     return dispatch({ type: "USER_IN", payload: rest });
   };
 
   const unsetUser = () => {
     localStorage.removeItem("@token");
+    localStorage.removeItem("@refreshToken");
     return dispatch({ type: "USER_OUT" });
   };
   return (

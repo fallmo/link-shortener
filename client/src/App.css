@@ -7,7 +7,7 @@ body {
 }
 
 .hidden {
-  display: none;
+  display: none !important;
 }
 
 .text-center {
@@ -138,6 +138,7 @@ footer a {
   display: flex;
   flex-direction: column;
 }
+
 .home {
   padding: 50px 40px;
 }
@@ -418,12 +419,6 @@ table.link-card {
   border-left: none;
 }
 
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-  }
-}
-
 .user-table {
   padding: 10px 20px;
 }
@@ -500,5 +495,47 @@ table.link-card {
 
   .luxury {
     display: none;
+  }
+}
+
+.flash-container {
+  position: fixed;
+  bottom: 30px;
+  background: #000000;
+  left: 0;
+  right: 0;
+  margin: auto;
+  width: max-content;
+  padding: 20px 50px;
+  border-radius: 15px;
+  box-shadow: 0 1px 5px rgba(0, 0, 0, 0.4);
+  animation: slideUp 500ms forwards ease-out, fadeIn 500ms forwards ease-in;
+}
+
+.flash-container.leaving {
+  animation: slideDown 500ms forwards ease-in, fadeOut 500ms forwards ease-in;
+}
+
+@keyframes slideUp {
+  from {
+    transform: translateY(100%);
+  }
+}
+
+@keyframes slideDown {
+  to {
+    transform: translateY(100%);
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+}
+
+@keyframes fadeOut {
+  to {
+    opacity: 0;
   }
 }
