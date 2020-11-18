@@ -1,4 +1,4 @@
-import React, { useRef, useEffect, useState } from "react";
+import React, { useRef, useEffect, useState, useContext } from "react";
 import Card from "../components/Card";
 import { deleteLink, getLinks, shrinkLink } from "../context/actions/links";
 import Dots from "../components/Dots";
@@ -7,11 +7,13 @@ import LetterAnim from "../components/LetterAnim";
 import { ReactComponent as Trash } from "../assets/trash.svg";
 import { ReactComponent as Copy } from "../assets/copy.svg";
 import Flash from "../components/Flash";
+import { Context } from "../context/Context";
 
 export default function Home() {
   const [links, setLinks] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
+
   const flashRef = useRef();
 
   function showFlash(conf) {
@@ -62,14 +64,20 @@ function ShrinkCard({ setLinks, links, flash }) {
   const [output, setOutput] = useState("");
   const [state, setState] = useState("ready");
   const [error, setError] = useState("");
+  const { unsetUser } = useContext(Context);
 
   const handleSubmit = async () => {
     setError("");
     setState("loading");
     const { error, data } = await shrinkLink(input);
     if (error) {
+      if (error === "Authorization Expired" || error === "Access Denied") {
+        flash.showFlash({ color: "secondary", text: "You Will Be Logged Out" });
+        setTimeout(unsetUser, 1000);
+      } else {
+        flash.showFlash({ color: "secondary", text: "Link Shortening Failed" });
+      }
       setState("Failed");
-      flash.showFlash({ color: "secondary", text: "Link Shortening Failed" });
       return setError(error);
     }
     setOutput(data.ref_id);
@@ -157,6 +165,7 @@ function ShrinkCard({ setLinks, links, flash }) {
 
 function ListCard({ links, setLinks, loading, error, flash }) {
   const [askDelete, setAskDelete] = useState("");
+  const { unsetUser } = useContext(Context);
 
   const tryDelete = async () => {
     const backup = [...links];
@@ -164,11 +173,18 @@ function ListCard({ links, setLinks, loading, error, flash }) {
     setAskDelete("");
     const { error, data } = await deleteLink(askDelete);
     if (error || !data) {
-      flash.showFlash({ color: "secondary", text: "Link Deletion Failed" });
+      if (error === "Authorization Expired" || error === "Access Denied") {
+        flash.showFlash({ color: "secondary", text: "You Will Be Logged Out" });
+        setTimeout(unsetUser, 1000);
+      } else {
+        flash.showFlash({ color: "secondary", text: "Link Deletion Failed" });
+      }
       return setLinks(backup);
     }
-    flash.showFlash({ color: "green", text: "Link Deletion Successful" });
-    return;
+    return flash.showFlash({
+      color: "green",
+      text: "Link Deletion Successful",
+    });
   };
 
   if (loading) {

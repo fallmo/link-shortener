@@ -26,8 +26,9 @@ export const deleteLink = async _id => {
     });
     const data = await response.json();
     if (!data.success) {
-      if (data.message === "Token Expired" && (await refreshToken())) {
-        return await deleteLink(_id);
+      if (data.message === "Token Expired") {
+        if (await refreshToken()) return await deleteLink(_id);
+        else return { error: "Authorization Expired" };
       } else {
         return { error: data.message };
       }
@@ -58,8 +59,9 @@ export const shrinkLink = async original_url => {
     });
     const data = await response.json();
     if (!data.success) {
-      if (data.message === "Token Expired" && (await refreshToken())) {
-        return await shrinkLink(original_url);
+      if (data.message === "Token Expired") {
+        if (await refreshToken()) return await shrinkLink(original_url);
+        else return { error: "Authorization Expired" };
       } else {
         return { error: data.message };
       }

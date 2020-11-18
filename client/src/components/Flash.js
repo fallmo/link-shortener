@@ -14,7 +14,7 @@ const Flash = forwardRef((props, ref) => {
   };
 
   function dismiss() {
-    if (state !== "hidden") return;
+    if (state === "leaving") return;
     setState("leaving");
     timeoutRef.current = setTimeout(() => {
       setState("hidden");
