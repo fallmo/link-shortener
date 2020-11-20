@@ -23,7 +23,7 @@ export default function Footer() {
             Privacy Policy
           </a>
         </div>
-        <div>Copyright &copy; 2020 momo.me</div>
+        <div>Copyright &copy; 2020 gripURL</div>
       </footer>
       <Modal
         title="Terms of Usage"

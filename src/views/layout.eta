@@ -6,20 +6,21 @@
     <title><%= it.title %></title>
     <link rel="stylesheet" href="pre.css" />
     <link rel="stylesheet" href="style.css" />
+    <script src="https://www.google.com/recaptcha/api.js" async defer></script>
   </head>
   <body class="b-tertiary">
     <nav class="navbar">
       <div class="left">
         <div class="logo">
-        <a href="/" class="c-primary">momo.me</a>
+        <a href="/" class="c-primary">grip<span class="c-secondary">URL</span></a>
         </div>
       </div>
       <div class="right">
       <% if(it.ads){ %>
         <a class="btn b-primary c-white shrink" id="skip-btn">Skip ads in </a>
         <% } else { %>
-        <a href="#" class="c-gray hoverfx" data-text="Login">Login</a>
-        <a href="#" class="c-tertiary hoverfx luxury" data-text="Sign Up">Sign Up</a>
+        <a href="http://app.gripurl.com" class="c-gray hoverfx" data-text="Login">Login</a>
+        <a href="http://app.gripurl.com" class="c-tertiary hoverfx luxury" data-text="Sign Up">Sign Up</a>
         <a class="btn b-secondary c-white luxury shrink go-to-shorten">Shorten Now</a>
         <% } %>
       </div>
@@ -37,7 +38,7 @@
           >Privacy Policy</a
         >
       </div>
-      <div>Copyright &copy; 2020 momo.me</div>
+      <div>Copyright &copy; 2020 gripURL</div>
     </footer>
     <custom-modal title="Terms of Usage" data-label="terms">
       <div class="terms">
@@ -78,6 +79,13 @@
         </div>
     </div>
 </custom-modal>
+    <div class="g-recaptcha"
+          data-sitekey="6LdqceUZAAAAAEbgAkrYE_9mxUmk4xSGFfFjiCm_"
+          data-callback="submitLink"
+          data-size="invisible"
+          data-badge="bottomleft"
+          >
+    </div>
 
     <script src="quick-shorten.js"></script>
     <script src="custom-modal.js"></script>

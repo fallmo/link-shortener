@@ -7,8 +7,8 @@
     <p class="c-tertiary">Shorten. Share. and Manage URLs.</p>
     <div class="limiter">
         <div class="btn-row">
-            <a href="#" class="btn c-gray bd-gray2 shrink">Login</a>
-            <a href="#" class="btn b-primary c-white shrink">Sign Up</a>
+            <a href="http://app.gripurl.com" class="btn c-gray bd-gray2 shrink">Login</a>
+            <a href="http://app.gripurl.com" class="btn b-primary c-white shrink">Sign Up</a>
         </div>
     </div>
 </div>

@@ -4,7 +4,7 @@ import User from '../models/User';
 import xRequest from "../types/request";
 import IResp from '../types/response'
 import { urlValid } from '../validation/url';
-import {generateRef} from '../utils'
+import {checkRecaptcha, generateRef} from '../utils'
 
 
 export const getUrlControl = async (req: xRequest, res: Response) => {
@@ -74,9 +74,12 @@ export const addUrlControl = async (req: xRequest, res: Response) => {
 
 export const addGuestControl = async (req: Request, res: Response) => {
     try{
-        const {original_url} = req.body;
+        const {original_url, recaptcha} = req.body;
         const {error} = urlValid(req.body)
         if(error) throw {client: true, message: error};
+
+        const human = await checkRecaptcha(recaptcha);
+        if(!human) throw {client: true, message: "Recaptcha verification failed"};
 
         const {error: err, ref_id} = await generateRef(7);
         if(err) throw new Error(err);

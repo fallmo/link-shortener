@@ -4,8 +4,8 @@
     <p class="c-tertiary">Something went wrong on our side.</p>
     <div class="limiter">
         <div class="btn-row">
-            <a href="#" class="btn c-gray bd-gray2">Login</a>
-            <a href="#" class="btn b-primary c-white">Sign Up</a>
+            <a href="http://app.gripurl.com" class="btn c-gray bd-gray2">Login</a>
+            <a href="http://app.gripurl.com" class="btn b-primary c-white">Sign Up</a>
         </div>
     </div>
 </div>

@@ -1,3 +1,4 @@
+import fetch from 'node-fetch'
 import {nanoid} from 'nanoid';
 import Url from '../models/Url'
 import Refresh from '../models/Refresh'
@@ -24,5 +25,20 @@ export const generateToken = async (): Promise<{error?:string, token?: string}> 
         else return {token};
     }catch(err){
         return {error: err.message}
+    }
+}
+
+
+export const checkRecaptcha = async (val: string) => {
+    if(!val) return false;
+    try{
+        const response = await fetch(`https://www.google.com/recaptcha/api/siteverify?secret=${process.env.RECAPTCHA_SECRET}&response=${val}`, {
+            method: "POST"
+        })
+        const data = await response.json();
+        if(data.success) return true;
+        else return false;
+    }catch(err){
+        return false
     }
 }

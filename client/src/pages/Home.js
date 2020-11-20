@@ -173,7 +173,7 @@ function ShrinkCard({ setLinks, links, flash }) {
             </td>
             <td className="purpose">
               <div className="c-primary output">
-                momo.me /{" "}
+                gripurl.com /{" "}
                 <LetterAnim result={output} isLoading={state === "loading"} />
               </div>
             </td>
@@ -312,14 +312,14 @@ function Row({ item, setAskDelete, hideOne }) {
     <tr key={item._id}>
       <td>
         <a
-          href={`https://momo.me/${item.ref_id}`}
+          href={`gripurl.com/${item.ref_id}`}
           className="hoverfx c-primary"
           target="_blank"
         >
           {item.ref_id}
         </a>
       </td>
-      <td>
+      <td className="anywhere">
         <a
           href={item.original_url}
           className="hoverfx c-secondary"
@@ -354,33 +354,22 @@ function HiddenList({ links, unHideOne }) {
     e.stopPropagation();
     unHideOne(_id);
   };
-
-  if (collapsed) {
-    return <Card title="Hidden Links" onClick={() => setCollapsed(false)} />;
-  }
   return (
-    <Card title="Hidden Links" onClick={() => setCollapsed(true)}>
-      <table className="link-card">
-        <thead>
-          <tr>
-            <th>Short URL</th>
-            <th>Long URL</th>
-            <th></th>
-          </tr>
-        </thead>
+    <Card title="Hidden Links" onClick={() => setCollapsed(!collapsed)}>
+      <table className={collapsed ? "hidden" : "link-card"}>
         <tbody>
           {links.map(item => (
             <tr key={item._id}>
               <td>
                 <a
-                  href={`https://momo.me/${item.ref_id}`}
+                  href={`gripurl.com/${item.ref_id}`}
                   className="hoverfx c-primary"
                   target="_blank"
                 >
                   {item.ref_id}
                 </a>
               </td>
-              <td>
+              <td className="anywhere">
                 <a
                   href={item.original_url}
                   className="hoverfx c-secondary"

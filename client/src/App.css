@@ -363,6 +363,7 @@ table {
 .shorten-container .link-input,
 .shorten-container .state {
   font-size: 25px;
+  overflow-wrap: anywhere;
 }
 
 .shorten-container td.label {
@@ -381,11 +382,13 @@ table.link-card {
 .link-card tbody tr:hover {
   background-color: #f0f0f0;
 }
-.link-card td {
+.link-card td.anywhere {
   overflow: hidden;
   overflow-wrap: anywhere;
 }
-
+.link-card a {
+  max-width: 300px;
+}
 .link-card td a:hover {
   /* max-width: 300px;
   display: inline-block;

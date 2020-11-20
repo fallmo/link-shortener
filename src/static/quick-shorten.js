@@ -24,7 +24,7 @@ shortenTemplate.innerHTML = `
     </div>
     <div class="row success load">
         <div class="text-center output c-white">
-        momo.me /
+        gripurl.com /
         <div class="letter-anim load-anim hidden">
             <div class="circle b-gray2"></div>
             <div class="circle b-gray2"></div>
@@ -107,6 +107,7 @@ class QuickShorten extends HTMLElement {
 
   startFresh() {
     this.disable(false);
+    grecaptcha.reset();
     this.formInput.value = "";
     this.successOutput.classList.add("hidden");
     this.container.className = "shorten-container ready b-primary";
@@ -120,6 +121,7 @@ class QuickShorten extends HTMLElement {
   async shortenLink() {
     await sleep(2000);
     let original_url = this.formInput.value;
+    const recaptcha = grecaptcha.getResponse();
     if (
       !original_url.includes("http://") &&
       !original_url.includes("https://") &&
@@ -133,7 +135,7 @@ class QuickShorten extends HTMLElement {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ original_url }),
+        body: JSON.stringify({ original_url, recaptcha }),
       });
       const data = await response.json();
       if (!data.success) return { error: data.message };
@@ -149,7 +151,8 @@ class QuickShorten extends HTMLElement {
   connectedCallback() {
     this.form.addEventListener("submit", e => {
       e.preventDefault();
-      this.startLoad();
+      if (this.state.innerText === "Failed") return this.startLoad();
+      else return grecaptcha.execute();
     });
 
     this.freshBtn.addEventListener("click", () => this.startFresh());
@@ -158,3 +161,7 @@ class QuickShorten extends HTMLElement {
 }
 
 window.customElements.define("quick-shorten", QuickShorten);
+
+function submitLink() {
+  document.querySelector("quick-shorten").startLoad();
+}
