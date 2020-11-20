@@ -6,6 +6,9 @@ import IResp from '../types/response';
 import {loginValid, registerValid} from '../validation/auth'
 import xRequest from '../types/request';
 import Refresh from '../models/Refresh';
+import EmailVerify from '../models/EmailVerify';
+import { generateEmailRef } from '../utils';
+import { sendMail } from '../mail';
 
 
 export const loginControl = async (req: Request, res:Response) => {
@@ -54,10 +57,21 @@ export const registerControl = async (req: Request, res: Response) => {
         const salt = await bcrypt.genSalt(10);
         const hashPassword = await bcrypt.hash(password, salt);
         const newUser = new User({name, email, password: hashPassword});
-        await newUser.save();
 
+        const {error: error2, reference} = await generateEmailRef();
+        if(error2) throw {client: false, message: "Failed to generate reference"};
+
+        const emailver = new EmailVerify({
+            user_id: newUser._id,
+            reference
+        })
+
+        sendMail({user_id: newUser._id, user_name: newUser.name, user_email: newUser.email, reference: emailver.reference});
+        
+        await newUser.save();
+        await emailver.save();
         const response: IResp = {success: true, data: newUser.email};
-        res.status(201).json(response);
+        return res.status(201).json(response);
 
     }catch(err){
         const status = err.client ? 400 : 500;

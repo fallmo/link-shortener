@@ -2,6 +2,7 @@ import fetch from 'node-fetch'
 import {nanoid} from 'nanoid';
 import Url from '../models/Url'
 import Refresh from '../models/Refresh'
+import EmailVerify from '../models/EmailVerify';
 
 
 
@@ -28,6 +29,17 @@ export const generateToken = async (): Promise<{error?:string, token?: string}> 
     }
 }
 
+export const generateEmailRef = async (): Promise<{error?: string, reference?: string}> => {
+    try{
+        const reference = nanoid();
+        const collided = await EmailVerify.exists({reference});
+        if(collided) return generateEmailRef();
+        else return {reference}
+    }catch(err){
+        return {error: err.message}
+    }
+}
+
 
 export const checkRecaptcha = async (val: string) => {
     if(!val) return false;
@@ -42,3 +54,4 @@ export const checkRecaptcha = async (val: string) => {
         return false
     }
 }
+

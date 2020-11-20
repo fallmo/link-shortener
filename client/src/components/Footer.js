@@ -36,14 +36,39 @@ export default function Footer() {
           </p>
 
           <div className="list c-primary">
-            <p className="list-item">Pooaosdapsdpapdoa aodasod asdjasdhasnd</p>
             <p className="list-item">
-              lorem ipsum rdl asdh sjasdas ireun asjdsgdb assallas sdksks
-              allasd. asdjadssasdaj askdhc a.
+              Do not advertise gripURL.com links directly on any form of traffic
+              exchange / PTC website.
             </p>
             <p className="list-item">
-              Asdhadh Lpkasd ausasdja ajsdjasd llasdiajs alsasdus. adjasdjsd
-              skdaskdsdsdsa sdsa.
+              Do not place gripURL.com links anywhere that may contain adult or
+              illegal material (including advertising).
+            </p>
+            <p className="list-item">
+              Do not shrink any website URLs that contain adult or illegal
+              material.
+            </p>
+            <p className="list-item">
+              Do not create 'redirect loops' with similar services (or
+              gripURL.com) to generate revenue.
+            </p>
+            <p className="list-item">
+              Do not create spam with gripURL.com links anywhere, including
+              forums / chat / comments / blogs.
+            </p>
+            <p className="list-item">
+              Do not open an gripURL.com link in a popup / popunder or iframe.
+            </p>
+            <p className="list-item">
+              Only the gripURL.com link must be opened when a user clicks on the
+              link. No other links / windows must be opened.
+            </p>
+
+            <p className="direct c-tertiary">
+              Each time you use or cause access to this web site, you agree to
+              be bound by these Terms of Usage, and as amended from time to time
+              with or without notice to you. In addition, we reserve the right
+              to delete any account or link we feel violates our terms of usage.
             </p>
           </div>
         </div>
@@ -55,19 +80,29 @@ export default function Footer() {
       >
         <div className="policy">
           <div className="group">
-            <h4 className="c-tertiary">Lorem</h4>
+            <h4 className="c-tertiary">Collecting Personal Information</h4>
             <p className="c-primary">
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Mollitia
-              quisquam adipisci soluta modi itaque recusandae sapiente quibusdam
-              consequuntur exercitationem est.
+              Throughout your visit, and/or use of our service, we may collect,
+              store, and/or use the following information: (a) your computer
+              (browser information, operating system, geographical location,
+              etc), (b) the information you provide when signing up (email,
+              name)
             </p>
           </div>
           <div className="group">
-            <h4 className="c-tertiary">Ipsum</h4>
+            <h4 className="c-tertiary">Cookie Information</h4>
             <p className="c-primary">
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Mollitia
-              quisquam adipisci soluta modi itaque recusandae sapiente quibusdam
-              consequuntur exercitationem est.
+              We use cookies. Turning off cookies may result in some features of
+              our website not working properly.
+            </p>
+          </div>
+          <div className="group">
+            <h4 className="c-tertiary">Changes in Policy</h4>
+            <p className="c-primary">
+              We reserve the right to make policy changes at anytime. Users will
+              be notified of these changes. By continuing to access this site
+              after the date of modification, you are indicating that you agree
+              to be bound by the modified Terms of Usage.
             </p>
           </div>
         </div>

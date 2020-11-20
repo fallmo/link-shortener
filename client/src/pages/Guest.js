@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import Card from "../components/Card";
 import Dots from "../components/Dots";
 import Input from "../components/Input";
@@ -79,7 +79,7 @@ function Login({ leave }) {
             />
           </div>
           <div className="submit-div">
-            <button className="btn b-primary c-white" disabled={loading}>
+            <button className="btn b-primary c-white shrink" disabled={loading}>
               {loading ? "Submitting" : "Submit"}
               {loading && <Dots />}
             </button>
@@ -177,7 +177,7 @@ function Register({ leave }) {
             />
           </div>
           <div className="submit-div">
-            <button className="btn b-primary c-white" disabled={loading}>
+            <button className="btn b-primary c-white shrink" disabled={loading}>
               {loading ? "Submitting" : "Submit"}
               {loading && <Dots />}
             </button>
@@ -186,9 +186,14 @@ function Register({ leave }) {
         <div className={confirm ? "" : "hidden"}>
           <p>Email verification sent to:</p>
           <p className="verifyp c-tertiary">{confirm}</p>
+          <ResendButton email={confirm} />
           <a
-            href={confirm.split("@")[1]}
-            className="btn b-secondary c-white text-center"
+            href={`https://${confirm.split("@")[1]}`}
+            className={
+              isCommon(confirm)
+                ? "btn b-secondary c-white text-center mt-2 shrink"
+                : "hidden"
+            }
           >
             Verify Now
           </a>
@@ -208,4 +213,41 @@ function Register({ leave }) {
       </p>
     </div>
   );
+}
+
+function ResendButton({ email }) {
+  const [count, setCount] = useState(45);
+  const timeoutRef = useRef();
+
+  useEffect(() => {
+    return () => clearTimeout(timeoutRef.current);
+  }, []);
+  useEffect(() => {
+    if (count > 0) {
+      timeoutRef.current = setTimeout(() => {
+        setCount(count => count - 1);
+      }, 1000);
+    } else {
+      clearTimeout(timeoutRef.current);
+    }
+  }, [count]);
+
+  const resendMail = () => {
+    if (count !== 0) return;
+    console.log("sending to ", email);
+    setCount(45);
+  };
+  return (
+    <a
+      className="btn b-primary c-white text-center shrink"
+      onClick={resendMail}
+    >
+      {count > 0 ? `Resend in ${count}s` : "Resend"}
+    </a>
+  );
+}
+
+function isCommon(email) {
+  email = email.split("@")[1];
+  return email === "gmail.com" || email === "yahoo.com";
 }
