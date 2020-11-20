@@ -43,7 +43,7 @@ export const addUrlControl = async (req: xRequest, res: Response) => {
         const duplicate = await Url.exists({user_id: user._id, original_url })
         if(duplicate) throw {client: true, message: "Url already shortened"};
 
-        const {error: err, ref_id} = await generateRef();
+        const {error: err, ref_id} = await generateRef(5);
         if(err) throw new Error(err);
 
         const newUrl = new Url({
@@ -78,7 +78,7 @@ export const addGuestControl = async (req: Request, res: Response) => {
         const {error} = urlValid(req.body)
         if(error) throw {client: true, message: error};
 
-        const {error: err, ref_id} = await generateRef();
+        const {error: err, ref_id} = await generateRef(7);
         if(err) throw new Error(err);
 
         const newUrl = new Url({

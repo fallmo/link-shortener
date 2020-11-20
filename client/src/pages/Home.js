@@ -5,14 +5,23 @@ import Dots from "../components/Dots";
 import Modal from "../components/Modal";
 import LetterAnim from "../components/LetterAnim";
 import { ReactComponent as Trash } from "../assets/trash.svg";
+import { ReactComponent as Hide } from "../assets/hide.svg";
+import { ReactComponent as See } from "../assets/see.svg";
 import { ReactComponent as Copy } from "../assets/copy.svg";
 import Flash from "../components/Flash";
 import { Context } from "../context/Context";
 
 export default function Home() {
   const [links, setLinks] = useState([]);
+  const [hiddenLinks, setHidden] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
+
+  const {
+    links: { hidden },
+    hideLink,
+    unHideLink,
+  } = useContext(Context);
 
   const flashRef = useRef();
 
@@ -31,13 +40,27 @@ export default function Home() {
       .then(({ data, error }) => {
         setLoading(false);
         if (error) return setError(error);
-        setLinks(data);
+        setLinks(data.filter(link => !hidden.includes(link._id)));
+        setHidden(data.filter(link => hidden.includes(link._id)));
       })
       .catch(({ error }) => {
         setError(error);
         setLoading(false);
       });
   }, []);
+
+  const hideOne = _id => {
+    hideLink(_id);
+    setHidden([links.find(link => link._id === _id), ...hiddenLinks]);
+    setLinks(links.filter(link => link._id !== _id));
+  };
+
+  const unHideOne = _id => {
+    unHideLink(_id);
+    setLinks([hiddenLinks.find(link => link._id === _id), ...links]);
+    setHidden(hiddenLinks.filter(link => link._id !== _id));
+  };
+
   return (
     <>
       <div className="screen home b-primary">
@@ -52,7 +75,13 @@ export default function Home() {
           setLinks={setLinks}
           error={error}
           loading={loading}
+          hideOne={hideOne}
         />
+        {hiddenLinks.length ? (
+          <HiddenList links={hiddenLinks} unHideOne={unHideOne} />
+        ) : (
+          ""
+        )}
       </div>
       <Flash ref={flashRef} />
     </>
@@ -163,7 +192,7 @@ function ShrinkCard({ setLinks, links, flash }) {
   );
 }
 
-function ListCard({ links, setLinks, loading, error, flash }) {
+function ListCard({ links, setLinks, loading, error, flash, hideOne }) {
   const [askDelete, setAskDelete] = useState("");
   const { unsetUser } = useContext(Context);
 
@@ -233,42 +262,17 @@ function ListCard({ links, setLinks, loading, error, flash }) {
                 <th className="luxury">Clicks</th>
                 <th className="luxury">Date</th>
                 <th></th>
+                <th></th>
               </tr>
             </thead>
             <tbody>
               {links.map(item => (
-                <tr key={item._id}>
-                  <td>
-                    <a
-                      href={`https://momo.me/${item.ref_id}`}
-                      className="hoverfx c-primary"
-                      target="_blank"
-                    >
-                      {item.ref_id}
-                    </a>
-                  </td>
-                  <td>
-                    <a
-                      href={item.original_url}
-                      className="hoverfx c-secondary"
-                      target="_blank"
-                    >
-                      {item.original_url.split("//")[1]}
-                    </a>
-                  </td>
-                  <td className="luxury">{item.clicks || "0"}</td>
-                  <td className="luxury">
-                    {new Date(item.date).toLocaleDateString()}
-                  </td>
-                  <td className="b-white">
-                    <button
-                      className="btn b-red c-white mt-2 shrink icon"
-                      onClick={() => setAskDelete(item._id)}
-                    >
-                      <Trash width="20" height="20" />
-                    </button>
-                  </td>
-                </tr>
+                <Row
+                  item={item}
+                  key={item._id}
+                  setAskDelete={setAskDelete}
+                  hideOne={hideOne}
+                />
               ))}
             </tbody>
           </table>
@@ -295,4 +299,108 @@ function ListCard({ links, setLinks, loading, error, flash }) {
       </>
     );
   }
+}
+
+function Row({ item, setAskDelete, hideOne }) {
+  const hide = () => {
+    hideOne(item._id);
+  };
+  const askDel = () => {
+    setAskDelete(item._id);
+  };
+  return (
+    <tr key={item._id}>
+      <td>
+        <a
+          href={`https://momo.me/${item.ref_id}`}
+          className="hoverfx c-primary"
+          target="_blank"
+        >
+          {item.ref_id}
+        </a>
+      </td>
+      <td>
+        <a
+          href={item.original_url}
+          className="hoverfx c-secondary"
+          target="_blank"
+        >
+          {item.original_url.split("//")[1]}
+        </a>
+      </td>
+      <td className="luxury">{item.clicks || "0"}</td>
+      <td className="luxury">{new Date(item.date).toLocaleDateString()}</td>
+      <td className="b-white">
+        <button
+          className="btn b-primary c-white mt-2 shrink icon"
+          onClick={hide}
+        >
+          <Hide width="20" height="20" />
+        </button>
+      </td>
+      <td className="b-white">
+        <button className="btn b-red c-white mt-2 shrink icon" onClick={askDel}>
+          <Trash width="20" height="20" />
+        </button>
+      </td>
+    </tr>
+  );
+}
+
+function HiddenList({ links, unHideOne }) {
+  const [collapsed, setCollapsed] = useState(true);
+
+  const unHide = (e, _id) => {
+    e.stopPropagation();
+    unHideOne(_id);
+  };
+
+  if (collapsed) {
+    return <Card title="Hidden Links" onClick={() => setCollapsed(false)} />;
+  }
+  return (
+    <Card title="Hidden Links" onClick={() => setCollapsed(true)}>
+      <table className="link-card">
+        <thead>
+          <tr>
+            <th>Short URL</th>
+            <th>Long URL</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody>
+          {links.map(item => (
+            <tr key={item._id}>
+              <td>
+                <a
+                  href={`https://momo.me/${item.ref_id}`}
+                  className="hoverfx c-primary"
+                  target="_blank"
+                >
+                  {item.ref_id}
+                </a>
+              </td>
+              <td>
+                <a
+                  href={item.original_url}
+                  className="hoverfx c-secondary"
+                  target="_blank"
+                >
+                  {item.original_url.split("//")[1]}
+                </a>
+              </td>
+              <td className="b-white">
+                <button
+                  className="btn b-primary c-white shrink icon"
+                  onClick={e => unHide(e, item._id)}
+                >
+                  <See width="20" height="20" />
+                </button>
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </Card>
+  );
 }

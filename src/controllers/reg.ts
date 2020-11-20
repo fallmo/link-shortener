@@ -8,9 +8,10 @@ export const redirectControl = async (req: Request, res: Response) => {
         const {ref_id} = req.params;
         const url = await Url.findOne({ref_id})
         if(!url) throw {client: true, message: "Could not find link"};
-
-        if(url.user_id) return res.redirect(url.original_url);
-        else return res.render('ads', {url: url.original_url });
+        url.clicks ++;
+        if(url.user_id)  res.redirect(url.original_url);
+        else  res.render('ads', {url: url.original_url });
+        return await url.save();
     }catch(err){
         const view = err.client ? '404' : '500';
         return res.status(+view).render(view);

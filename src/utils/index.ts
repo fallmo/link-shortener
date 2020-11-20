@@ -4,11 +4,11 @@ import Refresh from '../models/Refresh'
 
 
 
-export const generateRef = async () : Promise<{error?: string, ref_id?: string}>  => {
+export const generateRef = async (len: number = 7) : Promise<{error?: string, ref_id?: string}>  => {
     try{
-        const ref_id = nanoid(7);
+        const ref_id = nanoid(len);
         const collided = await Url.exists({ref_id});
-        if(collided) return generateRef();
+        if(collided) return generateRef(len);
         else return {ref_id};
     }catch(err){
         return {error: err.message}

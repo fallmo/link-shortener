@@ -20,7 +20,7 @@ export const loginControl = async (req: Request, res:Response) => {
         const validPassword = await bcrypt.compare(password, userExists.password);
         if(!validPassword) throw {client: true, message: "Incorrect credentials"};
 
-        const token = jwt.sign({_id: userExists._id, name: userExists.name, email: userExists.email, admin: userExists.admin}, process.env.TOKEN_SECRET!, {expiresIn: "20s" });
+        const token = jwt.sign({_id: userExists._id, name: userExists.name, email: userExists.email, admin: userExists.admin}, process.env.TOKEN_SECRET!, {expiresIn: "10m" });
         const refreshToken = jwt.sign({_id:userExists._id}, process.env.REFRESH_SECRET!);
         const refreshDB = new Refresh({
             token: refreshToken,
@@ -120,7 +120,7 @@ export const refreshControl = async (req: Request, res: Response) => {
         const user = await User.findById(_id, "name email admin")
         if(!user) throw {client: true, message: "User no longer exists"};
 
-        const newToken = jwt.sign({_id, name: user.name, email:user.email, admin:user.admin}, process.env.TOKEN_SECRET!, {expiresIn: "20s"});
+        const newToken = jwt.sign({_id, name: user.name, email:user.email, admin:user.admin}, process.env.TOKEN_SECRET!, {expiresIn: "10m"});
 
         const response = {success:true, data: {token: newToken}};
         

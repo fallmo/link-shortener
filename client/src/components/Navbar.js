@@ -22,7 +22,9 @@ export default function Navbar() {
     <>
       <nav className="navbar">
         <div className="left">
-          <div className="logo c-primary">momo.me</div>
+          <div className="logo c-primary">
+            grip<span className="c-secondary">URL</span>
+          </div>
         </div>
         <div className="right">
           {isLoading && (

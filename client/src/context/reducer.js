@@ -16,6 +16,13 @@ export default (state, action) => {
           user: null,
         },
       };
+    case "UPDATE_HIDDEN":
+      return {
+        ...state,
+        links: {
+          hidden: action.payload,
+        },
+      };
     default:
       return state;
   }
