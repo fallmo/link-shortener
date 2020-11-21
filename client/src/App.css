@@ -374,6 +374,11 @@ table {
   padding-left: 50px;
 }
 
+.copyTextArea {
+  position: absolute;
+  left: -9999px;
+  opacity: 0;
+}
 table.link-card {
   text-align: center;
   border-collapse: collapse;

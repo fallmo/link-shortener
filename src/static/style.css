@@ -134,6 +134,11 @@ footer a {
 .shorten-container .output {
   font-size: 25px;
 }
+.copyTextArea {
+  position: absolute;
+  left: -9999px;
+  opacity: 0;
+}
 .row {
   display: none;
 }
@@ -286,6 +291,24 @@ div.circle {
   padding: 3px;
 }
 
+.flash-container {
+  position: fixed;
+  bottom: 30px;
+  background: #000000;
+  left: 0;
+  right: 0;
+  margin: auto;
+  width: max-content;
+  padding: 20px 50px;
+  border-radius: 15px;
+  box-shadow: 0 1px 5px rgba(0, 0, 0, 0.4);
+  animation: slideUp 500ms forwards ease-out, fadeIn 500ms forwards ease-in;
+}
+
+.flash-container.leaving {
+  animation: slideDown 500ms forwards ease-in, fadeOut 500ms forwards ease-in;
+}
+
 @media (max-width: 800px) {
   .navbar {
     padding: 0 20px;
@@ -353,6 +376,24 @@ div.circle {
   }
   .main .left img {
     width: 325px;
+  }
+}
+
+@keyframes slideUp {
+  from {
+    transform: translateY(100%);
+  }
+}
+
+@keyframes slideDown {
+  to {
+    transform: translateY(100%);
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
   }
 }
 

@@ -41,43 +41,78 @@
       <div>Copyright &copy; 2020 gripURL</div>
     </footer>
     <custom-modal title="Terms of Usage" data-label="terms">
-      <div class="terms">
-        <p class="direct c-tertiary">
-        To use this app, you must abide by the following terms:
-        </p>
+     <div class="terms">
+          <p class="direct c-tertiary">
+            To use this app, you must abide by the following terms:
+          </p>
 
-        <div class="list c-primary">
-        <p class="list-item">Pooaosdapsdpapdoa aodasod asdjasdhasnd</p>
-        <p class="list-item">
-            lorem ipsum rdl asdh sjasdas ireun asjdsgdb assallas sdksks
-            allasd. asdjadssasdaj askdhc a.
-        </p>
-        <p class="list-item">
-            Asdhadh Lpkasd ausasdja ajsdjasd llasdiajs alsasdus. adjasdjsd
-            skdaskdsdsdsa sdsa.
-        </p>
+          <div class="list c-primary">
+            <p class="list-item">
+              Do not advertise gripURL.com links directly on any form of traffic
+              exchange / PTC website.
+            </p>
+            <p class="list-item">
+              Do not place gripURL.com links anywhere that may contain adult or
+              illegal material (including advertising).
+            </p>
+            <p class="list-item">
+              Do not shrink any website URLs that contain adult or illegal
+              material.
+            </p>
+            <p class="list-item">
+              Do not create 'redirect loops' with similar services (or
+              gripURL.com) to generate revenue.
+            </p>
+            <p class="list-item">
+              Do not create spam with gripURL.com links anywhere, including
+              forums / chat / comments / blogs.
+            </p>
+            <p class="list-item">
+              Do not open an gripURL.com link in a popup / popunder or iframe.
+            </p>
+            <p class="list-item">
+              Only the gripURL.com link must be opened when a user clicks on the
+              link. No other links / windows must be opened.
+            </p>
+
+            <p class="direct c-tertiary">
+              Each time you use or cause access to this web site, you agree to
+              be bound by these Terms of Usage, and as amended from time to time
+              with or without notice to you. In addition, we reserve the right
+              to delete any account or link we feel violates our terms of usage.
+            </p>
+          </div>
         </div>
-      </div>
     </custom-modal>
     <custom-modal title="Privacy" data-label="privacy">
-      <div class="policy">
-        <div class="group">
-        <h4 class="c-tertiary">Lorem</h4>
-        <p class="c-primary">
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Mollitia
-            quisquam adipisci soluta modi itaque recusandae sapiente quibusdam
-            consequuntur exercitationem est.
-        </p>
+       <div class="policy">
+          <div class="group">
+            <h4 class="c-tertiary">Collecting Personal Information</h4>
+            <p class="c-primary">
+              Throughout your visit, and/or use of our service, we may collect,
+              store, and/or use the following information: (a) your computer
+              (browser information, operating system, geographical location,
+              etc), (b) the information you provide when signing up (email,
+              name)
+            </p>
+          </div>
+          <div class="group">
+            <h4 class="c-tertiary">Cookie Information</h4>
+            <p class="c-primary">
+              We use cookies. Turning off cookies may result in some features of
+              our website not working properly.
+            </p>
+          </div>
+          <div class="group">
+            <h4 class="c-tertiary">Changes in Policy</h4>
+            <p class="c-primary">
+              We reserve the right to make policy changes at anytime. Users will
+              be notified of these changes. By continuing to access this site
+              after the date of modification, you are indicating that you agree
+              to be bound by the modified Terms of Usage.
+            </p>
+          </div>
         </div>
-        <div class="group">
-        <h4 class="c-tertiary">Ipsum</h4>
-        <p class="c-primary">
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Mollitia
-            quisquam adipisci soluta modi itaque recusandae sapiente quibusdam
-            consequuntur exercitationem est.
-        </p>
-        </div>
-    </div>
 </custom-modal>
     <div class="g-recaptcha"
           data-sitekey="6LdqceUZAAAAAEbgAkrYE_9mxUmk4xSGFfFjiCm_"

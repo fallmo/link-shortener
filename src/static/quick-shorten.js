@@ -49,11 +49,14 @@ shortenTemplate.innerHTML = `
     </div>
     <div class="row success">
         <div class="btn-row action-btns">
+        <textarea class="hidden"></textarea>
         <button class="btn b-secondary c-white shrink copy-btn">Copy</button>
         <button class="btn b-tertiary c-white shrink fresh-btn">New</button>
         </div>
     </div>
-</div>`;
+</div>
+<div class="flash-container hidden"></div>
+`;
 
 class QuickShorten extends HTMLElement {
   constructor() {
@@ -71,7 +74,10 @@ class QuickShorten extends HTMLElement {
     this.loadAnim = this.shadowRoot.querySelector("div.letter-anim.load-anim");
     this.copyBtn = this.shadowRoot.querySelector("button.copy-btn");
     this.freshBtn = this.shadowRoot.querySelector("button.fresh-btn");
+    this.copyField = this.shadowRoot.querySelector("textarea");
+    this.flashContainer = this.shadowRoot.querySelector("div.flash-container");
     this.apiUrl = "http://localhost:3030/api/v1/urls/guest";
+    this.flashTimeout;
   }
   async startLoad() {
     this.disable(true);
@@ -94,6 +100,7 @@ class QuickShorten extends HTMLElement {
     this.successOutput.innerText = data.ref_id;
     this.successOutput.classList.remove("hidden");
     this.container.className = "shorten-container success b-primary";
+    this.flash({ color: "green", text: "Link Shortened Successfully" });
   }
 
   startFailed(error) {
@@ -103,6 +110,7 @@ class QuickShorten extends HTMLElement {
     this.failOutput.innerText = `ERROR: ${error}`;
     this.loadAnim.classList.add("hidden");
     this.container.className = "shorten-container failed b-primary";
+    this.flash({ color: "secondary", text: "Link Shortening Failed" });
   }
 
   startFresh() {
@@ -145,7 +153,26 @@ class QuickShorten extends HTMLElement {
     }
   }
   copyLink() {
-    console.log("try to copy");
+    this.copyField.value = `http://gripurl.com/${this.successOutput.innerText}`;
+    this.copyField.className = "copyTextArea";
+    this.copyField.select();
+    document.execCommand("copy");
+    this.copyField.className = "hidden";
+    this.copyField.value = "";
+    this.flash({ color: "green", text: "Link Copied" });
+  }
+
+  flash({ text, color = "white" }) {
+    if (!text) return;
+    this.flashContainer.innerText = text;
+    this.flashContainer.className = `flash-container c-${color}`;
+    this.flashTimeout = setTimeout(() => {
+      this.flashContainer.className = "flash-container leaving";
+      this.flashTimeout = setTimeout(() => {
+        this.flashContainer.innerText = "";
+        this.flashContainer.className = "flash-container hidden";
+      }, 500);
+    }, 2000);
   }
 
   connectedCallback() {
@@ -157,6 +184,10 @@ class QuickShorten extends HTMLElement {
 
     this.freshBtn.addEventListener("click", () => this.startFresh());
     this.copyBtn.addEventListener("click", () => this.copyLink());
+  }
+
+  disconnectedCallback() {
+    clearTimeout(this.flashTimeout);
   }
 }
 

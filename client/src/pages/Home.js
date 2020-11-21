@@ -95,6 +95,8 @@ function ShrinkCard({ setLinks, links, flash }) {
   const [error, setError] = useState("");
   const { unsetUser } = useContext(Context);
 
+  const textAreaRef = useRef();
+
   const handleSubmit = async () => {
     setError("");
     setState("loading");
@@ -121,6 +123,16 @@ function ShrinkCard({ setLinks, links, flash }) {
     setOutput("");
     return setState("ready");
   };
+
+  const copyOutput = () => {
+    if (!textAreaRef.current) return;
+    textAreaRef.current.className = "copyTextArea";
+    textAreaRef.current.select();
+    document.execCommand("copy");
+    flash.showFlash({ color: "green", text: "Link Copied" });
+    textAreaRef.current.className = "hidden";
+  };
+
   const stateClass =
     state === "loading"
       ? "c-secondary"
@@ -181,7 +193,13 @@ function ShrinkCard({ setLinks, links, flash }) {
         </tbody>
       </table>
       <div className={state === "success" ? "btn-row" : "hidden"}>
-        <button className="btn b-secondary shrink icon">
+        <textarea
+          ref={textAreaRef}
+          readOnly={true}
+          className="hidden"
+          value={`http://gripurl.com/${output}`}
+        />
+        <button className="btn b-secondary shrink icon" onClick={copyOutput}>
           <Copy width="20" height="20" />
         </button>
         <button className="btn b-tertiary c-white shrink" onClick={resetInput}>
@@ -312,7 +330,7 @@ function Row({ item, setAskDelete, hideOne }) {
     <tr key={item._id}>
       <td>
         <a
-          href={`gripurl.com/${item.ref_id}`}
+          href={`http://gripurl.com/${item.ref_id}`}
           className="hoverfx c-primary"
           target="_blank"
         >
@@ -362,7 +380,7 @@ function HiddenList({ links, unHideOne }) {
             <tr key={item._id}>
               <td>
                 <a
-                  href={`gripurl.com/${item.ref_id}`}
+                  href={`http://gripurl.com/${item.ref_id}`}
                   className="hoverfx c-primary"
                   target="_blank"
                 >

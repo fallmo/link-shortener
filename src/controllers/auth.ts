@@ -18,6 +18,7 @@ export const loginControl = async (req: Request, res:Response) => {
         
         const userExists = await User.findOne({email});
         if(!userExists) throw {client: true, message: "Email is not registered"};
+        if(!userExists.confirmed) throw {client: true, message: "Email is not verified"};
 
         const validPassword = await bcrypt.compare(password, userExists.password);
         if(!validPassword) throw {client: true, message: "Incorrect credentials"};
