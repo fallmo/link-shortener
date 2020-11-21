@@ -76,7 +76,7 @@ class QuickShorten extends HTMLElement {
     this.freshBtn = this.shadowRoot.querySelector("button.fresh-btn");
     this.copyField = this.shadowRoot.querySelector("textarea");
     this.flashContainer = this.shadowRoot.querySelector("div.flash-container");
-    this.apiUrl = "http://gripurl.com/api/v1/urls/guest";
+    this.apiUrl = "https://gripurl.com/api/v1/urls/guest";
     this.flashTimeout;
   }
   async startLoad() {
@@ -153,7 +153,7 @@ class QuickShorten extends HTMLElement {
     }
   }
   copyLink() {
-    this.copyField.value = `http://gripurl.com/${this.successOutput.innerText}`;
+    this.copyField.value = `https://gripurl.com/${this.successOutput.innerText}`;
     this.copyField.className = "copyTextArea";
     this.copyField.select();
     document.execCommand("copy");
