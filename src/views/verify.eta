@@ -1,4 +1,4 @@
-<% layout('./layout', {title: "Verify Email"}) %>
+<% layout('./layout', {title: "Shrink Links for Free"}) %>
 <% if(it.error){ %>
 <div class="right">
     <h1 class="c-secondary text-center">Verification Error</h1>
@@ -20,7 +20,7 @@
     <div class="limiter">
         <div class="btn-row">
             <a href="http://app.gripurl.com" class="btn b-primary c-white shrink">Login</a>
-            <a href="http://gripurl.com/support" class="btn c-gray bd-gray2 shrink">Support</a>
+            <a class="btn c-gray bd-gray2 shrink" data-target="support">Support</a>
         </div>
     </div>
 </div>

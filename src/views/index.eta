@@ -1,4 +1,4 @@
-<% layout('./layout', {title: "momo.me"}) %>
+<% layout('./layout', {title: "Shrink Links for Free"}) %>
 <div class="left">
     <img src="/static/hero.svg" />
 </div>

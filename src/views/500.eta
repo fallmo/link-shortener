@@ -1,4 +1,4 @@
-<% layout('./layout', {title: "500 Error"}) %>
+<% layout('./layout', {title: "Server Error"}) %>
 <div class="right">
     <h1 class="c-secondary text-center">Server Error</h1>
     <p class="c-tertiary text-center">Something went wrong on our side.</p>

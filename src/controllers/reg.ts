@@ -22,7 +22,7 @@ export const redirectControl = async (req: Request, res: Response) => {
 }
 
 export const indexControl = (req: Request, res: Response) => {
-    if(req.cookies['apauth'] === "true") return res.redirect('http://localhost:3000');
+    if(req.cookies['apauth'] === "true") return res.redirect('http://app.gripurl.com');
     return res.render('index');
 }
 
@@ -51,4 +51,8 @@ export const verifyControl = async (req: Request, res: Response) => {
         if(err.client || err.message.includes(exception)) return res.status(400).render('verify', {error: err.message})
         else return res.status(500).render('500')
     }
+}
+
+export const notFoundControl = (req: Request, res: Response) => {
+    return res.status(404).render('404');
 }

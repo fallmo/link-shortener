@@ -76,7 +76,7 @@ class QuickShorten extends HTMLElement {
     this.freshBtn = this.shadowRoot.querySelector("button.fresh-btn");
     this.copyField = this.shadowRoot.querySelector("textarea");
     this.flashContainer = this.shadowRoot.querySelector("div.flash-container");
-    this.apiUrl = "http://localhost:3030/api/v1/urls/guest";
+    this.apiUrl = "http://gripurl.com/api/v1/urls/guest";
     this.flashTimeout;
   }
   async startLoad() {

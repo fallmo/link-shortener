@@ -1,4 +1,4 @@
-<% layout('./layout', {title: "404 Page"}) %>
+<% layout('./layout', {title: "Page Not Found"}) %>
 <div class="right">
     <h1 class="c-secondary text-center">Page not found</h1>
     <p class="c-tertiary text-center">
