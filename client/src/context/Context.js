@@ -1,4 +1,3 @@
-import { stat } from "fs";
 import React, { createContext, useReducer } from "react";
 import { checkAuth } from "./actions/auth";
 import reducer from "./reducer";
@@ -38,6 +37,7 @@ export const Provider = ({ children }) => {
   const unsetUser = () => {
     localStorage.removeItem("@token");
     localStorage.removeItem("@refreshToken");
+    localStorage.setItem("@hiddenLinks", JSON.stringify([]));
     return dispatch({ type: "USER_OUT" });
   };
 
