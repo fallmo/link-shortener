@@ -3,6 +3,9 @@ modalTemplate.innerHTML = `
     <style>
         @import url('/static/pre.css');
         @import url('/static/style.css');
+        .hidden{
+          display: none !important;
+        }
     </style>
     <div class="modal-wrapper hidden">
         <div class="modal-overlay"></div>

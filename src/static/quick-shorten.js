@@ -172,13 +172,16 @@ class QuickShorten extends HTMLElement {
         this.flashContainer.innerText = "";
         this.flashContainer.className = "flash-container hidden";
       }, 500);
-    }, 2000);
+    }, 2500);
   }
 
   connectedCallback() {
-    this.flashTimeout = setTimeout(() => {
-      this.flash({ text: "This website uses cookies", color: "white" });
-    }, 3000);
+    if (getCookie("vs20") === "") {
+      this.flashTimeout = setTimeout(() => {
+        this.flash({ text: "This website uses cookies", color: "white" });
+      }, 3000);
+      return setCookie("vs20", "true", 90);
+    }
     this.form.addEventListener("submit", e => {
       e.preventDefault();
       if (this.state.innerText === "Failed") return this.startLoad();

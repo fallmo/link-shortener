@@ -28,7 +28,7 @@ app.use(forcessl());
 app.use(express.json());
 app.use("/static",express.static(path.join(__dirname, 'static')))
 
-app.use('/', regRoutes);
-app.use('/api/v1/auth', authRoutes);
 app.use('/api/v1/urls', urlRoutes)
+app.use('/api/v1/auth', authRoutes);
+app.use('/', regRoutes);
 app.listen(PORT, () => console.log('Server PORT: '+PORT));

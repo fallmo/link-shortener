@@ -193,6 +193,7 @@ function Register({ leave }) {
           <ResendButton email={confirm} />
           <a
             href={`https://${confirm.split("@")[1]}`}
+            target="_blank"
             className={
               isCommon(confirm)
                 ? "btn b-secondary c-white text-center mt-2 shrink"
