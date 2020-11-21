@@ -63,6 +63,24 @@ export const attemptSignup = async fields => {
   }
 };
 
+export const attemptResend = async email => {
+  await sleep(1000);
+  try {
+    const response = await fetch(`${API}/auth/resend`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ email }),
+    });
+    const data = await response.json();
+    if (!data.success) return { error: data.message };
+    return { success: data.data };
+  } catch (err) {
+    return { error: "Failed to make request" };
+  }
+};
+
 export const attemptLogout = async () => {
   await sleep(1000);
   await fetch(`${API}/auth/logout`, {

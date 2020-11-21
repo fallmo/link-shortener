@@ -2,7 +2,11 @@ import React, { useContext, useEffect, useRef, useState } from "react";
 import Card from "../components/Card";
 import Dots from "../components/Dots";
 import Input from "../components/Input";
-import { attemptLogin, attemptSignup } from "../context/actions/auth";
+import {
+  attemptLogin,
+  attemptResend,
+  attemptSignup,
+} from "../context/actions/auth";
 import { Context } from "../context/Context";
 
 export default function Guest() {
@@ -184,7 +188,7 @@ function Register({ leave }) {
           </div>
         </form>
         <div className={confirm ? "" : "hidden"}>
-          <p>Email verification sent to:</p>
+          <p>Email verification is being sent to:</p>
           <p className="verifyp c-tertiary">{confirm}</p>
           <ResendButton email={confirm} />
           <a
@@ -216,29 +220,30 @@ function Register({ leave }) {
 }
 
 function ResendButton({ email }) {
-  const [count, setCount] = useState(45);
+  const [count, setCount] = useState(60);
   const timeoutRef = useRef();
 
   useEffect(() => {
     return () => clearTimeout(timeoutRef.current);
   }, []);
   useEffect(() => {
-    if (count > 0) {
-      console.log("decreasing ", count);
-      timeoutRef.current = setTimeout(decrementSecs, 1000);
-    } else {
-      console.log("done ", count);
-      clearTimeout(timeoutRef.current);
+    if (email) {
+      if (count > 0) {
+        timeoutRef.current = setTimeout(decrementSecs, 1000);
+      } else {
+        clearTimeout(timeoutRef.current);
+      }
     }
-  }, [count]);
+  }, [count, email]);
 
   const decrementSecs = () => {
-    return setCount(count => count--);
+    return setCount(count => count - 1);
   };
-  const resendMail = () => {
+
+  const resendMail = async () => {
     if (count !== 0) return;
-    console.log("sending to ", email);
-    setCount(45);
+    setCount(120);
+    const { error, success } = await attemptResend(email);
   };
   return (
     <a

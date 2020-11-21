@@ -6,8 +6,6 @@ import IResp from '../types/response';
 import {loginValid, registerValid} from '../validation/auth'
 import xRequest from '../types/request';
 import Refresh from '../models/Refresh';
-import EmailVerify from '../models/EmailVerify';
-import { generateEmailRef } from '../utils';
 import { sendVerification } from '../mail/verify';
 
 
@@ -61,10 +59,10 @@ export const registerControl = async (req: Request, res: Response) => {
         const newUser = new User({name, email, password: hashPassword});
         await newUser.save();
 
-        await sendVerification({ _id: newUser._id, name: newUser.name, email: newUser.email});
         const response: IResp = {success: true, data: newUser.email};
-        return res.status(201).json(response);
+        res.status(201).json(response);
 
+        return await sendVerification({ _id: newUser._id, name: newUser.name, email: newUser.email});
     }catch(err){
         const status = err.client ? 400 : 500;
         const message = err.client ? err.message : "Something Went Wrong";
@@ -155,4 +153,30 @@ export const logoutControl = async (req: Request, res: Response) => {
     }catch(err){
         console.log('failed to delete session Err: ',err.message);
     }
+}
+
+
+export const resendControl = async (req: Request, res: Response) => {
+    try{
+        const {email} = req.body;
+        if(!email) throw {client: true, message: "Email is required"};
+
+        const user = await User.findOne({email}, "name");
+        if(!user) throw {client: true, message: "Email is not registered"};
+
+        const emailSent = await sendVerification({ _id: user._id, name: user.name, email});
+
+        const response:IResp = {success: true, data: {email}};
+        return res.status(200).json(response);
+
+    }catch(err){
+        const status = err.client ? 400 : 500;
+        const message = err.client ? err.message : "Something Went Wrong";
+        const response: IResp = {
+            success: false,
+            message
+        }
+        return res.status(status).json(response); 
+    }
+
 }

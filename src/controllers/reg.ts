@@ -33,7 +33,7 @@ export const verifyControl = async (req: Request, res: Response) => {
         const emailVerify = await EmailVerify.findById(_id)
         if(!emailVerify) throw {client: true, message: "Link Error"}
     
-        const user = await User.findById(emailVerify._id);
+        const user = await User.findById(emailVerify.user_id);
         if(!user) throw {client: true, message: "User does not exist"};
 
         user.confirmed = true;
@@ -41,7 +41,11 @@ export const verifyControl = async (req: Request, res: Response) => {
 
         res.status(200).render('verify');
 
-        return await emailVerify.remove();
+        const allVerifies = await EmailVerify.find({user_id: user._id})
+        allVerifies.forEach(verify => {
+            verify.remove();
+        })
+        
     }catch(err){
         const exception = "Cast to ObjectId failed";
         if(err.client || err.message.includes(exception)) return res.status(400).render('verify', {error: err.message})
