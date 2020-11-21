@@ -1,19 +1,21 @@
 <% layout('./layout', {title: "404 Page"}) %>
 <div class="right">
-    <h1 class="c-secondary">Page not found</h1>
-    <p class="c-tertiary">
+    <h1 class="c-secondary text-center">Page not found</h1>
+    <p class="c-tertiary text-center">
     Requested URL does not exist.
+    <% if(it.redirect){ %>
     <a href="http://app.gripurl.com" class="c-secondary hoverfx" data-text="Create it"
         >Create it</a
     >.
+    <% } %>
     </p>
     <div class="limiter">
         <div class="btn-row">
-            <a href="http://app.gripurl.com" class="btn c-gray bd-gray2">Login</a>
-            <a href="http://app.gripurl.com" class="btn b-primary c-white">Sign Up</a>
+            <a href="http://app.gripurl.com" class="btn shrink c-gray bd-gray2">Login</a>
+            <a href="http://app.gripurl.com" class="btn shrink b-primary c-white">Sign Up</a>
         </div>
     </div>
 </div>
 <div class="left">
-    <img src="404.svg" />
+    <img src="/static/404.svg" />
 </div>

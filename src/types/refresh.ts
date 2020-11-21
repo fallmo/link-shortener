@@ -1,6 +1,6 @@
 import { Document } from "mongoose";
 
 export default interface IRefresh extends Document{
-    token: string;
+    user_email: string;
     userAgent: string;
 }

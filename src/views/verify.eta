@@ -1,0 +1,31 @@
+<% layout('./layout', {title: "Verify Email"}) %>
+<% if(it.error){ %>
+<div class="right">
+    <h1 class="c-secondary text-center">Verification Error</h1>
+    <p class="c-tertiary text-center">Failed to verify. Link may be incorrect.</p>
+    <div class="limiter">
+        <div class="btn-row">
+            <a href="http://gripurl.com/support" class="btn c-gray bd-gray2 shrink">Support</a>
+            <a href="http://app.gripurl.com" class="btn b-primary c-white shrink">Sign Up</a>
+        </div>
+    </div>
+</div>
+<div class="left">
+    <img src="/static/500.svg" />
+</div>
+<% }else{ %>
+<div class="right">
+    <h1 class="c-secondary text-center">Verification Success</h1>
+    <p class="c-tertiary text-center">You are now verified!</p>
+    <div class="limiter">
+        <div class="btn-row">
+            <a href="http://app.gripurl.com" class="btn b-primary c-white shrink">Login</a>
+            <a href="http://gripurl.com/support" class="btn c-gray bd-gray2 shrink">Support</a>
+        </div>
+    </div>
+</div>
+<div class="left">
+    <img src="/static/verify.svg" />
+</div>
+<% } %>
+

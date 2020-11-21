@@ -2,7 +2,7 @@ import IRefresh from '../types/refresh';
 import mongoose from 'mongoose'
 
 const RefreshSchema = new mongoose.Schema({
-      token: {
+      user_email: {
           type: String,
           required: true,
       },

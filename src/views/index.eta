@@ -1,10 +1,10 @@
 <% layout('./layout', {title: "momo.me"}) %>
 <div class="left">
-    <img src="hero.svg" />
+    <img src="/static/hero.svg" />
 </div>
 <div class="right">
-    <h1 class="c-secondary">URL Shortener</h1>
-    <p class="c-tertiary">Shorten. Share. and Manage URLs.</p>
+    <h1 class="c-secondary text-center">URL Shortener</h1>
+    <p class="c-tertiary text-center">Shorten. Share. and Manage URLs.</p>
     <div class="limiter">
         <div class="btn-row">
             <a href="http://app.gripurl.com" class="btn c-gray bd-gray2 shrink">Login</a>

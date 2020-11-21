@@ -8,7 +8,8 @@ import xRequest from '../types/request';
 import Refresh from '../models/Refresh';
 import EmailVerify from '../models/EmailVerify';
 import { generateEmailRef } from '../utils';
-import { sendMail } from '../mail';
+import { sendVerification } from '../mail/verify';
+
 
 
 export const loginControl = async (req: Request, res:Response) => {
@@ -24,12 +25,13 @@ export const loginControl = async (req: Request, res:Response) => {
         if(!validPassword) throw {client: true, message: "Incorrect credentials"};
 
         const token = jwt.sign({_id: userExists._id, name: userExists.name, email: userExists.email, admin: userExists.admin}, process.env.TOKEN_SECRET!, {expiresIn: "10m" });
-        const refreshToken = jwt.sign({_id:userExists._id}, process.env.REFRESH_SECRET!);
+       
         const refreshDB = new Refresh({
-            token: refreshToken,
+            user_email: email,
             userAgent: req.header('User-Agent')
         })
         await refreshDB.save();
+        const refreshToken = jwt.sign({refresh_id: refreshDB._id}, process.env.REFRESH_SECRET!);
 
         const response: IResp = {success: true, data: {token, refreshToken, name: userExists.name, email: userExists.email}}
         return res.status(200).cookie("apauth", true, {httpOnly: true}).json(response);
@@ -57,19 +59,9 @@ export const registerControl = async (req: Request, res: Response) => {
         const salt = await bcrypt.genSalt(10);
         const hashPassword = await bcrypt.hash(password, salt);
         const newUser = new User({name, email, password: hashPassword});
-
-        const {error: error2, reference} = await generateEmailRef();
-        if(error2) throw {client: false, message: "Failed to generate reference"};
-
-        const emailver = new EmailVerify({
-            user_id: newUser._id,
-            reference
-        })
-
-        sendMail({user_id: newUser._id, user_name: newUser.name, user_email: newUser.email, reference: emailver.reference});
-        
         await newUser.save();
-        await emailver.save();
+
+        await sendVerification({ _id: newUser._id, name: newUser.name, email: newUser.email});
         const response: IResp = {success: true, data: newUser.email};
         return res.status(201).json(response);
 
@@ -115,31 +107,30 @@ export const refreshControl = async (req: Request, res: Response) => {
         const token = req.header("refresh");
         const userAgent = req.header("User-Agent");
         if(!token || !userAgent) throw {client: true, message: "Missing Information"};
-        let verified;
+        let refresh_id;
 
         try{
-            verified = jwt.verify(token, process.env.REFRESH_SECRET!);
+            const verified = jwt.verify(token, process.env.REFRESH_SECRET!);
+            refresh_id = (verified as any).refresh_id;
         }catch(err){
             throw {client: true, message: "Token Verification Failed"};
         }
-
-        const valid = await Refresh.findOne({token});
-        if(!valid) throw {client: true, message: "Invalid Token"}
+       
+        const valid = await Refresh.findById(refresh_id);
+        if(!valid) throw {client: true, message: "Invalid Token"};
+    
         if(valid.userAgent !== userAgent){
             await valid.remove();
             throw {client: true, message: "Token not accepted"}
         }
 
-        const {_id} = (verified as any);
-        const user = await User.findById(_id, "name email admin")
+        const user = await User.findOne({email: valid.user_email}, "name email admin")
         if(!user) throw {client: true, message: "User no longer exists"};
 
-        const newToken = jwt.sign({_id, name: user.name, email:user.email, admin:user.admin}, process.env.TOKEN_SECRET!, {expiresIn: "10m"});
-
+        const newToken = jwt.sign({_id: user._id, name: user.name, email:user.email, admin:user.admin}, process.env.TOKEN_SECRET!, {expiresIn: "10m"});
         const response = {success:true, data: {token: newToken}};
         
         return res.status(200).json(response);
-
     }catch(err){
         const status = err.client ? 400 : 500;
         const message = err.client ? err.message : "Something Went Wrong";
@@ -156,6 +147,12 @@ export const logoutControl = async (req: Request, res: Response) => {
     
     const refreshToken = req.header('refresh');
     if(!refreshToken) return;
-    const session = await Refresh.findOne({token: refreshToken});
-    if(session) return await session.remove(); 
+    try{
+        const verified = jwt.verify(refreshToken, process.env.REFRESH_SECRET!);
+        const {refresh_id} = (verified as any);
+        const session = await Refresh.findById(refresh_id);
+        if(session) return await session.remove();
+    }catch(err){
+        console.log('failed to delete session Err: ',err.message);
+    }
 }

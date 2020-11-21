@@ -4,8 +4,8 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title><%= it.title %></title>
-    <link rel="stylesheet" href="pre.css" />
-    <link rel="stylesheet" href="style.css" />
+    <link rel="stylesheet" href="/static/pre.css" />
+    <link rel="stylesheet" href="/static/style.css" />
     <script src="https://www.google.com/recaptcha/api.js" async defer></script>
   </head>
   <body class="b-tertiary">
@@ -87,12 +87,12 @@
           >
     </div>
 
-    <script src="quick-shorten.js"></script>
-    <script src="custom-modal.js"></script>
-    <script src="loading-dots.js"></script>
-    <script src="regular.js"></script>
+    <script src="/static/quick-shorten.js"></script>
+    <script src="/static/custom-modal.js"></script>
+    <script src="/static/loading-dots.js"></script>
+    <script src="/static/regular.js"></script>
     <% if(it.ads){ %>
-    <script src="Countdown.js"></script>
+    <script src="/static/Countdown.js"></script>
     <script>
       let countdown = new Countdown(<%= it.ads.seconds %>, "<%= it.ads.link %>");
       countdown.init();

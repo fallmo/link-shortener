@@ -1,14 +1,14 @@
 <% layout('./layout', {title: "500 Error"}) %>
 <div class="right">
-    <h1 class="c-secondary">Server Error</h1>
-    <p class="c-tertiary">Something went wrong on our side.</p>
+    <h1 class="c-secondary text-center">Server Error</h1>
+    <p class="c-tertiary text-center">Something went wrong on our side.</p>
     <div class="limiter">
         <div class="btn-row">
-            <a href="http://app.gripurl.com" class="btn c-gray bd-gray2">Login</a>
-            <a href="http://app.gripurl.com" class="btn b-primary c-white">Sign Up</a>
+            <a href="http://app.gripurl.com" class="btn shrink c-gray bd-gray2">Login</a>
+            <a href="http://app.gripurl.com" class="btn shrink b-primary c-white">Sign Up</a>
         </div>
     </div>
 </div>
 <div class="left">
-    <img src="500.svg" />
+    <img src="/static/500.svg" />
 </div>

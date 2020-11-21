@@ -1,8 +1,8 @@
 const modalTemplate = document.createElement("template");
 modalTemplate.innerHTML = `
     <style>
-        @import url('pre.css');
-        @import url('style.css');
+        @import url('/static/pre.css');
+        @import url('/static/style.css');
     </style>
     <div class="modal-wrapper hidden">
         <div class="modal-overlay"></div>

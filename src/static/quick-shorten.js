@@ -1,8 +1,8 @@
 const shortenTemplate = document.createElement("template");
 shortenTemplate.innerHTML = `
 <style>
-    @import url('pre.css');
-    @import url('style.css');
+    @import url('/static/pre.css');
+    @import url('/static/style.css');
 </style>
 <div class="shorten-container ready b-primary">
     <div class="row ready">

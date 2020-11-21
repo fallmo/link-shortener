@@ -224,14 +224,17 @@ function ResendButton({ email }) {
   }, []);
   useEffect(() => {
     if (count > 0) {
-      timeoutRef.current = setTimeout(() => {
-        setCount(count => count - 1);
-      }, 1000);
+      console.log("decreasing ", count);
+      timeoutRef.current = setTimeout(decrementSecs, 1000);
     } else {
+      console.log("done ", count);
       clearTimeout(timeoutRef.current);
     }
   }, [count]);
 
+  const decrementSecs = () => {
+    return setCount(count => count--);
+  };
   const resendMail = () => {
     if (count !== 0) return;
     console.log("sending to ", email);

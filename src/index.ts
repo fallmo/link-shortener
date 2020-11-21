@@ -24,7 +24,7 @@ app.set("views", path.join(__dirname, 'views'))
 app.use(cors({credentials: true, origin: "http://localhost:3000"})); 
 app.use(cookieParser());
 app.use(express.json());
-app.use(express.static(path.join(__dirname, 'static')))
+app.use("/static",express.static(path.join(__dirname, 'static')))
 
 app.use('/', regRoutes);
 app.use('/api/v1/auth', authRoutes);
