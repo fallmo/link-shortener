@@ -35,8 +35,8 @@
       <% if(it.ads){ %>
         <a class="btn b-primary c-white shrink" id="skip-btn">Skip ads in </a>
         <% } else { %>
-        <a href="http://app.gripurl.com" class="c-gray hoverfx" data-text="Login">Login</a>
-        <a href="http://app.gripurl.com" class="c-tertiary hoverfx luxury" data-text="Sign Up">Sign Up</a>
+        <a href="https://app.gripurl.com" class="c-gray hoverfx" data-text="Login">Login</a>
+        <a href="https://app.gripurl.com" class="c-tertiary hoverfx luxury" data-text="Sign Up">Sign Up</a>
         <a class="btn b-secondary c-white luxury shrink go-to-shorten">Shorten Now</a>
         <% } %>
       </div>
@@ -148,7 +148,7 @@
 </div>
 </custom-modal>
     <div class="g-recaptcha"
-          data-sitekey="6LdqceUZAAAAAEbgAkrYE_9mxUmk4xSGFfFjiCm_"
+          data-sitekey="6LelGucZAAAAAMhv2w0XO991hvlSXPouEGSRLAiK"
           data-callback="submitLink"
           data-size="invisible"
           data-badge="bottomleft"

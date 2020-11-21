@@ -9,7 +9,7 @@ interface verifyArgs{
 export const sendVerification = async (user: verifyArgs) => {
     try{
         const emailVerif = await EmailVerify.create({user_id: user._id});
-        const link = 'http://gripurl.com/verify/'+emailVerif._id;
+        const link = 'https://gripurl.com/verify/'+emailVerif._id;
         const from = {name:"gripURL", email: "support@gripurl.com" }
         const to = user.email
         const subject = "Email Verification";
