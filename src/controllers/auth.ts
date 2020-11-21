@@ -162,8 +162,10 @@ export const resendControl = async (req: Request, res: Response) => {
         const {email} = req.body;
         if(!email) throw {client: true, message: "Email is required"};
 
-        const user = await User.findOne({email}, "name");
+        const user = await User.findOne({email}, "name confirmed");
         if(!user) throw {client: true, message: "Email is not registered"};
+
+        if(user.confirmed) throw {client: true, message: "Email already verified"};
 
         const emailSent = await sendVerification({ _id: user._id, name: user.name, email});
 
