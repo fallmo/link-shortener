@@ -255,6 +255,10 @@ div.circle {
   right: 0;
   bottom: 0;
   top: 0;
+  animation: fadeIn 300ms linear forwards;
+}
+.modal-wrapper.leaving {
+  animation: fadeOut 200ms linear forwards;
 }
 
 .modal-overlay {
@@ -278,6 +282,7 @@ div.circle {
   flex-direction: column;
   margin: 20px;
   max-height: 70vh;
+  max-width: 600px;
 }
 
 .modal-header {

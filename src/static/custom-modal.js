@@ -26,13 +26,20 @@ class Modal extends HTMLElement {
     this.shadowRoot.querySelector(
       ".modal-header"
     ).innerHTML = this.getAttribute("title");
+    this.timeout;
   }
   open() {
     this.shadowRoot.querySelector(".modal-wrapper").classList.remove("hidden");
   }
 
   close() {
-    this.shadowRoot.querySelector(".modal-wrapper").classList.add("hidden");
+    this.shadowRoot.querySelector(".modal-wrapper").classList.add("leaving");
+    this.timeout = setTimeout(() => {
+      this.shadowRoot.querySelector(".modal-wrapper").classList.add("hidden");
+      this.shadowRoot
+        .querySelector(".modal-wrapper")
+        .classList.remove("leaving");
+    }, 250);
   }
 
   connectedCallback() {
@@ -42,6 +49,7 @@ class Modal extends HTMLElement {
   }
   disconnectedCallback() {
     this.shadowRoot.querySelector(".modal-wrapper").removeEventListener();
+    clearTimeout(this.timeout);
   }
 }
 
