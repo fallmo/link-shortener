@@ -11,7 +11,8 @@ export const redirectControl = async (req: Request, res: Response) => {
         const url = await Url.findOne({ref_id})
         if(!url) throw {client: true, message: "Could not find link"};
         url.clicks ++;
-        if(url.user_id)  res.redirect(url.original_url);
+        // on odd
+        if(url.clicks % 2 === 0)  res.redirect(url.original_url);
         else  res.render('ads', {url: url.original_url });
         return await url.save();
     }catch(err){

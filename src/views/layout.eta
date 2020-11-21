@@ -22,9 +22,7 @@
     <link rel="stylesheet" href="/static/pre.css" />
     <link rel="stylesheet" href="/static/style.css" />
     <script src="https://www.google.com/recaptcha/api.js" async defer></script>
-    <% if(it.ads) {%>
     <script data-ad-client="ca-pub-3354276640586262" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
-    <% } %>
   </head>
   <body class="b-tertiary">
     <nav class="navbar">
