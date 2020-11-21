@@ -3,7 +3,7 @@ import React, { forwardRef, useState, useRef, useEffect } from "react";
 const Flash = forwardRef((props, ref) => {
   const [state, setState] = useState("hidden");
   const [text, setText] = useState("");
-  const [color, setColor] = useState();
+  const [color, setColor] = useState("white");
 
   const timeoutRef = useRef();
 
@@ -19,7 +19,7 @@ const Flash = forwardRef((props, ref) => {
     timeoutRef.current = setTimeout(() => {
       setState("hidden");
       setText("");
-      setColor();
+      setColor("white");
     }, 500);
   }
   function show({ color, text, stay }) {

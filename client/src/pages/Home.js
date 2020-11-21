@@ -374,6 +374,11 @@ function HiddenList({ links, unHideOne }) {
   };
   return (
     <Card title="Hidden Links" onClick={() => setCollapsed(!collapsed)}>
+      <p className="uppercase text-center c-gray">
+        {collapsed
+          ? "\u2191 Click anywhere to expand \u2191"
+          : "\u2193 Click anywhere to collapse \u2193"}
+      </p>
       <table className={collapsed ? "hidden" : "link-card"}>
         <tbody>
           {links.sort(sortByDate).map(item => (

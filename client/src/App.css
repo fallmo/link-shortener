@@ -266,6 +266,7 @@ p.small {
   display: flex;
   flex-direction: column;
   margin: 20px;
+  max-height: 70vh;
 }
 
 .modal-header {
@@ -276,6 +277,7 @@ p.small {
   display: flex;
   justify-content: center;
   align-items: center;
+  overflow: auto;
 }
 
 .modal-footer {

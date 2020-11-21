@@ -8,7 +8,7 @@ import EmailVerify from '../models/EmailVerify';
 
 export const generateRef = async (len: number = 7) : Promise<{error?: string, ref_id?: string}>  => {
     try{
-        const ref_id = nanoid(len);
+        const ref_id = nanoid(len).toLowerCase().replace('-', 'a').replace('_', 'z');
         const collided = await Url.exists({ref_id});
         if(collided) return generateRef(len);
         else return {ref_id};

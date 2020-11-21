@@ -10,7 +10,7 @@ import {
 import { Context } from "../context/Context";
 
 export default function Guest() {
-  const [newU, setNew] = useState(true);
+  const [newU, setNew] = useState(false);
   const comp = newU ? (
     <Register leave={() => setNew(false)} />
   ) : (
@@ -200,7 +200,7 @@ function Register({ leave }) {
                 : "hidden"
             }
           >
-            Verify Now
+            Open Mail
           </a>
         </div>
       </Card>

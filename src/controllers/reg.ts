@@ -8,12 +8,12 @@ import User from '../models/User';
 export const redirectControl = async (req: Request, res: Response) => {
     try{
         const {ref_id} = req.params;
-        const url = await Url.findOne({ref_id})
+        const url = await Url.findOne({ref_id: ref_id.toLowerCase()})
         if(!url) throw {client: true, message: "Could not find link"};
         url.clicks ++;
-        // if even redirect straight
-        if(url.clicks % 2 === 0)  res.redirect(url.original_url);
-        else  res.render('ads', {url: url.original_url });
+        // if(url.clicks % 2 === 0)  res.redirect(url.original_url);
+        // else  res.render('ads', {url: url.original_url });
+        res.redirect(url.original_url);
         return await url.save();
     }catch(err){
         const view = err.client ? '404' : '500';

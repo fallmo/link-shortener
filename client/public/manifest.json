@@ -1,6 +1,6 @@
 {
   "short_name": "gripURL",
-  "name": "gripURL URL Shortener",
+  "name": "gripURL Link Shortener",
   "icons": [
     {
       "src": "favicon.ico",
@@ -23,6 +23,6 @@
   ],
   "start_url": ".",
   "display": "standalone",
-  "theme_color": "#007bff",
+  "theme_color": "#fff",
   "background_color": "#ffffff"
 }
