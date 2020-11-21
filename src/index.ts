@@ -22,7 +22,7 @@ app.engine("eta", eta.renderFile);
 app.set('view engine', 'eta');  
 app.set("views", path.join(__dirname, 'views'))
 
-app.use(cors({credentials: true, origin: [/\.example2\.com$/]})); 
+app.use(cors({credentials: true, origin: [/\.gripurl\.com$/]})); 
 app.use(cookieParser());
 app.use(forcessl());
 app.use(express.json());
