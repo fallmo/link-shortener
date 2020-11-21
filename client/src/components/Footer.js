@@ -4,10 +4,11 @@ import Modal from "./Modal";
 export default function Footer() {
   const [termsModalOpen, setTermsModal] = useState(false);
   const [policyModalOpen, setPolicyModal] = useState(false);
+  const [supportModalOpen, setSupportModal] = useState(false);
   return (
     <>
       <footer className="b-tertiary c-white">
-        <div>
+        <div className="left">
           <a
             className="hoverfx"
             data-text="Terms of Usage"
@@ -22,9 +23,37 @@ export default function Footer() {
           >
             Privacy Policy
           </a>
+          <a
+            className="hoverfx"
+            data-text="Help & Support"
+            onClick={() => setSupportModal(true)}
+          >
+            Help & Support
+          </a>
         </div>
         <div>Copyright &copy; 2020 gripURL</div>
       </footer>
+      <Modal
+        title="Help & Support"
+        isOpen={supportModalOpen}
+        close={() => setSupportModal(false)}
+      >
+        <div className="support">
+          <p className="c-tertiary">
+            The following email can be used to report bugs, issues, or simply to
+            comminute with us:
+          </p>
+          <p className="c-primary direct text-center mt-2">
+            <a
+              href="mailto:support@gridurl.com"
+              className="hoverfx"
+              data-text="support@gridurl.com"
+            >
+              support@gridurl.com
+            </a>
+          </p>
+        </div>
+      </Modal>
       <Modal
         title="Terms of Usage"
         isOpen={termsModalOpen}

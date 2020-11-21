@@ -32,11 +32,11 @@
       <quick-shorten/>
     </div>
     <footer class="b-tertiary c-white">
-      <div>
-        <a class="hoverfx" data-text="Terms of Usage" data-target="terms">Terms of Usage</a
-        ><a class="hoverfx" data-text="Privacy Policy" data-target="privacy"
-          >Privacy Policy</a
-        >
+      <div class="left">
+        <a class="hoverfx" data-text="Terms of Usage" data-target="terms">Terms of Usage</a>
+        <a class="hoverfx" data-text="Privacy Policy" data-target="privacy"
+          >Privacy Policy</a>
+        <a class="hoverfx" data-text="Help & Support" data-target="support">Help & Support</a>
       </div>
       <div>Copyright &copy; 2020 gripURL</div>
     </footer>
@@ -113,6 +113,23 @@
             </p>
           </div>
         </div>
+</custom-modal>
+<custom-modal title="Help & Support" data-label="support">
+ <div class="support">
+  <p class="c-tertiary">
+    The following email can be used to report bugs, issues, or simply to
+    comminute with us:
+  </p>
+  <p class="c-primary direct text-center mt-2">
+    <a
+      href="mailto:support@gridurl.com"
+      class="hoverfx"
+      data-text="support@gridurl.com"
+    >
+      support@gridurl.com
+    </a>
+  </p>
+</div>
 </custom-modal>
     <div class="g-recaptcha"
           data-sitekey="6LdqceUZAAAAAEbgAkrYE_9mxUmk4xSGFfFjiCm_"

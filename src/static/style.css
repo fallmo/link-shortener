@@ -114,12 +114,14 @@ a.hoverfx:hover {
 footer {
   display: flex;
   justify-content: space-between;
+  align-items: center;
   padding: 20px 80px;
   box-shadow: inset 0px 3px 6px rgba(0, 0, 0, 0.15);
 }
 
-footer a {
-  margin-right: 25px;
+footer .left {
+  display: flex;
+  column-gap: 25px;
 }
 
 .shorten-container {
@@ -320,6 +322,11 @@ div.circle {
     padding: 20px 15px;
   }
 
+  footer .left {
+    flex-direction: column;
+    row-gap: 15px;
+  }
+
   .main {
     flex-direction: column-reverse;
     row-gap: 20px;
@@ -330,7 +337,8 @@ div.circle {
 }
 
 .terms,
-.policy {
+.policy,
+.support {
   padding: 5px 10px;
 }
 .policy .group {
@@ -338,10 +346,12 @@ div.circle {
   line-height: 20px;
 }
 
-.terms .direct {
+.terms .direct,
+.support .direct {
   margin-bottom: 15px;
   font-size: 17px;
 }
+
 .list {
   counter-reset: listCount;
 }
