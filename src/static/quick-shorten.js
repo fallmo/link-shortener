@@ -127,7 +127,7 @@ class QuickShorten extends HTMLElement {
   }
 
   async shortenLink() {
-    await sleep(2000);
+    // await sleep(2000);
     let original_url = this.formInput.value;
     const recaptcha = grecaptcha.getResponse();
     if (

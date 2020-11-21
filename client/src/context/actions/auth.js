@@ -1,7 +1,7 @@
 import { API } from "./constants";
 
 export const checkAuth = async () => {
-  await sleep(1000);
+  // await sleep(1000);
   try {
     const token = localStorage.getItem("@token");
     if (!token) return {};
@@ -25,7 +25,7 @@ export const checkAuth = async () => {
 };
 
 export const attemptLogin = async fields => {
-  await sleep(1000);
+  // await sleep(1000);
   try {
     const response = await fetch(`${API}/auth/login`, {
       method: "POST",
@@ -44,7 +44,7 @@ export const attemptLogin = async fields => {
 };
 
 export const attemptSignup = async fields => {
-  await sleep(1000);
+  // await sleep(1000);
   try {
     if (fields.password !== fields.password2)
       return { error: "Passwords do not match" };
@@ -64,7 +64,7 @@ export const attemptSignup = async fields => {
 };
 
 export const attemptResend = async email => {
-  await sleep(1000);
+  // await sleep(1000);
   try {
     const response = await fetch(`${API}/auth/resend`, {
       method: "POST",
@@ -82,7 +82,7 @@ export const attemptResend = async email => {
 };
 
 export const attemptLogout = async () => {
-  await sleep(1000);
+  // await sleep(1000);
   await fetch(`${API}/auth/logout`, {
     credentials: "include",
   });

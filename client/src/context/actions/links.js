@@ -40,7 +40,7 @@ export const deleteLink = async _id => {
 };
 
 export const shrinkLink = async original_url => {
-  await sleep(5000);
+  // await sleep(3000);
   if (
     original_url.includes(".") &&
     !original_url.includes("http://") &&

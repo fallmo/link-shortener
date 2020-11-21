@@ -21,7 +21,7 @@ app.engine("eta", eta.renderFile);
 app.set('view engine', 'eta');  
 app.set("views", path.join(__dirname, 'views'))
 
-app.use(cors({credentials: true, origin: "http://localhost:3000"})); 
+app.use(cors({credentials: true, origin: ["http://gripurl.com", "http://app.gripurl.com"]})); 
 app.use(cookieParser());
 app.use(express.json());
 app.use("/static",express.static(path.join(__dirname, 'static')))

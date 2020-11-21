@@ -284,7 +284,7 @@ function ListCard({ links, setLinks, loading, error, flash, hideOne }) {
               </tr>
             </thead>
             <tbody>
-              {links.map(item => (
+              {links.sort(sortByDate).map(item => (
                 <Row
                   item={item}
                   key={item._id}
@@ -376,7 +376,7 @@ function HiddenList({ links, unHideOne }) {
     <Card title="Hidden Links" onClick={() => setCollapsed(!collapsed)}>
       <table className={collapsed ? "hidden" : "link-card"}>
         <tbody>
-          {links.map(item => (
+          {links.sort(sortByDate).map(item => (
             <tr key={item._id}>
               <td>
                 <a
@@ -410,4 +410,10 @@ function HiddenList({ links, unHideOne }) {
       </table>
     </Card>
   );
+}
+
+function sortByDate(a, b) {
+  if (a.date < b.date) return -1;
+  else if (a.date > b.date) return 1;
+  else return 0;
 }
