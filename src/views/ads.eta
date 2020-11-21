@@ -1,2 +1,61 @@
 <% layout('./layout', {title: "Redirecting", ads: {seconds: 5, link:it.url}}) %>
-    <h4>Redirecting...</h4>
+<!-- Third -->
+<ins class="adsbygoogle"
+     style="display:block"
+     data-ad-client="ca-pub-3354276640586262"
+     data-ad-slot="9557665944"
+     data-ad-format="auto"
+     data-full-width-responsive="true"></ins>
+<script>
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+<!-- Fourth -->
+<ins class="adsbygoogle"
+     style="display:block"
+     data-ad-client="ca-pub-3354276640586262"
+     data-ad-slot="7430196058"
+     data-ad-format="auto"
+     data-full-width-responsive="true"></ins>
+<script>
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+<!-- First -->
+<ins class="adsbygoogle"
+     style="display:block"
+     data-ad-client="ca-pub-3354276640586262"
+     data-ad-slot="2669674020"
+     data-ad-format="auto"
+     data-full-width-responsive="true"></ins>
+<script>
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+<!-- Second -->
+<ins class="adsbygoogle"
+     style="display:block"
+     data-ad-client="ca-pub-3354276640586262"
+     data-ad-slot="5308457415"
+     data-ad-format="auto"
+     data-full-width-responsive="true"></ins>
+<script>
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+<!-- Fifth -->
+<ins class="adsbygoogle"
+     style="display:block"
+     data-ad-client="ca-pub-3354276640586262"
+     data-ad-slot="4804032716"
+     data-ad-format="auto"
+     data-full-width-responsive="true"></ins>
+<script>
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+<!-- Sixth -->
+<ins class="adsbygoogle"
+     style="display:block"
+     data-ad-client="ca-pub-3354276640586262"
+     data-ad-slot="8808718728"
+     data-ad-format="auto"
+     data-full-width-responsive="true"></ins>
+<script>
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script>

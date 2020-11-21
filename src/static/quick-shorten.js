@@ -176,6 +176,9 @@ class QuickShorten extends HTMLElement {
   }
 
   connectedCallback() {
+    this.flashTimeout = setTimeout(() => {
+      this.flash({ text: "Cookies in Use", color: "white" });
+    }, 2000);
     this.form.addEventListener("submit", e => {
       e.preventDefault();
       if (this.state.innerText === "Failed") return this.startLoad();

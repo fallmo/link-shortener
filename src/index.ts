@@ -7,6 +7,7 @@ import regRoutes from './routes/reg';
 import cors from 'cors'
 import cookieParser from 'cookie-parser'
 import dotenv from 'dotenv'
+import forcessl  from 'heroku-ssl-redirect'
 import * as eta from 'eta'
 
 const {error} = dotenv.config({path: path.join(__dirname, 'config', 'config.env')});
@@ -21,8 +22,9 @@ app.engine("eta", eta.renderFile);
 app.set('view engine', 'eta');  
 app.set("views", path.join(__dirname, 'views'))
 
-app.use(cors({credentials: true, origin: ["http://gripurl.com", "http://app.gripurl.com"]})); 
+app.use(cors({credentials: true, origin: ["http://gripurl.com", "https://gripurl.com","http://app.gripurl.com", "https://app.gripurl.com"]})); 
 app.use(cookieParser());
+app.use(forcessl());
 app.use(express.json());
 app.use("/static",express.static(path.join(__dirname, 'static')))
 
