@@ -5,6 +5,7 @@ import xRequest from "../types/request";
 import IResp from '../types/response'
 import { urlValid } from '../validation/url';
 import {checkRecaptcha, generateRef} from '../utils'
+import { delRedis, setRedis } from '../config/redis';
 
 
 export const getUrlControl = async (req: xRequest, res: Response) => {
@@ -58,9 +59,10 @@ export const addUrlControl = async (req: xRequest, res: Response) => {
             data: newUrl
         }
 
-        return res.status(201).json(response);
-
+        res.status(201).json(response);
+        return setRedis(newUrl.ref_id, newUrl.original_url)
     }catch(err){
+        if(res.headersSent) return console.log("Error after response sent", err);
         const status = err.client ? 400 : 500;
         const message = err.client ? err.message: "Something went wrong";
 
@@ -95,9 +97,10 @@ export const addGuestControl = async (req: Request, res: Response) => {
             data: newUrl
         }
 
-        return res.status(201).json(response);
-    
+        res.status(201).json(response);
+        return setRedis(newUrl.ref_id, newUrl.original_url)
     }catch(err){
+        if(res.headersSent) return console.log("Error after response sent", err);
         const status = err.client ? 400 : 500;
         const message = err.client ? err.message: "Something went wrong";
 
@@ -129,8 +132,10 @@ export const delUrlControl = async (req: xRequest, res: Response) => {
             success: true,
             data: {_id: link_id}
         }
-        return res.status(200).json(response);
+        res.status(200).json(response);
+        return delRedis(urlToDelete.ref_id);
     }catch(err){
+        if(res.headersSent) return console.log("Error after response sent", err);
         const exception = "Cast to ObjectId failed"
         const status = err.client ? 400 : 500;
         const message = err.client ? err.message : err.message.includes(exception) ? "Link does not exist" : "Something went wrong";

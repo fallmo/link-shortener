@@ -65,6 +65,7 @@ export const registerControl = async (req: Request, res: Response) => {
 
         return await sendVerification({ _id: newUser._id, name: newUser.name, email: newUser.email});
     }catch(err){
+        if(res.headersSent) return console.log("Error after response sent", err);
         const status = err.client ? 400 : 500;
         const message = err.client ? err.message : "Something Went Wrong";
         const response: IResp = {

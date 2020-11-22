@@ -10,11 +10,13 @@ import dotenv from 'dotenv'
 import forcessl  from 'heroku-ssl-redirect'
 import * as eta from 'eta'
 import { notFoundControl } from './controllers/reg';
+import { preCacheUrls } from './config/redis';
 
 const {error} = dotenv.config({path: path.join(__dirname, 'config', 'config.env')});
 if(error || !process.env.APP_NAME) throw new Error("Environment Variables Not Set!");
 
-connectDB()
+connectDB();
+preCacheUrls();
 
 const app: Application = express();
 const PORT = process.env.PORT || 3030;

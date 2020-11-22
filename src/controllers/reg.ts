@@ -1,21 +1,21 @@
 import {Request, Response} from 'express'
+import { getRedis } from '../config/redis';
 import EmailVerify from '../models/EmailVerify';
 import Url from '../models/Url';
 import User from '../models/User';
 
-
-
 export const redirectControl = async (req: Request, res: Response) => {
     try{
         const {ref_id} = req.params;
-        const url = await Url.findOne({ref_id: ref_id.toLowerCase()})
-        if(!url) throw {client: true, message: "Could not find link"};
-        url.clicks ++;
-        // if(url.clicks % 2 === 0)  res.redirect(url.original_url);
-        // else  res.render('ads', {url: url.original_url });
-        res.redirect(url.original_url);
-        return await url.save();
+        const cachedUrl = await getRedis(ref_id);
+        if(cachedUrl) res.redirect(cachedUrl);
+        const storedUrl = await Url.findOne({ref_id: ref_id.toLowerCase()}, 'original_url clicks');
+        if(!storedUrl) throw {client: true, message: "Could not find link"};
+        if(!res.headersSent) res.redirect(storedUrl.original_url);           
+        storedUrl.clicks ++;
+        storedUrl.save();
     }catch(err){
+        if(res.headersSent) return console.log("Error after response sent", err);
         const view = err.client ? '404' : '500';
         const context = err.client ? {redirect: true} : {}
         return res.status(+view).render(view, context);
@@ -23,7 +23,7 @@ export const redirectControl = async (req: Request, res: Response) => {
 }
 
 export const indexControl = (req: Request, res: Response) => {
-    if(req.cookies['apauth'] === "true") return res.redirect('http://app.gripurl.com');
+    if(req.cookies['apauth'] === "true") return res.redirect('https://app.gripurl.com');
     return res.render('index');
 }
 
@@ -48,6 +48,7 @@ export const verifyControl = async (req: Request, res: Response) => {
         })
         
     }catch(err){
+        if(res.headersSent) return console.log("Error after response sent", err);
         const exception = "Cast to ObjectId failed";
         if(err.client || err.message.includes(exception)) return res.status(400).render('verify', {error: err.message})
         else return res.status(500).render('500')
