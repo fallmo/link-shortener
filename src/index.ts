@@ -28,11 +28,12 @@ app.set("views", path.join(__dirname, 'views'))
 app.use(cors({credentials: true, origin: [/\.gripurl\.com$/]})); 
 app.use(cookieParser());
 app.use(express.json());
-app.use("/static",express.static(path.join(__dirname, 'static')))
-// app.use(forcessl()); Only In Prod
+app.use(forcessl());
 
+app.use("/static",express.static(path.join(__dirname, 'static')))
 app.use('/api/v1/urls', urlRoutes)
 app.use('/api/v1/auth', authRoutes);
 app.use('/', regRoutes);
 app.use(notFoundControl);
+
 app.listen(PORT, () => console.log('Server PORT: '+PORT));

@@ -1,8 +1,8 @@
 import {createClient} from 'redis'
 import {promisify} from 'util'
 import Url from '../models/Url';
-const URL = process.env.REDIS_URL || 6379;
-const client = createClient(+URL);
+const URL = process.env.REDIS_URL || "6379";
+const client = createClient(URL);
 
 export const setRedis = (key: string, value: string) => {
      client.set(key, value);
