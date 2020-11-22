@@ -8,10 +8,16 @@ export const redirectControl = async (req: Request, res: Response) => {
     try{
         const {ref_id} = req.params;
         const cachedUrl = await getRedis(ref_id);
-        if(cachedUrl) res.redirect(cachedUrl);
+        if(cachedUrl){
+            res.redirect(cachedUrl);
+            console.log('Sent redirect URL from cache');
+        } 
         const storedUrl = await Url.findOne({ref_id: ref_id.toLowerCase()}, 'original_url clicks');
         if(!storedUrl) throw {client: true, message: "Could not find link"};
-        if(!res.headersSent) res.redirect(storedUrl.original_url);           
+        if(!res.headersSent){
+            res.redirect(storedUrl.original_url);
+            console.log('Sent redirect URL from DB')           
+        } 
         storedUrl.clicks ++;
         storedUrl.save();
     }catch(err){

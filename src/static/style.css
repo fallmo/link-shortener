@@ -255,10 +255,6 @@ div.circle {
   right: 0;
   bottom: 0;
   top: 0;
-  animation: fadeIn 250ms linear forwards;
-}
-.modal-wrapper.leaving {
-  animation: fadeOut 200ms linear forwards;
 }
 
 .modal-overlay {
@@ -269,6 +265,14 @@ div.circle {
   bottom: 0;
   top: 0;
   z-index: -1;
+  animation: fadeIn 250ms linear forwards;
+}
+
+.modal-wrapper.leaving .modal-overlay {
+  animation: fadeOut 200ms linear forwards;
+}
+.modal-wrapper.leaving .modal {
+  animation: shrink 200ms linear forwards;
 }
 
 .modal {
@@ -283,6 +287,7 @@ div.circle {
   margin: 20px;
   max-height: 70vh;
   max-width: 600px;
+  animation: grow 200ms ease-out forwards;
 }
 
 .modal-header {
@@ -353,10 +358,13 @@ div.circle {
   line-height: 20px;
 }
 
-.terms .direct,
-.support .direct {
+.terms .direct {
   margin-bottom: 15px;
   font-size: 17px;
+}
+.support .email {
+  font-size: 25px;
+  margin: 30px;
 }
 
 .list {
@@ -417,5 +425,17 @@ div.circle {
 @keyframes fadeOut {
   to {
     opacity: 0;
+  }
+}
+
+@keyframes grow {
+  from {
+    transform: scale(0);
+  }
+}
+
+@keyframes shrink {
+  to {
+    transform: scale(0);
   }
 }

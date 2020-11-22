@@ -43,13 +43,13 @@ export default function Footer() {
             The following email can be used to report bugs, issues, or simply to
             comminute with us:
           </p>
-          <p className="c-primary direct text-center mt-2">
+          <p className="c-primary text-center email">
             <a
-              href="mailto:support@gridurl.com"
+              href="mailto:support@gripurl.com"
               className="hoverfx"
-              data-text="support@gridurl.com"
+              data-text="support@gripurl.com"
             >
-              support@gridurl.com
+              support@gripurl.com
             </a>
           </p>
         </div>
@@ -76,10 +76,6 @@ export default function Footer() {
             <p className="list-item">
               Do not shrink any website URLs that contain adult or illegal
               material.
-            </p>
-            <p className="list-item">
-              Do not create 'redirect loops' with similar services (or
-              gripURL.com) to generate revenue.
             </p>
             <p className="list-item">
               Do not create spam with gripURL.com links anywhere, including

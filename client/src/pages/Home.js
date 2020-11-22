@@ -376,8 +376,8 @@ function HiddenList({ links, unHideOne }) {
     <Card title="Hidden Links" onClick={() => setCollapsed(!collapsed)}>
       <p className="uppercase text-center c-gray">
         {collapsed
-          ? "\u2193 Click anywhere to expand \u2193"
-          : "\u2191 Click anywhere to collapse \u2191"}
+          ? "\u2193 Click to expand \u2193"
+          : "\u2191 Click to collapse \u2191"}
       </p>
       <table className={collapsed ? "hidden" : "link-card"}>
         <tbody>
@@ -418,7 +418,7 @@ function HiddenList({ links, unHideOne }) {
 }
 
 function sortByDate(a, b) {
-  if (a.date < b.date) return 1;
-  else if (a.date > b.date) return -1;
+  if (a.date > b.date) return 1;
+  else if (a.date < b.date) return -1;
   else return 0;
 }

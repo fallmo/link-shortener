@@ -75,10 +75,6 @@
               material.
             </p>
             <p class="list-item">
-              Do not create 'redirect loops' with similar services (or
-              gripURL.com) to generate revenue.
-            </p>
-            <p class="list-item">
               Do not create spam with gripURL.com links anywhere, including
               forums / chat / comments / blogs.
             </p>
@@ -135,7 +131,7 @@
     The following email can be used to report bugs, issues, or simply to
     comminute with us:
   </p>
-  <p class="c-primary direct text-center mt-2">
+  <p class="c-primary email text-center">
     <a
       href="mailto:support@gripurl.com"
       class="hoverfx"

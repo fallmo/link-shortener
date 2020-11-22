@@ -9,10 +9,12 @@
         "esModuleInterop": true,
         "forceConsistentCasingInFileNames": true,
         "allowSyntheticDefaultImports": true,
-        "skipLibCheck": true
+        "skipLibCheck": true,
+        "allowJs": true
     },
     "exclude": [
         "node_modules",
-        "./dist"
+        "./dist",
+        "client"
     ]
 }
