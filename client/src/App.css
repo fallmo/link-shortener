@@ -244,7 +244,7 @@ p.small {
   right: 0;
   bottom: 0;
   top: 0;
-  animation: fadeIn 300ms linear forwards;
+  animation: fadeIn 250ms linear forwards;
 }
 .modal-wrapper.leaving {
   animation: fadeOut 200ms linear forwards;
@@ -494,9 +494,9 @@ table.link-card {
     row-gap: 15px;
   }
 
-  .link-card td a {
-    /* max-width: 200px; */
-  }
+  /* .link-card td a {
+    max-width: 200px;
+  } */
 }
 
 @media (max-width: 600px) {

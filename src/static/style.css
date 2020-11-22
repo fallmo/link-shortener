@@ -255,7 +255,7 @@ div.circle {
   right: 0;
   bottom: 0;
   top: 0;
-  animation: fadeIn 300ms linear forwards;
+  animation: fadeIn 250ms linear forwards;
 }
 .modal-wrapper.leaving {
   animation: fadeOut 200ms linear forwards;
