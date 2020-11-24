@@ -1,6 +1,12 @@
 import React, { useRef, useEffect, useState, useContext } from "react";
 import Card from "../components/Card";
-import { deleteLink, getLinks, shrinkLink } from "../context/actions/links";
+import {
+  deleteLink,
+  getLinks,
+  hasExtension,
+  shrinkLink,
+  triggerExtSync,
+} from "../context/actions/links";
 import Dots from "../components/Dots";
 import Modal from "../components/Modal";
 import LetterAnim from "../components/LetterAnim";
@@ -12,10 +18,11 @@ import Flash from "../components/Flash";
 import { Context } from "../context/Context";
 
 export default function Home() {
-  const [links, setLinks] = useState([]);
+  const [links, setActualLinks] = useState([]);
   const [hiddenLinks, setHidden] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
+  const linksRef = useRef([]);
 
   const {
     links: { hidden },
@@ -35,6 +42,11 @@ export default function Home() {
     flashRef.current.dismiss();
   }
 
+  function setLinks(links) {
+    setActualLinks(links);
+    linksRef.current = links;
+  }
+
   useEffect(() => {
     getLinks()
       .then(({ data, error }) => {
@@ -42,12 +54,21 @@ export default function Home() {
         if (error) return setError(error);
         setLinks(data.filter(link => !hidden.includes(link._id)));
         setHidden(data.filter(link => hidden.includes(link._id)));
+        if (hasExtension()) {
+          triggerExtSync();
+          window.addEventListener("extension-sync", handleExtSync);
+        }
       })
       .catch(({ error }) => {
         setError(error);
         setLoading(false);
       });
   }, []);
+
+  const handleExtSync = ({ detail: { links: extLinks } }) => {
+    setLinks([...extLinks, ...linksRef.current]);
+    showFlash({ color: "green", text: "Extension Links Synchronized" });
+  };
 
   const hideOne = _id => {
     hideLink(_id);
@@ -97,7 +118,8 @@ function ShrinkCard({ setLinks, links, flash }) {
 
   const textAreaRef = useRef();
 
-  const handleSubmit = async () => {
+  const handleSubmit = async e => {
+    e.preventDefault();
     setError("");
     setState("loading");
     const { error, data } = await shrinkLink(input);
@@ -161,20 +183,23 @@ function ShrinkCard({ setLinks, links, flash }) {
                 <div className="link-input c-primary">{input}</div>
               ) : (
                 <div className="input-container">
-                  <input
-                    type="text"
-                    placeholder="Enter link"
-                    value={input}
-                    disabled={state === "loading"}
-                    onChange={e => setInput(e.target.value)}
-                  />
-                  <button
-                    className="b-primary c-white btn"
-                    onClick={handleSubmit}
-                    disabled={state === "loading"}
-                  >
-                    {state === "loading" ? <Dots /> : "Shorten"}
-                  </button>
+                  <form onSubmit={handleSubmit}>
+                    <input
+                      type="text"
+                      placeholder="Enter link"
+                      value={input}
+                      disabled={state === "loading"}
+                      required={true}
+                      onChange={e => setInput(e.target.value)}
+                    />
+                    <button
+                      className="b-primary c-white btn"
+                      onClick={handleSubmit}
+                      disabled={state === "loading"}
+                    >
+                      {state === "loading" ? <Dots /> : "Shorten"}
+                    </button>
+                  </form>
                 </div>
               )}
             </td>
@@ -418,7 +443,7 @@ function HiddenList({ links, unHideOne }) {
 }
 
 function sortByDate(a, b) {
-  if (a.date > b.date) return 1;
-  else if (a.date < b.date) return -1;
+  if (a.date > b.date) return -1;
+  else if (a.date < b.date) return 1;
   else return 0;
 }

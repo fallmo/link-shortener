@@ -4,7 +4,7 @@ const router = Router();
 
 router.get('/:ref_id', redirectControl)
 router.get('/', indexControl)
-router.get('/verify/:_id', verifyControl)
+router.get('/verify/:_id/:user_id', verifyControl)
 
 
 

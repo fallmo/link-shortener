@@ -35,13 +35,15 @@ export const indexControl = (req: Request, res: Response) => {
 
 export const verifyControl = async (req: Request, res: Response) => {
     try{
-        const {_id} = req.params;
+        const {_id, user_id} = req.params;
+        
+        const user = await User.findById(user_id, 'confirmed');
+        if(!user) throw {client: true, message: "User does not exist"};
+
+        if(user.confirmed) return res.status(200).render('verify');
 
         const emailVerify = await EmailVerify.findById(_id)
         if(!emailVerify) throw {client: true, message: "Link Error"}
-    
-        const user = await User.findById(emailVerify.user_id);
-        if(!user) throw {client: true, message: "User does not exist"};
 
         user.confirmed = true;
         await user.save()

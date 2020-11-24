@@ -9,7 +9,14 @@ export const getLinks = async () => {
       },
     });
     const data = await response.json();
-    if (!data.success) return { error: data.message };
+    if (!data.success) {
+      if (data.message === "Token Expired") {
+        if (await refreshToken()) return await getLinks();
+        else return { error: "Authorization Expired" };
+      } else {
+        return { error: data.message };
+      }
+    }
     return { data: data.data };
   } catch (err) {
     return { error: "Failed to make request" };
@@ -40,7 +47,6 @@ export const deleteLink = async _id => {
 };
 
 export const shrinkLink = async original_url => {
-  // await sleep(3000);
   if (
     original_url.includes(".") &&
     !original_url.includes("http://") &&
@@ -74,4 +80,14 @@ export const shrinkLink = async original_url => {
 
 const sleep = async ms => {
   return await new Promise(resolve => setTimeout(() => resolve(), ms));
+};
+
+export const triggerExtSync = () => {
+  const authedEvent = new CustomEvent("auth-updated");
+  window.dispatchEvent(authedEvent);
+};
+
+export const hasExtension = () => {
+  if (document.querySelector("div.extension")) return true;
+  else return false;
 };

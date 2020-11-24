@@ -25,7 +25,7 @@ app.engine("eta", eta.renderFile);
 app.set('view engine', 'eta');  
 app.set("views", path.join(__dirname, 'views'))
 
-app.use(cors({credentials: true, origin: [/\.gripurl\.com$/]})); 
+app.use(cors({credentials: true, origin: [/\.gripurl\.com$/, /^chrome-extension:/]})); 
 app.use(cookieParser());
 app.use(express.json());
 app.use(forcessl());

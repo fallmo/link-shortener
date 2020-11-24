@@ -358,6 +358,9 @@ table {
   width: 100%;
 }
 
+.shorten-container form {
+  display: contents;
+}
 .shorten-container tr {
   line-height: 50px;
 }

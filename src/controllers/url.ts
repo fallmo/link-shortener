@@ -6,6 +6,7 @@ import IResp from '../types/response'
 import { urlValid } from '../validation/url';
 import {checkRecaptcha, generateRef} from '../utils'
 import { delRedis, setRedis } from '../config/redis';
+import IUrl from '../types/url';
 
 
 export const getUrlControl = async (req: xRequest, res: Response) => {
@@ -113,6 +114,43 @@ export const addGuestControl = async (req: Request, res: Response) => {
 }
 
 
+export const addChromeControl = async (req: Request, res: Response) => {
+    try{
+        const {original_url} = req.body;
+        const {error} = urlValid(req.body)
+        if(error) throw {client: true, message: error};
+
+        const {error: err, ref_id} = await generateRef(6);
+        if(err) throw new Error(err);
+
+        const newUrl = new Url({
+            original_url,
+            ref_id,
+        })
+        
+        await newUrl.save();
+
+        const response: IResp = {
+            success: true,
+            data: newUrl
+        }
+
+        res.status(201).json(response);
+        return setRedis(newUrl.ref_id, newUrl.original_url)
+    }catch(err){
+        if(res.headersSent) return console.log("Error after response sent", err);
+        const status = err.client ? 400 : 500;
+        const message = err.client ? err.message: "Something went wrong";
+
+        const response: IResp = {
+            success: false,
+            message
+        }
+        return res.status(status).json(response);
+    }
+}
+
+
 export const delUrlControl = async (req: xRequest, res: Response) => {
     try{
         const user = req.user;
@@ -145,6 +183,65 @@ export const delUrlControl = async (req: xRequest, res: Response) => {
             message
         }
         
+        return res.status(status).json(response);
+    }
+}
+
+
+export const extSyncControl = async (req: xRequest, res: Response) => {
+    interface errType {
+        [key: string]: {
+            client: boolean,
+            message: string;
+        }
+    }
+    interface completedType {
+        [key: string]: IUrl
+    }
+    try {
+        const user = req.user;
+        const completed: completedType = {};
+        const errors: errType = {};
+        
+        const {urls}: {urls: string[]} = req.body;
+        if(!urls) throw {client: true, message: "URLs are required"};
+        if(!Array.isArray(urls)) throw {client: true, message: "URLs must be an array"};
+
+        for(const _id of urls){
+            let error;
+            let completeUrl;
+            try{
+                if(typeof _id !== "string") throw {client: true, message: "URL id must be a string"};
+
+                const url = await Url.findById(_id);
+                if(!url) throw {client: true, message: `URL with id: ${_id} does not exist`};
+                if(url.user_id) throw {client: true, message: `URL with id: ${_id} already assigned user` };
+
+                url.user_id = user._id;
+                await url.save();
+                completeUrl = url;
+            }catch(err){
+                 error = {
+                    client: err.client,
+                    message: err.message
+                }
+            }finally{
+                if(error) errors[_id] = error;
+                else if(completeUrl){
+                    completed[completeUrl._id] = completeUrl;
+                }
+            }
+        }
+        const response:IResp = {success: true, data: {completed, errors}} 
+        return res.status(200).json(response);
+    } catch (err) {
+        const status = err.client ? 400 : 500;
+        const message = err.client ? err.message: "Something went wrong";
+
+        const response: IResp = {
+            success: false,
+            message
+        }
         return res.status(status).json(response);
     }
 }
