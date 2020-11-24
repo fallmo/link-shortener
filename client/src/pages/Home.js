@@ -32,14 +32,9 @@ export default function Home() {
 
   const flashRef = useRef();
 
-  function showFlash(conf) {
+  function flash(conf) {
     if (!flashRef.current) return;
     flashRef.current.show(conf);
-  }
-
-  function dismissFlash() {
-    if (!flashRef.current) return;
-    flashRef.current.dismiss();
   }
 
   function setLinks(links) {
@@ -67,7 +62,7 @@ export default function Home() {
 
   const handleExtSync = ({ detail: { links: extLinks } }) => {
     setLinks([...extLinks, ...linksRef.current]);
-    showFlash({ color: "green", text: "Extension Links Synchronized" });
+    flash({ color: "green", text: "Extension Links Synchronized" });
   };
 
   const hideOne = _id => {
@@ -85,14 +80,10 @@ export default function Home() {
   return (
     <>
       <div className="screen home b-primary">
-        <ShrinkCard
-          links={links}
-          setLinks={setLinks}
-          flash={{ showFlash, dismissFlash }}
-        />
+        <ShrinkCard links={links} setLinks={setLinks} flash={flash} />
         <ListCard
           links={links}
-          flash={{ showFlash, dismissFlash }}
+          flash={flash}
           setLinks={setLinks}
           error={error}
           loading={loading}
@@ -125,10 +116,10 @@ function ShrinkCard({ setLinks, links, flash }) {
     const { error, data } = await shrinkLink(input);
     if (error) {
       if (error === "Authorization Expired" || error === "Access Denied") {
-        flash.showFlash({ color: "secondary", text: "You Will Be Logged Out" });
+        flash({ color: "secondary", text: "You Will Be Logged Out" });
         setTimeout(unsetUser, 1000);
       } else {
-        flash.showFlash({ color: "secondary", text: "Link Shortening Failed" });
+        flash({ color: "secondary", text: "Link Shortening Failed" });
       }
       setState("Failed");
       return setError(error);
@@ -136,7 +127,7 @@ function ShrinkCard({ setLinks, links, flash }) {
     setOutput(data.ref_id);
     setInput(data.original_url);
     setState("success");
-    flash.showFlash({ color: "green", text: "Link Shortened Successfully" });
+    flash({ color: "green", text: "Link Shortened Successfully" });
     return setLinks([data, ...links]);
   };
 
@@ -151,7 +142,7 @@ function ShrinkCard({ setLinks, links, flash }) {
     textAreaRef.current.className = "copyTextArea";
     textAreaRef.current.select();
     document.execCommand("copy");
-    flash.showFlash({ color: "green", text: "Link Copied" });
+    flash({ color: "green", text: "Link Copied" });
     textAreaRef.current.className = "hidden";
   };
 
@@ -246,14 +237,14 @@ function ListCard({ links, setLinks, loading, error, flash, hideOne }) {
     const { error, data } = await deleteLink(askDelete);
     if (error || !data) {
       if (error === "Authorization Expired" || error === "Access Denied") {
-        flash.showFlash({ color: "secondary", text: "You Will Be Logged Out" });
+        flash({ color: "secondary", text: "You Will Be Logged Out" });
         setTimeout(unsetUser, 1000);
       } else {
-        flash.showFlash({ color: "secondary", text: "Link Deletion Failed" });
+        flash({ color: "secondary", text: "Link Deletion Failed" });
       }
       return setLinks(backup);
     }
-    return flash.showFlash({
+    return flash({
       color: "green",
       text: "Link Deletion Successful",
     });
