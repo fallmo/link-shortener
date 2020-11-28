@@ -1,5 +1,6 @@
 import {Request, Response} from 'express'
 import { getRedis } from '../config/redis';
+import { writeLog } from '../logs';
 import EmailVerify from '../models/EmailVerify';
 import Url from '../models/Url';
 import User from '../models/User';
@@ -20,16 +21,19 @@ export const redirectControl = async (req: Request, res: Response) => {
         } 
         storedUrl.clicks ++;
         storedUrl.save();
+        writeLog({type: "default", text: `Link Redirect: ${storedUrl.original_url}`});
     }catch(err){
         if(res.headersSent) return console.log("Error after response sent", err);
         const view = err.client ? '404' : '500';
         const context = err.client ? {redirect: true} : {}
+        writeLog({type: "error", text: `Failed Link Redirect: ${err.message}`});
         return res.status(+view).render(view, context);
     }
 }
 
 export const indexControl = (req: Request, res: Response) => {
     if(req.cookies['apauth'] === "true") return res.redirect('https://app.gripurl.com');
+    writeLog({type: "default", text: `Index Page Visited`});
     return res.render('index');
 }
 
@@ -54,10 +58,11 @@ export const verifyControl = async (req: Request, res: Response) => {
         allVerifies.forEach(verify => {
             verify.remove();
         })
-        
+        writeLog({type: "success", text: `Email Verified: ${user.email}`});
     }catch(err){
         if(res.headersSent) return console.log("Error after response sent", err);
         const exception = "Cast to ObjectId failed";
+        writeLog({type: "error", text: `Failed Email Verified: ${err.message}`});
         if(err.client || err.message.includes(exception)) return res.status(400).render('verify', {error: err.message})
         else return res.status(500).render('500')
     }

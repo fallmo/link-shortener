@@ -1,4 +1,5 @@
 import nodemailer from 'nodemailer'
+import { writeLog } from '../logs';
 
 interface mailArgs {
     from : {name: string, email: string},
@@ -28,8 +29,8 @@ export const sendMail = async ({from, to, subject, text, html}: mailArgs) => {
             html
           });
           console.log('Email Sent ', info.messageId)
-          
+          writeLog({type: "success", text: `Email Sent: ${info.messageId} => ${to}`});
         }catch(err){
-        console.log("Email Failed ", err)
+        writeLog({type: "error", text: `Failed Email Send: ${err.message} => ${to}`});
     }
 }

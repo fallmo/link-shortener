@@ -1,12 +1,12 @@
 import {Response, Request} from 'express'
 import Url from '../models/Url';
-import User from '../models/User';
 import xRequest from "../types/request";
 import IResp from '../types/response'
 import { urlValid } from '../validation/url';
 import {checkRecaptcha, generateRef} from '../utils'
 import { delRedis, setRedis } from '../config/redis';
 import IUrl from '../types/url';
+import { writeLog } from '../logs';
 
 
 export const getUrlControl = async (req: xRequest, res: Response) => {
@@ -20,7 +20,7 @@ export const getUrlControl = async (req: xRequest, res: Response) => {
             success: true,
             data: urls
         }
-
+        writeLog({type: "default", text: `Links Retrieved: User ${user._id}`});
         return res.status(200).json(response);
 
     }catch(err){
@@ -31,6 +31,7 @@ export const getUrlControl = async (req: xRequest, res: Response) => {
             success: false,
             message
         }
+        writeLog({type: "error", text: `Failed Links Retrieved: ${message}`});
         return res.status(status).json(response);
     }
 }
@@ -59,8 +60,9 @@ export const addUrlControl = async (req: xRequest, res: Response) => {
             success: true,
             data: newUrl
         }
-
+        
         res.status(201).json(response);
+        writeLog({type: "success", text: `Link Shortened: ${original_url}  => ${ref_id}`});
         return setRedis(newUrl.ref_id, newUrl.original_url)
     }catch(err){
         if(res.headersSent) return console.log("Error after response sent", err);
@@ -71,6 +73,7 @@ export const addUrlControl = async (req: xRequest, res: Response) => {
             success: false,
             message
         }
+        writeLog({type: "error", text: `Failed Link Shortening: ${message}`});
         return res.status(status).json(response);
     }
 }
@@ -99,6 +102,7 @@ export const addGuestControl = async (req: Request, res: Response) => {
         }
 
         res.status(201).json(response);
+        writeLog({type: "success", text: `Guest Link Shortened: ${original_url}  => ${ref_id}`});
         return setRedis(newUrl.ref_id, newUrl.original_url)
     }catch(err){
         if(res.headersSent) return console.log("Error after response sent", err);
@@ -109,6 +113,8 @@ export const addGuestControl = async (req: Request, res: Response) => {
             success: false,
             message
         }
+
+        writeLog({type: "error", text: `Failed Guest Link Shortening: ${message}`});
         return res.status(status).json(response);
     }
 }
@@ -136,6 +142,7 @@ export const addChromeControl = async (req: Request, res: Response) => {
         }
 
         res.status(201).json(response);
+        writeLog({type: "success", text: `Ext Link Shortened: ${original_url}  => ${ref_id}`});
         return setRedis(newUrl.ref_id, newUrl.original_url)
     }catch(err){
         if(res.headersSent) return console.log("Error after response sent", err);
@@ -146,6 +153,7 @@ export const addChromeControl = async (req: Request, res: Response) => {
             success: false,
             message
         }
+        writeLog({type: "error", text: `Failed Ext Link Shortening: ${message}`});
         return res.status(status).json(response);
     }
 }
@@ -171,6 +179,7 @@ export const delUrlControl = async (req: xRequest, res: Response) => {
             data: {_id: link_id}
         }
         res.status(200).json(response);
+        writeLog({type: "success", text: `Link Deletion: ${urlToDelete._id}`});
         return delRedis(urlToDelete.ref_id);
     }catch(err){
         if(res.headersSent) return console.log("Error after response sent", err);
@@ -183,6 +192,7 @@ export const delUrlControl = async (req: xRequest, res: Response) => {
             message
         }
         
+        writeLog({type: "error", text: `Failed Link Deletion: ${message}`});
         return res.status(status).json(response);
     }
 }
@@ -233,6 +243,7 @@ export const extSyncControl = async (req: xRequest, res: Response) => {
             }
         }
         const response:IResp = {success: true, data: {completed, errors}} 
+        writeLog({type: "default", text: `Ext Links Sync: User ${user._id}`});
         return res.status(200).json(response);
     } catch (err) {
         const status = err.client ? 400 : 500;
@@ -242,6 +253,7 @@ export const extSyncControl = async (req: xRequest, res: Response) => {
             success: false,
             message
         }
+        writeLog({type: "error", text: `Failed Ext Link Sync: ${message}`});
         return res.status(status).json(response);
     }
 }

@@ -1,3 +1,4 @@
+import { writeLog } from '../logs';
 import EmailVerify from '../models/EmailVerify'
 import { sendMail } from './send';
 
@@ -17,7 +18,7 @@ export const sendVerification = async (user: verifyArgs) => {
         const html = createHtml({link, name: user.name});
         const mailSent = await sendMail({from, to, subject, text, html})
     }catch(err){
-        console.log('Error setting up mail ', err.message);
+        writeLog({type: "error", text: `Failed Mail Setup: ${err.message}`});
     }
 }
 

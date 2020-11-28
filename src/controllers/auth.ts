@@ -7,6 +7,7 @@ import {loginValid, registerValid} from '../validation/auth'
 import xRequest from '../types/request';
 import Refresh from '../models/Refresh';
 import { sendVerification } from '../mail/verify';
+import { writeLog } from '../logs';
 
 
 
@@ -33,6 +34,7 @@ export const loginControl = async (req: Request, res:Response) => {
         const refreshToken = jwt.sign({refresh_id: refreshDB._id}, process.env.REFRESH_SECRET!);
 
         const response: IResp = {success: true, data: {token, refreshToken, name: userExists.name, email: userExists.email}}
+        writeLog({type: "default", text: `User Login: ${userExists.email}`});
         return res.status(200).cookie("apauth", true, {httpOnly: true}).json(response);
 
     }catch(err){
@@ -43,6 +45,7 @@ export const loginControl = async (req: Request, res:Response) => {
             message
         }
         res.status(status).json(response); 
+        writeLog({type: "error", text: `Failed Login: ${message}`});
     }
 }
 
@@ -62,7 +65,7 @@ export const registerControl = async (req: Request, res: Response) => {
 
         const response: IResp = {success: true, data: newUser.email};
         res.status(201).json(response);
-
+        writeLog({type: "success", text: `User Registered: ${newUser.email}`});
         return await sendVerification({ _id: newUser._id, name: newUser.name, email: newUser.email});
     }catch(err){
         if(res.headersSent) return console.log("Error after response sent", err);
@@ -72,6 +75,7 @@ export const registerControl = async (req: Request, res: Response) => {
             success: false,
             message
         }
+        writeLog({type: "error", text: `Registration Failed: ${message}`});
         return res.status(status).json(response); 
 
     }
@@ -130,6 +134,7 @@ export const refreshControl = async (req: Request, res: Response) => {
         const newToken = jwt.sign({_id: user._id, name: user.name, email:user.email, admin:user.admin}, process.env.TOKEN_SECRET!, {expiresIn: "10m"});
         const response = {success:true, data: {token: newToken}};
         
+        writeLog({type: "default", text: `Token Refreshed: ${user.email}`});
         return res.status(200).json(response);
     }catch(err){
         const status = err.client ? 400 : 500;
@@ -138,6 +143,7 @@ export const refreshControl = async (req: Request, res: Response) => {
             success: false,
             message
         }
+        writeLog({type: "error", text: `Failed Token Refreshed: ${message}`});
         return res.status(status).json(response); 
     }
 }
@@ -151,9 +157,10 @@ export const logoutControl = async (req: Request, res: Response) => {
         const verified = jwt.verify(refreshToken, process.env.REFRESH_SECRET!);
         const {refresh_id} = (verified as any);
         const session = await Refresh.findById(refresh_id);
-        if(session) return await session.remove();
+        if(session)  await session.remove();
     }catch(err){
         console.log('failed to delete session Err: ',err.message);
+        writeLog({type: "error", text: `Failed Logout: ${err.message}`});
     }
 }
 
@@ -171,6 +178,7 @@ export const resendControl = async (req: Request, res: Response) => {
         const emailSent = await sendVerification({ _id: user._id, name: user.name, email});
 
         const response:IResp = {success: true, data: {email}};
+        writeLog({type: "default", text: `Resend Email: ${user.email}`});
         return res.status(200).json(response);
 
     }catch(err){
@@ -180,6 +188,7 @@ export const resendControl = async (req: Request, res: Response) => {
             success: false,
             message
         }
+        writeLog({type: "error", text: `Failed Resend Email: ${message}`});
         return res.status(status).json(response); 
     }
 

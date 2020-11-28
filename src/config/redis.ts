@@ -1,5 +1,6 @@
 import {createClient} from 'redis'
 import {promisify} from 'util'
+import { writeLog } from '../logs';
 import Url from '../models/Url';
 const URL = process.env.REDIS_URL || "6379";
 const client = createClient(URL);
@@ -14,7 +15,7 @@ export const getRedis = async (key: string) => {
         const val = await get(key);
         return val; 
     }catch(err){
-        console.log('Redis Get Failed: ', err)
+        writeLog({type: "error", text: `Failed Redis Get: ${err.message}`})
         return null;
     }  
 }
@@ -28,5 +29,6 @@ export const preCacheUrls = async () => {
     urls.forEach(url => {
         setRedis(url.ref_id, url.original_url);
     })
-    console.log(`${urls.length} URLs Cached Successfully`);
+    writeLog({type: "default", text: `Redis Cached: ${urls.length} links`})
+
 }
