@@ -65,7 +65,7 @@ export const addUrlControl = async (req: xRequest, res: Response) => {
         writeLog({type: "success", text: `Link Shortened: ${original_url}  => ${ref_id}`});
         return setRedis(newUrl.ref_id, newUrl.original_url)
     }catch(err){
-        if(res.headersSent) return console.log("Error after response sent", err);
+        if(res.headersSent) return writeLog({type: "error", text: `Error After Response: ${err.message}`});
         const status = err.client ? 400 : 500;
         const message = err.client ? err.message: "Something went wrong";
 
@@ -105,7 +105,7 @@ export const addGuestControl = async (req: Request, res: Response) => {
         writeLog({type: "success", text: `Guest Link Shortened: ${original_url}  => ${ref_id}`});
         return setRedis(newUrl.ref_id, newUrl.original_url)
     }catch(err){
-        if(res.headersSent) return console.log("Error after response sent", err);
+        if(res.headersSent) return writeLog({type: "error", text: `Error After Response: ${err.message}`});
         const status = err.client ? 400 : 500;
         const message = err.client ? err.message: "Something went wrong";
 
@@ -145,7 +145,7 @@ export const addChromeControl = async (req: Request, res: Response) => {
         writeLog({type: "success", text: `Ext Link Shortened: ${original_url}  => ${ref_id}`});
         return setRedis(newUrl.ref_id, newUrl.original_url)
     }catch(err){
-        if(res.headersSent) return console.log("Error after response sent", err);
+        if(res.headersSent) return writeLog({type: "error", text: `Error After Response: ${err.message}`});
         const status = err.client ? 400 : 500;
         const message = err.client ? err.message: "Something went wrong";
 
@@ -182,7 +182,7 @@ export const delUrlControl = async (req: xRequest, res: Response) => {
         writeLog({type: "success", text: `Link Deletion: ${urlToDelete._id}`});
         return delRedis(urlToDelete.ref_id);
     }catch(err){
-        if(res.headersSent) return console.log("Error after response sent", err);
+        if(res.headersSent) return writeLog({type: "error", text: `Error After Response: ${err.message}`});
         const exception = "Cast to ObjectId failed"
         const status = err.client ? 400 : 500;
         const message = err.client ? err.message : err.message.includes(exception) ? "Link does not exist" : "Something went wrong";

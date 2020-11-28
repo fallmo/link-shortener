@@ -11,19 +11,18 @@ export const redirectControl = async (req: Request, res: Response) => {
         const cachedUrl = await getRedis(ref_id);
         if(cachedUrl){
             res.redirect(cachedUrl);
-            console.log('Sent redirect URL from cache');
+            writeLog({type: "default", text: `Link Redirect Cache: ${cachedUrl}`});
         } 
         const storedUrl = await Url.findOne({ref_id: ref_id.toLowerCase()}, 'original_url clicks');
         if(!storedUrl) throw {client: true, message: "Could not find link"};
         if(!res.headersSent){
             res.redirect(storedUrl.original_url);
-            console.log('Sent redirect URL from DB')           
+            writeLog({type: "default", text: `Link Redirect DB: ${storedUrl.original_url}`});   
         } 
         storedUrl.clicks ++;
         storedUrl.save();
-        writeLog({type: "default", text: `Link Redirect: ${storedUrl.original_url}`});
     }catch(err){
-        if(res.headersSent) return console.log("Error after response sent", err);
+        if(res.headersSent) return writeLog({type: "error", text: `Error After Response: ${err.message}`});
         const view = err.client ? '404' : '500';
         const context = err.client ? {redirect: true} : {}
         writeLog({type: "error", text: `Failed Link Redirect: ${err.message}`});
@@ -60,7 +59,7 @@ export const verifyControl = async (req: Request, res: Response) => {
         })
         writeLog({type: "success", text: `Email Verified: ${user.email}`});
     }catch(err){
-        if(res.headersSent) return console.log("Error after response sent", err);
+        if(res.headersSent) return writeLog({type: "error", text: `Error After Response: ${err.message}`});
         const exception = "Cast to ObjectId failed";
         writeLog({type: "error", text: `Failed Email Verified: ${err.message}`});
         if(err.client || err.message.includes(exception)) return res.status(400).render('verify', {error: err.message})

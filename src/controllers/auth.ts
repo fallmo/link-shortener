@@ -68,7 +68,7 @@ export const registerControl = async (req: Request, res: Response) => {
         writeLog({type: "success", text: `User Registered: ${newUser.email}`});
         return await sendVerification({ _id: newUser._id, name: newUser.name, email: newUser.email});
     }catch(err){
-        if(res.headersSent) return console.log("Error after response sent", err);
+        if(res.headersSent) return writeLog({type: "error", text: `Error After Response: ${err.message}`});
         const status = err.client ? 400 : 500;
         const message = err.client ? err.message : "Something Went Wrong";
         const response: IResp = {
@@ -159,7 +159,6 @@ export const logoutControl = async (req: Request, res: Response) => {
         const session = await Refresh.findById(refresh_id);
         if(session)  await session.remove();
     }catch(err){
-        console.log('failed to delete session Err: ',err.message);
         writeLog({type: "error", text: `Failed Logout: ${err.message}`});
     }
 }

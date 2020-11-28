@@ -18,6 +18,7 @@ export const getInfoControl = async (req: xRequest, res: Response) => {
                     _id: url._id,
                     ref_id: url.ref_id,
                     original_url: url.original_url,
+                    clicks: url.clicks,
                     date: url.date, 
                     user: user ? {name: user.name, email: user.email} : null
                 }
